@@ -1,0 +1,116 @@
+---
+title: "A function for reading STATA and SPSS fixed-width data and codebooks into R"
+author: "John Ray"
+date: "February 6, 2017"
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+The vast majority of data we will work with going forward is now associated with a canned function or library somewhere in R.
+
+```{r}
+library(foreign) # .dta, .spss, .por, .sav
+library(readxl) # .xls, .xlsx
+library(readstata13) # .stata13
+library(readODS) # .ods
+```
+
+And most of these functions are fairly straightforward.
+
+```{r}
+readxl::read_excel('field_paper_data_1.xlsx')
+
+foreign::read.dta('PBC_pres_returns.dta')[1:5,]
+
+readstata13::read.dta13('cars.dta')[1:5,1:5]
+
+read.csv('PBC_pres_returns.csv', stringsAsFactors = F)[1:5,]
+
+load('PBC_pres_returns.RData') # Automatically creates environment variables
+pres[1:5,]
+
+read.spss('GSS2012.sav', to.data.frame = T)[1:5,1:5] # How did I know this data was SPSS?
+```
+
+How did I know which function to use? Sometimes its obvious. But when its not, either open the flie in a text editor or use `readLines()` to see what you're dealing with. The ability to open a piece of data and figure out what original data structure its based on is not a skill that came naturally to me, but it develops over time.
+
+```{r}
+readLines('PBC_pres_returns.csv', warn = F)[1:5]
+readLines('PBC_pres_returns.dta', warn = F)[1:5]
+```
+
+Usually the data we want to work with isn't a total nightmare. Except when it is.
+Lets say I downloaded the [LACSS Community Survey data and codebook](http://sda.library.ucla.edu/sdaweb/analysis/?dataset=lcum).
+
+```{r}
+readLines('data.txt')[1:2]
+try(read.spss('data.txt')[1:2,]) # Returns an error that Markdown doesn't bother to show
+```
+
+Data that looks like this --- no header, long strings of numbers interspersed with large strings of white space --- are usually fixed-width format files, or ASCII files.
+
+Really, almost all data we work with is just ASCII data wrapped in window dressing --- window dressing that some clever developer has figure out how to translate into R. This data does not have such window dressing. It does, however, have a codebook. Note that if it does not, life would be REAL rough.
+
+Let's take a look at this code book. If we scroll around, at a certain point, we see a list of what look like variable names, followed by individual characters.
+
+```{r}
+readLines("data_spss.txt")[10:381]
+```
+
+With the data that you're working with, find these lines in the associated codebook. If you're not sure where they are, just find the path to the codebook and the below function will try to guess.
+
+The following function takes four arguments: `data_filename`, the path to the data file, `codebook_filename`, the path to the codebook file, `startline`, the (optional) line of code on which the list of variable locations starts, and `endline`, the (optional line of code on which the list of variable locations ends.)
+
+```{r}
+open_with_codebook <- function(data_filename = NA, codebook_filename = NA, startline = NA, endline = NA){
+  require(tidyr)
+  
+  x <- readLines(codebook_filename)
+  
+  if(is.na(startline) | is.na(endline)){
+    startline <- which(grepl('/1', x))[1]
+    endline <- which(grepl("^.\\s+[.]", x))[1]
+    
+    print(paste0("Start and end values for variable positions not entered. Guessing that they start at line ",startline," and end at line ", endline, "."))
+  } else {
+    print(paste0("Start and end variable positions based on lines ", startline, " through ", endline, " of codebook file ", codebook_filename))
+  }
+  
+  nam <- x[startline:endline]
+  nam[1] <- gsub('^.*/[A-Za-z0-9]', '', nam[1])
+  nam[length(nam)] <- gsub('^.*/[A-Za-z0-9]', '', nam[length(nam)])
+  
+  nam <- nam %>%
+    lapply(function(x) trimws(gsub('\\s{2}', ' ', x))) %>%
+    unlist() %>%
+    strsplit('\\s{2}') %>%
+    unlist() %>%
+    .[. != ''] %>%
+    trimws() %>%
+    gsub('*.[(].*', '', .)
+  
+  x2 = lapply(nam, function(x) strsplit(x, '\\s|-')[[1]])
+  
+  cb_mat <- matrix(ncol = 4, nrow = length(x2))
+  cb_mat[,1] <- unlist(lapply(x2, function(x) x[1]))
+  cb_mat[,2] <- unlist(lapply(x2, function(x) x[2]))
+  cb_mat[,3] <- unlist(lapply(x2, function(x) ifelse(length(x) == 3, x[3], x[2])))
+  cb_mat[,4] <- as.numeric(cb_mat[,3]) - as.numeric(cb_mat[,2]) + 1
+  cb_mat = cb_mat[order(as.numeric(cb_mat[,2])),]
+  
+  the_widths = as.numeric(cb_mat[,4])
+  var_names = cb_mat[,1]
+  
+  d = read.fwf(data_filename, widths = the_widths, col.names = var_names)
+  
+  return(d)
+}
+
+dat <- open_with_codebook(data_filename = 'data.txt', codebook_filename = 'data_spss.txt', startline = 10, endline = 381)
+dat[1:5, 1:5]
+```
+
+I use a truncated version of the LACSS raw data for this example. It will probably take awhile to run on very large surveys, but no longer than the canned `R` functions.
