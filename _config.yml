@@ -1,6 +1,6 @@
 name: John Ray's rstats posts
-description: Blogging about stuffs
-meta_description: "Your New Jekyll Site, Blogging about stuffs"
+# description: Blogging about stuffs
+meta_description: "The posts page from my personal site"
 
 markdown: kramdown
 highlighter: pygments
