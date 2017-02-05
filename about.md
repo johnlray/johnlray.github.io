@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About me 
+title: About
 ---
 
-This is a static page. It could be an 'about page' if you'd like.
+I am a political scientist and Rstats person. View my cv, publications, courses, and ongoing research at [jloganray dot com](jloganray.com').
