@@ -1,8 +1,6 @@
 ---
 layout: post
 title:  "Preparing and Plotting Spatial Polygons and Points in R"
-date:   2016-08-03
-categories: rstats
 ---
 
 Tutorial objectives: \* Download, process, and plot some spatial data. \* Learn some elements of geospatial data design and visualization.

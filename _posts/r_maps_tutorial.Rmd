@@ -1,10 +1,9 @@
 ---
 title: "Preparing and Plotting Spatial Polygons and Points in R"
 author: "John Ray"
-date: '`August 3, 2016`'
+date: '`February 5, 2017`'
 
 layout: post
-tags: rstats
 
 output: 
   md_document:
