@@ -1,0 +1,212 @@
+---
+title: "Preparing and Plotting Spatial Polygons and Points in R"
+author: "John Ray"
+date: '`August 3, 2016`'
+
+layout: post
+tags: rstats
+
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+Tutorial objectives:
+* Download, process, and plot some spatial data.
+* Learn some elements of geospatial data design and visualization.
+
+Before we begin, as a matter of good practice, I start every project by clearing my graphical and objective memory.
+
+```{r}
+rm(list=ls())
+graphics.off()
+```
+
+Here are the libraries we will be using.
+
+```{r}
+library(rgdal)
+library(ggplot2)
+library(rgeos)
+library(sp)
+library(maptools)
+library(dplyr)
+library(plyr)
+```
+
+Now, we'll download the data that we'll be using. We're going to use [a shapefile of DMA boundaries](https://github.com/johnlray/johnlray.github.io/raw/master/_posts/dma_boundary.zip), [a shapefile of California counties](https://github.com/johnlray/johnlray.github.io/raw/master/_posts/ca_boundary.zip), and [a voterfile snippet](https://github.com/johnlray/johnlray.github.io/raw/master/_posts/voters.csv).
+
+```{r}
+download.file('https://github.com/johnlray/johnlray.github.io/raw/master/_posts/dma_boundary.zip', destfile = '~/Downloads/dma_boundary.zip')
+unzip('~/Downloads/dma_boundary.zip', exdir = "~/Downloads/")
+```
+
+Lets try and find the data we'll be working with.
+* Avoid opening the .dbf in a spreadsheet editor!
+* In fact, do as little editing of the data outside of R as possible.
+
+Now, lets talk about the structure of the data we will be using. The zip file that you downloaded using `download.file()` should be in your downloads folder. On Mac machines, this will almost always be `'~/Downloads.'` On Windows machines it will probably be something like `'C:\\Users\\Yourname\\Downloads\\'`.
+```{r}
+list.files('~/Downloads/dma_boundary/')
+```
+
+The dataset we'll be working with is a shapefile of media markets in the United States. We might be interested in media markets because we might be interested in political advertisements. While we might be able to find the source of a media market shapefile online, maybe we can't find data about advertisements embedded within that shapefile. Lets say we go looking somewhere else and we find the data we want, but in a .csv and not in a shapefile.
+
+```{r}
+ads = read.csv('https://github.com/johnlray/johnlray.github.io/raw/master/_posts/ad_volume.csv', stringsAsFactors = F)
+head(ads)
+str(ads)
+```
+
+Load these files into R. Go into your Downloads folder and unzip `dma_boundary.zip`.
+
+```{r}
+dma = readOGR(path.expand('~/Downloads/dma_boundary/'), layer = 'dma_boundary', stringsAsFactors = FALSE)
+```
+
+Shapefiles by themselves are NOT dataframes. They are `s4` objects of class `SpatialPolygonsDataFrame`. In other words, they have their own wacky syntax. But they also have some standard practices associated with them. One is that an object in the `@data` slot inside of the `SpatialPolygonsDataFrame` object, which for us here is called `dma`, will contain the dataframe associating the variables of interest with each point or polygon. 
+
+```{r}
+head(dma@data)
+```
+
+Recall that shapefiles also have coordinate reference systems associated with them. What is the coordinate reference system?
+
+```{r}
+proj4string(dma)
+```
+
+What does this mean? This simply tells your image renderer which projection system to draw the file on. This will be important as you start working with more kinds of spatial data. It isn't terribly important until you're plotting multiple different datasets at once, and want to make sure they project onto the same planet!
+
+What does the data look like?
+
+```{r}
+plot(dma)
+```
+
+That's a bit boring. In today's tutorial we will focus on plotting a specific subset of the data -- namely, the California media markets. We will then add some data to the shapefile that we will use in visualization. We will then plot another shapefile on top of it, and add some lat/lon data.
+
+Lets say we want to focus on a partcular area. Say that area is California. How do we know which media markets overlap with the state of California? There are some ways we could find out (more on that below), but the easiest way is simply to know our data! Shapefiles are confusing to work with and so it is easy to use them without bothering to learn much about them. This is often a mistake.
+```{r}
+dma = dma[dma@data$DMA_1 %in% c("San Diega, CA","Monterey-Salinas, CA","Sacramento-Stockton-Modesto, CA","San Francisco-Oakland-San Jose, CA","Yuma, AZ-El Centra, CA","Palm Springs, CA","Santa Barbara-Santa Maria-San Luis Obispo, CA","Bakersfield, CA","Los Angeles, CA", "Fresno-Visalia, CA", "Chico-Redding, CA", "Eureka, CA"),]
+
+plot(dma)
+```
+
+Still kind of gross (and whats with the weird framing? Default `plot()` settings are bad!). Next, we will turn the shapefile into a data frame so that ggplot can read it. Standard practice is to start by creating a polygonID field.
+```{r}
+dma@data$id = dma@data$DMA_1
+```
+
+Next, we use the fortify command from ggplot2. This allows us to merge the shapefile data frame to the lines dataframe and to join in the ads data that we want.
+```{r}
+dma_f = fortify(dma, region = "id")
+dma_f = join(dma_f, dma@data, by = "id")
+dma_f = left_join(dma_f, ads, by = c("id" = "DMA_name"))
+```
+
+Alright, now we are ready to ggplot!
+```{r}
+ggplot() + geom_polygon(data = dma_f, aes(x = long, y = lat, group = group)) 
+```
+
+Beautiful. First, lets straighten out the coordinates `using coord_equal()`.
+```{r}
+ggplot() +
+  geom_polygon(data = dma_f, aes(x = long, y = lat, group = group)) +
+  coord_equal()
+```
+
+Then, lets add in some more aesthetic properties like a fill variable, and the colors for fill to take.
+```{r}
+ggplot() +
+  geom_polygon(data = dma_f, aes(x = long, y = lat, group = group, fill = ad_volume/max(ad_volume))) +
+  scale_fill_continuous(low = 'white', high = 'green') +
+  coord_equal() +
+  theme_classic()
+```
+
+Looking a little better. Next, lets say we want to remind the reader that they're looking at the state of California, and so we want to include a boundary of California.
+```{r}
+download.file('https://github.com/johnlray/johnlray.github.io/raw/master/_posts/ca_boundary.zip', destfile = '~/Downloads/ca_boundary.zip')
+unzip('~/Downloads/ca_boundary.zip', exdir = '~/Downloads/ca_boundary')
+ca = readOGR(path.expand('~/Downloads/ca_boundary/'), layer = 'ca_boundary')
+```
+
+What is the CRS of this shapefile?
+```{r}
+proj4string(ca)
+proj4string(dma)
+```
+
+Uh oh, they look slightly different! To make sure they will always map properly, it is best practice to simply do something like this:
+```{r}
+proj4string(ca) = proj4string(dma)
+```
+
+Which simply sets the two coordinate reference systems equal to each other. The warning tells us that no re-projecting was actually done, but this will not always be the case!  As usual, we will assign our state boundary an id field.
+```{r}
+ca@data$id = rownames(ca@data)
+ca_f = fortify(ca, region = 'id')
+ca_f = join(ca_f, ca@data, by = 'id')
+
+ggplot() +
+  geom_polygon(data = dma_f, aes(x = long, y = lat, group = group, fill = ad_volume/max(ad_volume))) +
+  geom_path(data = ca_f, aes(x = long, y = lat)) +
+  scale_fill_continuous(low = 'white', high = 'green') +
+  coord_equal() +
+  theme_classic()
+```
+
+Oh no! What's going on here? How hideous! There are many possible errors stemming from the use of `fortify,' especially if you have processed the shapefile data somewhere else like QGIS. Here, the fix is easy: If you're ggplotting a fortified object, always set group = group.
+```{r}
+ggplot() +
+geom_polygon(data = dma_f, aes(x = long, y = lat, group = group, fill = ad_volume/max(ad_volume))) +
+  geom_path(data = ca_f, aes(x = long, y = lat, group = group)) +
+  scale_fill_continuous(low = 'white', high = 'green') +
+  coord_equal() +
+  theme_classic()
+```
+
+Now say we want to add in some lat/lon data
+```{r}
+voters = read.csv('https://github.com/johnlray/johnlray.github.io/raw/master/_posts/voters.csv', stringsAsFactors = F)
+head(voters)
+```
+
+Looks like some lat/lon data and then one variable of interest: `democrat,` which is probably a 0/1 for whether the respondent is a Democrat. Lets use that information to plot the data in a semi-intelligent fashion.
+
+```{r}
+ggplot() +
+  geom_polygon(data = dma_f, aes(x = long, y = lat, group = group, fill = ad_volume/max(ad_volume))) +
+  geom_path(data = ca_f, aes(x = long, y = lat, group = group)) +
+  geom_point(data = voters, aes(x = lon, y = lat, color = factor(democrat))) +
+  scale_fill_continuous(low = 'white', high = 'green', name = "Ad volume") +
+  scale_color_manual(values = c('red','blue'), name = "Democrat") +
+  coord_equal() +
+  theme_classic() +
+  xlab("") +
+  ylab("") +
+  theme(axis.ticks = element_blank(), axis.text = element_blank())
+```
+
+Look at all those voters! Now say we only want the ones who are in California. We can use the highly useful `point.in.polygon function`, which returns a '1' if a point is contains inside of a given polygon, and a `0' otherwise.
+
+```{r}
+voters = voters[point.in.polygon(voters$lon, voters$lat, dma_f$long, dma_f$lat) == 1,]
+
+ggplot() +
+  geom_polygon(data = dma_f, aes(x = long, y = lat, group = group, fill = ad_volume/max(ad_volume))) +
+  geom_path(data = ca_f, aes(x = long, y = lat, group = group)) +
+  geom_point(data = voters, aes(x = lon, y = lat, color = factor(democrat))) +
+  scale_fill_continuous(low = 'white', high = 'green', name = "Ad volume") +
+  scale_color_manual(values = c('red','blue'), name = "Democrat") +
+  coord_equal() +
+  theme_classic() +
+  xlab("") +
+  ylab("") +
+  theme(axis.ticks = element_blank(), axis.text = element_blank()) +
+  ggtitle("Ad volume in California media markets, also some voters\n")
+```
+
+Not bad!
