@@ -3,7 +3,7 @@ name: John Ray's rstats posts
 meta_description: "The posts page from my personal site"
 
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 logo: false
 paginate: 15
 baseurl: /
