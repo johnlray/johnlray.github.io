@@ -5,26 +5,6 @@ date: "February 6, 2017"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+### What is the Z-Transformation Doing?
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+In the statistics class I teach here at UCLA, I find students are often confused by one of the most important parts of statistics: the Z transformation. From a pedagogical standpoint, this is understandable. I am generally nervous every time I try to teach the Z transformation. Not only did I learn it in a confusing way on my first few passes through statistics, but I have tried several different ways of constructing the concept for my students in a way that will most easily help them encode it into their memories, and I don't feel I've quite cracked it yet.
