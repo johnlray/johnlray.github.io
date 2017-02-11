@@ -19,4 +19,8 @@ If Democrats and Republicans feel differently about Trump, then if I go and samp
 
 How good are my summary statistics? Well, the means of my samples are only as good as those means are *precise.* That is, if I sample Democrats, if they all feel about the same about Trump as each other, then the mean will be a very good summary statistic. But if I sample Democrats and it turns out that as many Democrats love Trump as hate Trump, then the mean is not a very meaningful number, because the *spread* around the mean will be huge. We measure the value of the *spread* using another statistic that we call the *standard deviation.*
 
-The Z-test is meant to wrap a set of mathematical values around an intiution we already understand: Democrats, most likely, feel differently about Trump than Republicans. Most likely, Democrats feel similarly enough to each other, and Republicans similarly enough to each other about Trump that using the sample mean will help us understand how the parties feel about Trump in a way that lets us adjudicate decisively whether they're the same or not!
+So lets say I go out and ask a bunch of Democrats how they feel about Trump, and a bunch of Republicans about Trump. Using the latest survey data, I would find that the Democrats look something like
+
+```{r}
+dems = c(rep(0, 140), rep(1, 60))
+```
