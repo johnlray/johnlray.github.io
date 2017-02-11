@@ -11,4 +11,6 @@ In the statistics class I teach here at UCLA, I find students are often confused
 
 Here, I try a different approach to presenting the purpose of the Z-transformation: I start at the end and work my way backward. I do this because the ``end'' of the process is the part we can actually understand the most easily, and the previous stuff is almos purely conceptual.
 
+For example, lets start with a question we already know the answer to: Do Democrats and Republicans feel differently about President Trump? The answer, of course, is yes. Not just yes. *OBVIOUSLY, YES!*
+
 Lets say we have two samples and we want to know whether the samples are different from one another. Say that we've sampled two different populations and want to know whether, say, one sample of people is 
