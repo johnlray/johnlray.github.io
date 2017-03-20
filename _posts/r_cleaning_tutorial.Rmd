@@ -8,3 +8,6 @@ output: html_document
 In this tutorial, we will be walking through the mechanics of cleaning data. Before that, however, I start by defining the concept of cleaning data and the intution behind why we do it, as well as why we \textit{avoid} other activities commonly thought of as ``data cleaning'' but that actually are not.
 
 **Cleaning data** is the act of preparing a dataset for use in a project for which *the overall dataset was appropriately designed.* Any activity that can be described as 'cleaning data' has the effect of preparing your data for analysis without changing the underlying target population sampled, surveyed, censused, etc. in that dataset. If your dataset is meant to be a representative sample of likely voters on March 20, 2017, cleaning data will allow you to more confidently model that population without changing its scope of inference to, say, likely voters on March 20, 2017 who did not give seemingly silly answers to your survey items.
+
+My definition of the phrase 'cleaning data' leads to what I consider to be the fundamental problem with the most common approach to cleaning data: Some recommended data-cleaning practices fundamentally change the ability to treat a model like as representative of the intended target population. Chief among these is the ultimately arbitrary decision to remove 'outliers.'
+
