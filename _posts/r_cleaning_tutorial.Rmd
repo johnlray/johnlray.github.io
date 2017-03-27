@@ -20,4 +20,4 @@ x <- rnorm(10000, 0, 1)
 length(x[x > -1.96*sd(x) & x < 1.96*sd(x)])/length(x)
 ```
 
-About 95\%
+About 95\% of the time, our data falls within 1.96 standard deviations plus or minus the mean *if* it meets the assumption it typically needs to meet to be modeled using traditional methods.
