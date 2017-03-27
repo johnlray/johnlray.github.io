@@ -11,3 +11,13 @@ In this tutorial, we will be walking through the mechanics of cleaning data. Bef
 
 My definition of the phrase 'cleaning data' leads to what I consider to be the fundamental problem with the most common approach to cleaning data: Some recommended data-cleaning practices fundamentally change the ability to treat a model like as representative of the intended target population. Chief among these is the ultimately arbitrary decision to remove 'outliers.'
 
+The reason why we model in the first place is because we think we know the function that generated part of our data, specifically, the part we model as $Y$ in whatever our equation is. The rest of the data, we assume, is only generated in a normal-ish fashion (if we're running some linear model). That's two assumptions: $Y$ is a function of our $X$s, and our $X$s follow some set of distributions conditional on our modeling assumptions, usually, normalcy. If data is normal, what does that imply about the relative occurence of 'outlier' values?
+
+Say we have some $X$ and that $X$, indeed, meets our normalcy assumption. How much of $X$ will fall within, say, 1.96 standard deviations of its mean? This I suspect you already know the answer to, but just to make sure:
+
+```{r}
+x <- rnorm(10000, 0, 1)
+length(x[x > -1.96*sd(x) & x < 1.96*sd(x)])/length(x)
+```
+
+About 95\%
