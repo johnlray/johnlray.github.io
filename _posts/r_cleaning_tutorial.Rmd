@@ -20,4 +20,4 @@ x <- rnorm(10000, 0, 1)
 length(x[x > -1.96*sd(x) & x < 1.96*sd(x)])/length(x)
 ```
 
-About 95\% of the time, our data falls within 1.96 standard deviations plus or minus the mean *if* it meets the assumption it typically needs to meet to be modeled using traditional methods.
+About 95\% of the time, our data falls within 1.96 standard deviations plus or minus the mean *if* it meets the assumption it typically needs to meet to be modeled using traditional methods. Practitioners know where I'm going with this. I tell my students that 1.96 is a "magic number," corresponding to the middle 95% of the standard normal distribution's probability distribution. Except for the one class where we go over the one-sided hypothesis test as a perfunctory nod to an obsolete modeling strategy, I introduce no other "magic numbers" to my students. 1.96 is the only one. 
