@@ -1,5 +1,5 @@
 ---
-title: "Why You Shouldn't Remove Outliers"
+title: "Why You Sometimes Shouldn't Remove Outliers"
 author: "John Ray"
 date: "March 13, 2017"
 output: html_document
@@ -11,7 +11,7 @@ In this tutorial, we will be walking through the mechanics of cleaning data. Bef
 
 My definition of the phrase 'cleaning data' leads to what I consider to be the fundamental problem with the most common approach to cleaning data: Some recommended data-cleaning practices fundamentally change the ability to treat a model like as representative of the intended target population. Chief among these is the ultimately arbitrary decision to remove 'outliers.'
 
-The reason why we model in the first place is because we think we know the function that generated part of our data, specifically, the part we model as $Y$ in whatever our equation is. The rest of the data, we assume, is only generated in a normal-ish fashion (if we're running some linear model). That's two assumptions: $Y$ is a function of our $X$s, and our $X$s follow some set of distributions conditional on our modeling assumptions, usually, normalcy. If data is normal, what does that imply about the relative occurence of 'outlier' values?
+The reason why we model in the first place is because we think we know the function that generated part of our data, specifically, the part we model as $Y$ in whatever our equation is. The rest of the data, we assume, is only generated in a normal-ish fashion (if we're running some linear model). That's two assumptions: $Y$ is a function of our $X$s, and our $X$s follow some set of distributions conditional on our modeling assumptions, usually, normality. If data is normal, what does that imply about the relative occurence of 'outlier' values?
 
 Say we have some $X$ and that $X$, indeed, meets our normalcy assumption. How much of $X$ will fall within, say, 1.96 standard deviations of its mean? This I suspect you already know the answer to, but just to make sure:
 
@@ -22,4 +22,5 @@ length(x[x > -1.96*sd(x) & x < 1.96*sd(x)])/length(x)
 
 About 95\% of the time, our data falls within 1.96 standard deviations plus or minus the mean *if* it meets the assumption it typically needs to meet to be modeled using traditional methods. Practitioners know where I'm going with this. I tell my students that 1.96 is a "magic number," corresponding to the middle 95% of the standard normal distribution's probability density. Except for the one class where we go over the one-sided hypothesis test as a perfunctory nod to an obsolete modeling strategy, I introduce no other "magic numbers" to my students. 1.96 is the only one.
 
-What do we do with this magic number? We compare the t-statistic of our data to that of our null distribution. 
+What do we do with this magic number? We compare the t-statistic of our data to that of our null distribution. Yet the most common form of "data cleaning" task involves an explicit \textit{violation} of the normality assumption. If we remove outliers from our data, conditional only on those outliers being some distance away from the mean of the data, we may accidentally produce a new distribution of our $X$ that looks \textit{less like a normal distribution} than we want.
+
