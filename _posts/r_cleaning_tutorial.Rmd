@@ -24,3 +24,13 @@ About 95\% of the time, our data falls within 1.96 standard deviations plus or m
 
 What do we do with this magic number? We compare the t-statistic of our data to that of our null distribution. Yet the most common form of "data cleaning" task involves an explicit \textit{violation} of the normality assumption. If we remove outliers from our data, conditional only on those outliers being some distance away from the mean of the data, we may accidentally produce a new distribution of our $X$ that looks \textit{less like a normal distribution} than we want.
 
+Lets carry on with the line of code above.
+
+```{r}
+require(dplyr)
+x <- rnorm(10000, 0, 1)
+
+dnorm(x) %>%
+  density %>%
+  plot()
+```
