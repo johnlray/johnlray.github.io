@@ -32,5 +32,5 @@ x <- rnorm(10000, 0, 1)
 
 dnorm(x) %>%
   density %>%
-  plot()
+  plot(main = "Density of data", ylab = "Height of pdf")
 ```
