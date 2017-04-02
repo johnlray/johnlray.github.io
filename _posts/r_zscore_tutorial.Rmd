@@ -24,3 +24,15 @@ So lets say I go out and ask a bunch of Democrats how they feel about Trump, and
 ```{r}
 dems = c(rep(0, 140), rep(1, 60))
 ```
+
+and the Republicans look something like
+
+```{r}
+reps = c(rep(0, 20), rep(1, 180))
+```
+
+When I say "what the data look like," I as a data scientist am mostly interested in just a few things:
+
+* Some properties of the distribution of each variable (mean, median, mode, min, max)
+* The overlap between the variables
+* Some measure of how the variables differ
