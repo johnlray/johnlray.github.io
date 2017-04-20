@@ -1,0 +1,27 @@
+---
+title: 'Web Scraping: The Easy (And Most Common) Cases'
+author: "John Ray"
+date: "April 20, 2017"
+output: ioslides_presentation
+---
+
+## Slide with Bullets
+
+
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
