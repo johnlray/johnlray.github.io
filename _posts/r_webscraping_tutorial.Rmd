@@ -2,26 +2,31 @@
 title: 'Web Scraping: The Easy (And Most Common) Cases'
 author: "John Ray"
 date: "April 20, 2017"
-output: ioslides_presentation
+output: html
 ---
 
-## Slide with Bullets
+## Introduction to structured querying of web resources, or webscraping 
 
+In this post, I will provide a brief tutorial on the most common form of what is commonly known as "web scraping." This form of web scraping involves the following operations:
 
+- Querying a resource (visiting a website) in pursuit of a pre-defined result (the data you want)
+- Locating the desired result (your data) in the structure of the resource (the page that gets returned) so that you can process a large volume of queries efficiently
+- Formatting the queries' results so they're useful for you as a data practitioner
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+Typically people think of "web scraping" as that first one and a little of the second one, but this is a mistake. Items two and three on that list usually take longer than the first, yet do not readily come to mind when we think of "web scraping." While practitioners have opted for some reason to refer to this practice as "scraping," all we are really doing is *querying* a website in the hopes of eliciting a *structured response,* or a response that we can structure into a dataset that we can use for our own nefarious purposes. I prefer referring to this practice as "structured querying" rather than "scraping," which reminds me either of what I did to my knees when learning to skateboard as a kid or what I do to a chalkboard when my students aren't paying attention, the memories of neither of which I enjoy dwelling on.
 
-## Slide with R Output
+For this example, I will be querying the *Los Angeles Times* archives. I invite you to follow along with your own site of interest. I have not included the url to the resource I'll be working with because sometimes people nice enough to host large quantities of data on the Internet get upset when us dingbat social scientists bash their servers with too many queries. In other words, I leave it to you to follow along with your own project.
 
-```{r cars, echo = TRUE}
-summary(cars)
-```
+Here is a screenshot of the front-end of the *Los Angeles Times* archives' website. On that page, users are invited to enter search terms into a box, to select a "content option," how to sort the results, a date range, and some optional article characteristics. What fun! For my present needs I will only be making use of the search box and the date range.
 
-## Slide with Plot
+![](r_webscraping_tutorial/1.png)
 
-```{r pressure}
-plot(pressure)
-```
+Before proceeding, it is important to stop and make sure you have a clear concept of the final dataset you want to build. Querying a lot of data can take a long time. For this project, I am interested in producing counts of *LA Times* articles containing each of a list of search terms, and I want those counts to be aggregated by year. Thus, I will be manipulating the search box and the date range, and nothing else.
 
+![](r_webscraping_tutorial/2.png)
+
+And here is the result when I press the "Search" button with this query.
+
+![](r_webscraping_tutorial/3.png)
+
+Paydirt! 
