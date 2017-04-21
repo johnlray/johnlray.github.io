@@ -49,6 +49,18 @@ To do so, we will install a browser add-on called [SelectorGadget](http://select
 
 ![](r_webscraping_tutorial/7.png)
 
+I know often when working through a web tutorial one comes across a step towards its completion that strikes the reader as a bridge too far, but I promise, even though having SelectorGadget on your browser will permanently alter your browsing environment by introducing a new icon alongside your AdBlocker and your citation tracker, it is the easiest way to proceed. I promise.
+
+Activating the SelectorGadget browser extension will produce a descriptor bar in the lower righthand side of your browser for the tab you had most recently selected prior to activating SelectorGadget. Upon proper application of the SelectorGadget browser extension, that bar will produce the name of the CSS selector corresponding to the part of the web resource that contains the data you seek. This "name" (selector, etc.) is the second piece of information you'll pass to R so that it knows which part of the web resource you want, in addition to the URL at which R may find the resource.
+
+What I want is quite simple and, once I've activated SelectorGadget I find it by simply clicking on the part of the web resource corresponding to the data I want. Note that once the brower extension is active you can no longer interact with the page as you normally would. Instead, the cursor highlights these wacky orange boxes here and there on the page. Each box corresponds to the selector containing the data that you want.
+
+![](r_webscraping_tutorial/10.png)
+
+For example, when I click on the selector that contains the number of results that I want, I get a selector called `.default`. I copy that result and, with that, we're ready to start writing some code.
+
+Recall that the most common form of scraping is a three-step process -- querying a resource, locating its data, and formatting its data -- that requires the user to gather two pieces of information before writing any code -- The generic URL structure and the resource element or elements that contain the desired data.
+
 ```{r}
 library(rvest)
 library(stringr)
