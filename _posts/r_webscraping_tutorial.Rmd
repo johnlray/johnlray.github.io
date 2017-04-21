@@ -47,5 +47,16 @@ This is the first crucial piece of information we will pass to our machines in a
 
 To do so, we will install a browser add-on called [SelectorGadget](http://selectorgadget.com/), which works on all major browsers. Once you install and activate the extension, you will see a box to activate the add-on on your browser that looks like this:
 
+![](r_webscraping_tutorial/7.png)
 
+```{r}
+library(rvest)
+library(stringr)
 
+url <- 'http://pqasb.pqarchiver.com/latimes/results.html?st=advanced&QryTxt=Mexico&type=current&sortby=RELEVANCE&datetype=6&frommonth=01&fromday=01&fromyear=1985&tomonth=01&today=01&toyear=1986&By=&Title=&at_curr=ALL&Sect=ALL'
+
+site <- read_html(url)
+
+x <- html_nodes(site, ".default") %>% html_text()
+x[grep('Result', x)] %>% strsplit(" of ") %>% unlist %>% tail(1) %>% as.numeric
+```
