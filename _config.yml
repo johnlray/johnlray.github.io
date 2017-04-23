@@ -9,6 +9,9 @@ paginate: 15
 baseurl: 
 domain_name: 'johnlray.github.io'
 gems: [jekyll-paginate]
+footer-links:
+  github: johnlray
+  twitter: johnlray
 
 # Details for the RSS feed generator
 url:            'johnlray/github.io'
