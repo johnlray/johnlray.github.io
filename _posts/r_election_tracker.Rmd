@@ -10,7 +10,7 @@ output:
     variant: markdown_github
 ---
 
-flearnOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
+barnOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
 ```{r opts, echo = FALSE}
 knitr::opts_chunk$set(
@@ -114,13 +114,13 @@ house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4)
+grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4, heights= rep(0.5, 4))
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4)
+grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4, heights= rep(0.5, 4))
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4)
+grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4, heights= rep(0.5, 4))
 ```

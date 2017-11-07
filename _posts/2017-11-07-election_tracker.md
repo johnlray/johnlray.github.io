@@ -10,7 +10,7 @@ output:
     variant: markdown_github
 ---
 
-flearnOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
+barnOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
 
 
@@ -18,8 +18,8 @@ flearnOn this page, I am tracking election results for the State House, State Se
 
 
 
-![plot of chunk unnamed-chunk-3](~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-1.png)
+![plot of chunk unnamed-chunk-14](~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-14-1.png)
 
-![plot of chunk unnamed-chunk-4](~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-4-1.png)
+![plot of chunk unnamed-chunk-15](~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-15-1.png)
 
-![plot of chunk unnamed-chunk-5](~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-5-1.png)
+![plot of chunk unnamed-chunk-16](~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-16-1.png)
