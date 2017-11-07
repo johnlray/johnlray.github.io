@@ -5,3 +5,5 @@ On this page, I am tracking election results for the State House, State Senate/S
 ![](r_election_tracker_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
 ![](r_election_tracker_files/figure-markdown_github/unnamed-chunk-5-1.png)
+
+![](r_election_tracker_files/figure-markdown_github/unnamed-chunk-6-1.png)

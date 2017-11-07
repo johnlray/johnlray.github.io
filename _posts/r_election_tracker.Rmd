@@ -43,20 +43,28 @@ county_df = dplyr::left_join(county_df, gov, by = c('STATEFP','NAME'))
 gov_gg_new <- ggplot(county_df, aes(x = long, y = lat, group = group, fill = Dem2017, label = County)) +
   geom_polygon() + 
   theme_void() +
-  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent, limits = c(0, 1)) +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem %"), labels = scales::percent, limits = c(0, 1)) +
   theme(legend.position = 'bottom') +
   labs(title = 'Governor, 11/7/17')
 
-gov_bar <- ggplot(data = gov, aes(x = NAME)) +
+gov_bar_old <- ggplot(data = gov, aes(x = NAME)) +
   geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
-  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
   geom_segment(aes(xend = NAME, y = 0, yend = prev_margin, color = prev_margin)) +
-    geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
   theme_classic() +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
-  labs(y = '', x = '') +
+  labs(y = '', x = '', title = 'Margin by district/county, previous election') +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = 'null') +
+  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~state)
+
+gov_bar_new <- ggplot(data = gov, aes(x = NAME)) +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+  geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
+  theme_classic() +
+  scale_fill_continuous(low = 'red', high = 'darkblue') +
+  labs(y = '', x = '', title = 'Margin by district/county, 11/7/17') +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 #ss
@@ -67,16 +75,24 @@ ss_gg_new <- ggplot(data = ss, aes(xmin = x - .5, xmax = x + .5, ymin = y - .25,
   labs(title = 'State Senate') +
   theme(legend.position = 'null')
 
-ss_bar <- ggplot(data = ss, aes(x = NAME)) +
+ss_bar_old <- ggplot(data = ss, aes(x = NAME)) +
   geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
-  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
   geom_segment(aes(xend = NAME, y = 0, yend = prev_margin, color = prev_margin)) +
-    geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
   theme_classic() +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '') +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = 'null') +
+  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~state)
+
+ss_bar_new <- ggplot(data = ss, aes(x = NAME)) +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+  geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
+  theme_classic() +
+  scale_fill_continuous(low = 'red', high = 'darkblue') +
+  labs(y = '', x = '') +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 #sh
@@ -87,48 +103,68 @@ sh_gg_new <- ggplot(data = sh, aes(xmin = x - .25, xmax = x + .25, ymin = y - .1
   labs(title = 'State House') +
   theme(legend.position = 'null')
 
-sh_bar <- ggplot(data = sh, aes(x = NAME)) +
+sh_bar_old <- ggplot(data = sh, aes(x = NAME)) +
   geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
-  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
   geom_segment(aes(xend = NAME, y = 0, yend = prev_margin, color = prev_margin)) +
+  theme_classic() +
+  scale_fill_continuous(low = 'red', high = 'darkblue') +
+  labs(y = '', x = '') +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~state)
+
+sh_bar_new <- ggplot(data = sh, aes(x = NAME)) +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
     geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
   theme_classic() +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '') +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = 'null') +
+  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 #cong
-house_gg_new <- ggplot(cd_lines, aes(x = long, y = lat, group = group, fill = new_margin, label = District)) +
-  geom_polygon() + 
-  theme_void() +
-  scale_fill_continuous(low = 'red', high = 'darkblue', labels = scales::percent) +
-  theme(legend.position = 'null')
+#house_gg_new <- ggplot(cd_lines, aes(x = long, y = lat, group = group, fill = new_margin, label = District)) +
+#  geom_polygon() + 
+#  theme_void() +
+#  scale_fill_continuous(low = 'red', high = 'darkblue', labels = scales::percent) +
+#  theme(legend.position = 'null')
 
-house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
-  geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
-  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
-  geom_segment(aes(xend = CD115FP, y = 0, yend = prev_margin, color = prev_margin)) +
-    geom_segment(aes(xend = CD115FP, y = 0, yend = new_margin, color = new_margin)) +
-  theme_classic() +
-  scale_color_continuous(low = 'red', high = 'darkblue') +
-  labs(y = '', x = '') +
-  scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = 'null')
+#house_bar_old <- ggplot(data = cd, aes(x = CD115FP)) +
+#  geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
+#  geom_segment(aes(xend = CD115FP, y = 0, yend = prev_margin, color = prev_margin)) +
+#  theme_classic() +
+#  scale_color_continuous(low = 'red', high = 'darkblue') +
+#  labs(y = '', x = '') +
+#  scale_y_continuous(labels = scales::percent) +
+#  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1))
+
+#house_bar_new <- ggplot(data = cd, aes(x = CD115FP)) +
+#  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+#  geom_segment(aes(xend = CD115FP, y = 0, yend = new_margin, color = new_margin)) +
+#  theme_classic() +
+#  scale_color_continuous(low = 'red', high = 'darkblue') +
+#  labs(y = '', x = '') +
+#  scale_y_continuous(labels = scales::percent) +
+#  theme(legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-g1 = grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4)
+g1 = grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, ncol = 3)
 ggsave(plot = g1, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-1.png", height = 5.2, width = 16)
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-g2 = grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4)
+g2 = grid.arrange(gov_gg, sh_gg, ss_gg, ncol = 3)
 ggsave(plot = g2, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-4-1.png", height = 5.2, width = 16)
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-g3 = grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4)
+g3 = grid.arrange(gov_bar_new, sh_bar_new, ss_bar_new, ncol = 3)
 ggsave(plot = g3, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-5-1.png", height = 5.2, width = 16)
+```
+
+```{r echo = FALSE, warning = FALSE}
+g4 = grid.arrange(gov_bar_old, sh_bar_old, ss_bar_old, ncol = 3)
+ggsave(plot = g4, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-6-1.png", height = 5.2, width = 16)
 ```
