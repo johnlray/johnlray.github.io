@@ -44,7 +44,7 @@ gov_gg_new <- ggplot(county_df, aes(x = long, y = lat, group = group, fill = Dem
   geom_polygon() + 
   theme_void() +
   scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem %"), labels = scales::percent, limits = c(0, 1)) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'bottom') +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'bottom') +
   labs(title = 'Governor, 11/7/17')
 
 gov_bar_old <- ggplot(data = gov, aes(x = NAME)) +
@@ -54,7 +54,7 @@ gov_bar_old <- ggplot(data = gov, aes(x = NAME)) +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '', title = 'Margin by district/county, previous election') +
   scale_y_continuous(labels = scales::percent) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 gov_bar_new <- ggplot(data = gov, aes(x = NAME)) +
@@ -64,7 +64,7 @@ gov_bar_new <- ggplot(data = gov, aes(x = NAME)) +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '', title = 'Margin by district/county, 11/7/17') +
   scale_y_continuous(labels = scales::percent) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 #ss
@@ -73,7 +73,7 @@ ss_gg_new <- ggplot(data = ss, aes(xmin = x - .5, xmax = x + .5, ymin = y - .25,
   theme_void() +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(title = 'State Senate') +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null')
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null')
 
 ss_bar_old <- ggplot(data = ss, aes(x = NAME)) +
   geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
@@ -82,7 +82,7 @@ ss_bar_old <- ggplot(data = ss, aes(x = NAME)) +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '') +
   scale_y_continuous(labels = scales::percent) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 ss_bar_new <- ggplot(data = ss, aes(x = NAME)) +
@@ -92,7 +92,7 @@ ss_bar_new <- ggplot(data = ss, aes(x = NAME)) +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '') +
   scale_y_continuous(labels = scales::percent) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 #sh
@@ -101,7 +101,7 @@ sh_gg_new <- ggplot(data = sh, aes(xmin = x - .25, xmax = x + .25, ymin = y - .1
   theme_void() +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(title = 'State House') +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null')
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null')
 
 sh_bar_old <- ggplot(data = sh, aes(x = NAME)) +
   geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
@@ -110,7 +110,7 @@ sh_bar_old <- ggplot(data = sh, aes(x = NAME)) +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '') +
   scale_y_continuous(labels = scales::percent) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 sh_bar_new <- ggplot(data = sh, aes(x = NAME)) +
@@ -120,7 +120,7 @@ sh_bar_new <- ggplot(data = sh, aes(x = NAME)) +
   scale_fill_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '') +
   scale_y_continuous(labels = scales::percent) +
-  theme(panel.background = element_rect(color = 'black', size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~state)
 
 #cong
