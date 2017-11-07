@@ -1,0 +1,39 @@
+---
+title: "Previous election results for districts having elections 11/7/17"
+author: "John Ray"
+date: "November 6, 2017"
+
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(ggiraph)
+library(gridExtra)
+
+load('~/Dropbox/consulting/election_tracker/nightof_data/historical_plots.RData')
+```
+
+```{r gg1, echo=FALSE}
+gov_gg_p
+```
+
+```{r gg3, echo=FALSE}
+sh_gg_p
+```
+
+```{r gg2, echo=FALSE}
+ss_gg_p
+```
+
+```{r gg4, echo=FALSE}
+house_gg_p
+```
+
