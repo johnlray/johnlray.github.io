@@ -16,21 +16,26 @@ library(ggiraph)
 library(gridExtra)
 
 load('~/Dropbox/consulting/election_tracker/nightof_data/historical_ggs.RData')
+load('~/Dropbox/consulting/election_tracker/nightof_data/historical_plots.RData')
 ```
 
 ```{r gg1, echo=FALSE}
 ggiraph(code = print(gov_gg))
+gov_gg_p
 ```
 
 ```{r gg3, echo=FALSE}
 ggiraph(code = print(sh_gg))
+sh_gg_p
 ```
 
 ```{r gg2, echo=FALSE}
 ggiraph(code = print(ss_gg))
+ss_gg_p
 ```
 
 ```{r gg4, echo=FALSE}
 ggiraph(code = print(house_gg))
+house_gg_p
 ```
 
