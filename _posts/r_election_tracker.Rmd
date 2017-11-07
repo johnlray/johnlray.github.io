@@ -9,7 +9,7 @@ output:
   md_document:
     variant: markdown_github
 ---
-
+1
 On this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
 ```{r include=FALSE, warn=FALSE, echo=FALSE}
