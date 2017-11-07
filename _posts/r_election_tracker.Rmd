@@ -12,12 +12,6 @@ output:
 
 flundOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
-```{r opts, echo = FALSE}
-knitr::opts_chunk$set(
-  fig.path = "johnlray.github.io/2017/11/07/figure/"
-)
-```
-
 ```{r include=FALSE, warn=FALSE, echo=FALSE}
 graphics.off()
 rm(list = ls())
@@ -114,13 +108,16 @@ house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4, heights= rep(0.5, 4))
+g1 = grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4)
+ggsave(plot = g1, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-1.png", height = 5, width = 7)
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4, heights= rep(0.5, 4))
+g2 = grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4)
+ggsave(plot = g2, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-2.png", height = 5, width = 7)
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4, heights= rep(0.5, 4))
+g3 = grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4)
+ggsave(plot = g3, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-3.png", height = 5, width = 7)
 ```
