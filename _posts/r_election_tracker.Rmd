@@ -5,35 +5,32 @@ date: "November 6, 2017"
 
 layout: post
 
-output: 
-  md_document:
-    variant: markdown_github
-always_allow_html: yes
+output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warn=F, echo=F}
 library(dplyr)
 library(ggplot2)
 library(plotly)
 library(ggiraph)
 library(gridExtra)
 
-load('~/Dropbox/consulting/election_tracker/nightof_data/historical_plots.RData')
+load('~/Dropbox/consulting/election_tracker/nightof_data/historical_ggs.RData')
 ```
 
 ```{r gg1, echo=FALSE}
-gov_gg_p
+ggiraph(code = print(gov_gg))
 ```
 
 ```{r gg3, echo=FALSE}
-sh_gg_p
+ggiraph(code = print(sh_gg))
 ```
 
 ```{r gg2, echo=FALSE}
-ss_gg_p
+ggiraph(code = print(ss_gg))
 ```
 
 ```{r gg4, echo=FALSE}
-house_gg_p
+ggiraph(code = print(house_gg))
 ```
 
