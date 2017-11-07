@@ -10,7 +10,7 @@ output:
     variant: markdown_github
 ---
 
-aasdffOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
+asdffOn this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
 ```{r include=FALSE, warn=FALSE, echo=FALSE}
 graphics.off()
