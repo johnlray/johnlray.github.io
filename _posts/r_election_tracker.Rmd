@@ -5,37 +5,106 @@ date: "November 6, 2017"
 
 layout: post
 
-output: html_document
+output: 
+  md_document:
+    variant: markdown_github
 ---
 
 ```{r setup, include=FALSE, warn=F, echo=F}
+graphics.off()
+rm(list = ls())
+
 library(dplyr)
 library(ggplot2)
 library(plotly)
 library(ggiraph)
 library(gridExtra)
 
-load('~/Dropbox/consulting/election_tracker/nightof_data/historical_ggs.RData')
-load('~/Dropbox/consulting/election_tracker/nightof_data/historical_plots.RData')
+load('~/Dropbox/consulting/election_tracker/nightof_data/data_and_graphs.RData')
+
+gov <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/gov.csv', stringsAsFactors = F)
+cd <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/cd.csv', stringsAsFactors = F)
+sh <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/sh.csv', stringsAsFactors = F)
+ss <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/ss.csv', stringsAsFactors = F)
+
+gov$new_margin = gov$dem2017/(gov$dem2017 + gov$rep2017 + 1)
+cd$new_margin = cd$dem2017/(cd$dem2017 + cd$rep2017 + 1)
+sh$new_margin = sh$dem2017/(sh$dem2017 + sh$rep2017 + 1)
+ss$new_margin = ss$Dem2017/(ss$Dem2017 + ss$Rep2017 + 1)
+
+cd_lines = dplyr::left_join(cd_lines, cd, by = c('STATEFP', 'CD115FP'))
+county_df = dplyr::left_join(county_df, gov, by = c('STATEFP','NAME'))
 ```
 
-```{r gg1, echo=FALSE}
-ggiraph(code = print(gov_gg))
-gov_gg_p
+```{r ggs, echo=FALSE, warn=F}
+#gov
+gov_gg_new <- ggplot(county_df, aes(x = long, y = lat, group = group, fill = Dem2017, label = County)) +
+  geom_polygon() + 
+  theme_void() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = 'Governor, 11/7/17')
+
+gov_bar <- ggplot(data = gov, aes(x = NAME)) +
+  geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+  geom_segment(aes(xend = NAME, y = 0, yend = prev_margin, color = prev_margin)) +
+    geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
+  theme_classic() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = 'Governor, 11/7/17') +
+  facet_wrap(~state)
+
+#ss
+ss_gg_new <- ggplot(data = ss, aes(xmin = x - .5, xmax = x + .5, ymin = y - .25, ymax = y + .25, fill = new_margin, label = District)) +
+  geom_rect_interactive() + 
+  theme_void() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = 'State Senate, 11/7/17')
+
+ss_bar <- ggplot(data = ss, aes(x = NAME)) +
+  geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+  geom_segment(aes(xend = NAME, y = 0, yend = prev_margin, color = prev_margin)) +
+    geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
+  theme_classic() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = 'State Senate, 11/7/17') +
+  facet_wrap(~state)
+
+#sh
+sh_gg_new <- ggplot(data = sh, aes(xmin = x - .25, xmax = x + .25, ymin = y - .125, ymax = y + .125, fill = new_margin, label = District)) +
+  geom_rect() + 
+  theme_void() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = 'State House, 11/7/17')
+
+sh_bar <- ggplot(data = sh, aes(x = NAME)) +
+  geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+  geom_segment(aes(xend = NAME, y = 0, yend = prev_margin, color = prev_margin)) +
+    geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
+  theme_classic() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem %"), labels = scales::percent) +
+  labs(title = 'State House, 11/7/17') +
+  facet_wrap(~state)
+
+#cong
+house_gg_new <- ggplot(cd_lines, aes(x = long, y = lat, group = group, fill = d, label = District)) +
+  geom_polygon_interactive() + 
+  theme_void() +
+  scale_fill_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = '11/7/17')
+
+house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
+  geom_point(aes(y = prev_margin, color = prev_margin), position = 'identity') +
+  geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
+  geom_segment(aes(xend = CD115FP, y = 0, yend = prev_margin, color = prev_margin)) +
+    geom_segment(aes(xend = CD115FP, y = 0, yend = new_margin, color = new_margin)) +
+  theme_classic() +
+  scale_color_continuous(low = 'red', high = 'darkblue', name = c("Dem % in\nprev. election\n"), labels = scales::percent) +
+  labs(title = 'UT-3, 11/7/17')
 ```
 
-```{r gg3, echo=FALSE}
-ggiraph(code = print(sh_gg))
-sh_gg_p
+```{r plots}
+grid.arrange(gov_gg_new, gov_gg, gov_bar, sh_gg_new, sh_gg, sh_bar, ss_gg_new, ss_gg, ss_bar, house_gg_new, house_gg, house_bar, ncol = 3)
 ```
-
-```{r gg2, echo=FALSE}
-ggiraph(code = print(ss_gg))
-ss_gg_p
-```
-
-```{r gg4, echo=FALSE}
-ggiraph(code = print(house_gg))
-house_gg_p
-```
-
