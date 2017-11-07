@@ -105,6 +105,6 @@ house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
   labs(title = 'UT-3, 11/7/17')
 ```
 
-```{r plots, echo = FALSE, warn = FALSE}
-grid.arrange(gov_gg_new, gov_gg, gov_bar, sh_gg_new, sh_gg, sh_bar, ss_gg_new, ss_gg, ss_bar, house_gg_new, house_gg, house_bar, ncol = 3)
+```{r plots, echo = FALSE, warning = FALSE}
+invisible(grid.arrange(gov_gg_new, gov_gg, gov_bar, sh_gg_new, sh_gg, sh_bar, ss_gg_new, ss_gg, ss_bar, house_gg_new, house_gg, house_bar, ncol = 3))
 ```
