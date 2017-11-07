@@ -113,8 +113,14 @@ house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
   labs(title = 'UT-3, 11/7/17')
 ```
 
-```{r echo = FALSE, warning = FALSE}
+```{r gg1, echo = FALSE, warning = FALSE}
 grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4)
+```
+
+```{r gg2, echo = FALSE, warning = FALSE}
 grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4)
+```
+
+```{r gg3, echo = FALSE, warning = FALSE}
 grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4)
 ```
