@@ -8,6 +8,7 @@ layout: post
 output: 
   md_document:
     variant: markdown_github
+    output_file: "2017-11-07-election_tracker.md"
 ---
 
 ```{r setup, include=FALSE, warn=F, echo=F}
