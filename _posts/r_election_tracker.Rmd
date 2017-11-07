@@ -109,15 +109,15 @@ house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
 
 ```{r echo = FALSE, warning = FALSE}
 g1 = grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, house_gg_new, ncol = 4)
-ggsave(plot = g1, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-1.png", height = 2.6, width = 8)
+ggsave(plot = g1, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-1.png", height = 5.2, width = 16)
 ```
 
 ```{r echo = FALSE, warning = FALSE}
 g2 = grid.arrange(gov_gg, sh_gg, ss_gg, house_gg, ncol = 4)
-ggsave(plot = g2, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-4-1.png", height = 2.6, width = 8)
+ggsave(plot = g2, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-4-1.png", height = 5.2, width = 16)
 ```
 
 ```{r echo = FALSE, warning = FALSE}
 g3 = grid.arrange(gov_bar, sh_bar, ss_bar, house_bar, ncol = 4)
-ggsave(plot = g3, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-5-1.png", height = 2.6, width = 8)
+ggsave(plot = g3, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-5-1.png", height = 5.2, width = 16)
 ```
