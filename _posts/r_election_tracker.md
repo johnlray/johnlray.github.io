@@ -206,7 +206,7 @@ Here is the data that goes into these graphs.
 | wa    |      31|          -1.0000|               NA|
 | wa    |      45|          -0.0540|               NA|
 | wa    |       7|          -1.0000|               NA|
-| wa    |      48|           0.2980|               NA|
+| wa    |      48|           0.2980|              0.5|
 | wa    |      37|           1.0000|               NA|
 
 | State | County                     |  Previous margin|  Tonights margin|
@@ -375,4 +375,4 @@ Here is the data that goes into these graphs.
 | va    | 100                        |       -0.1400000|               NA|
 | wa    | 7                          |       -1.0000000|               NA|
 | wa    | 31                         |       -1.0000000|               NA|
-| wa    | 48                         |        1.0000000|               NA|
+| wa    | 48                         |        1.0000000|              0.5|
