@@ -14,7 +14,7 @@ flundOn this page, I am tracking election results for the State House, State Sen
 
 ```{r opts, echo = FALSE}
 knitr::opts_chunk$set(
-  fig.path = "2017/11/07/figure/"
+  fig.path = "johnlray.github.io/2017/11/07/figure/"
 )
 ```
 
