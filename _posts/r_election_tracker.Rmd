@@ -12,12 +12,6 @@ output:
 
 On this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
-```{r opts, echo = FALSE}
-knitr::opts_chunk$set(
-  fig.path = "~/johnlray.github.io/_posts/2017/11/07/2017-11-07-election_tracker/"
-)
-```
-
 ```{r include=FALSE, warn=FALSE, echo=FALSE}
 graphics.off()
 rm(list = ls())
@@ -114,5 +108,5 @@ house_bar <- ggplot(data = cd, aes(x = CD115FP)) +
 ```
 
 ```{r echo = FALSE, warning = FALSE}
-grid.arrange(gov_gg_new, gov_gg, gov_bar, sh_gg_new, sh_gg, sh_bar, ss_gg_new, ss_gg, ss_bar, house_gg_new, house_gg, house_bar, ncol = 3) %>% print()
+grid.arrange(gov_gg_new, gov_gg, gov_bar, sh_gg_new, sh_gg, sh_bar, ss_gg_new, ss_gg, ss_bar, house_gg_new, house_gg, house_bar, ncol = 3)
 ```
