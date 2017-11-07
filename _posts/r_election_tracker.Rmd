@@ -12,6 +12,12 @@ output:
 
 On this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
+```{r opts, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "~/johnlray.github.io/_posts/2017/11/07/2017-11-07-election_tracker/"
+)
+```
+
 ```{r include=FALSE, warn=FALSE, echo=FALSE}
 graphics.off()
 rm(list = ls())
