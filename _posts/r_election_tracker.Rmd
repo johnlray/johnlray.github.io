@@ -30,10 +30,10 @@ gov <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/gov.csv', st
 sh <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/sh.csv', stringsAsFactors = F)
 ss <- read.csv('~/Dropbox/consulting/election_tracker/nightof_data/ss.csv', stringsAsFactors = F)
 
-gov$new_margin = gov$dem2017/(gov$dem2017 + gov$rep2017 + 1)
+gov$new_margin = gov$dem2017/(gov$dem2017 + gov$rep2017 + .001)
 #cd$new_margin = cd$dem2017/(cd$dem2017 + cd$rep2017 + 1)
-sh$new_margin = sh$dem2017/(sh$dem2017 + sh$rep2017 + 1)
-ss$new_margin = ss$Dem2017/(ss$Dem2017 + ss$Rep2017 + 1)
+sh$new_margin = sh$dem2017/(sh$dem2017 + sh$rep2017 + .001)
+ss$new_margin = ss$Dem2017/(ss$Dem2017 + ss$Rep2017 + .001)
 
 #cd_lines = dplyr::left_join(cd_lines, cd, by = c('STATEFP', 'CD115FP'))
 county_df = dplyr::left_join(county_df, gov, by = c('STATEFP','NAME'))
