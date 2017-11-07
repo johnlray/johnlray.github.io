@@ -8,12 +8,11 @@ layout: post
 output: 
   md_document:
     variant: markdown_github
-output_file: '2017-11-07-election_tracker.md'
 ---
 
-On this page, I am tracking election results for the State House, State Senate/State Assembly, Governors', and Congressional races going on today.
+On this page, I am tracking election results for the State House, State Senate/State Assembly, Governor, and Congressional races going on today.
 
-```{r include=FALSE, warn=F, echo=F}
+```{r include=FALSE, warn=FALSE, echo=FALSE}
 graphics.off()
 rm(list = ls())
 
@@ -39,7 +38,7 @@ cd_lines = dplyr::left_join(cd_lines, cd, by = c('STATEFP', 'CD115FP'))
 county_df = dplyr::left_join(county_df, gov, by = c('STATEFP','NAME'))
 ```
 
-```{r echo=FALSE, warn=F}
+```{r echo=FALSE, warn=FALSE}
 #gov
 gov_gg_new <- ggplot(county_df, aes(x = long, y = lat, group = group, fill = Dem2017, label = County)) +
   geom_polygon() + 
