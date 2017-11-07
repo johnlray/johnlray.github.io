@@ -18,6 +18,7 @@ rm(list = ls())
 
 library(dplyr)
 library(ggplot2)
+library(knitr)
 library(plotly)
 library(ggiraph)
 library(gridExtra)
@@ -126,6 +127,28 @@ sh_bar_new <- ggplot(data = sh, aes(x = NAME)) +
 
 ### Tonight's results
 
+The races I will be watching tonight include
+
+* Virginia governorship and State House
+* New Jersey governorship and General Assembly
+* Georgia State House 4, 26, 42, 56, 60, 89, 117, and 119
+* Georgia State Senate 6 and 39
+* Maine State House 56
+* Massachusetts 1st Berkshire and 3rd Essex (State House)
+* Michigan State House 1 and 109
+* Missouri State House 23 and 151
+* Missouri State Senate 8
+* New Hampshire Hillsborough 15 (State House)
+* New York State Assembly 27 and 71
+* New York State Senate 26
+* South Carolina State House 113
+* Washington State House 7, 31, and 48
+* Washington State Senate 7, 37, 45, and 48
+
+The first column of plots include the Governors' races. The second column of plots includes the lower house races, with lower house seats across the US drawn as equally-sized pixels. The third column includes upper house races.
+
+I will be tracking, but not plotting, the Utah 3rd Congressional district race as well. I could not devise an optimal visual display that included UT-3, but I will note the results.
+
 ```{r echo = FALSE, warning = FALSE}
 g1 = grid.arrange(gov_gg_new, sh_gg_new, ss_gg_new, ncol = 3)
 ggsave(plot = g1, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-3-1.png", height = 5.2, width = 16)
@@ -150,4 +173,21 @@ ggsave(plot = g3, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-5-1.png"
 ```{r echo = FALSE, warning = FALSE}
 g4 = grid.arrange(gov_bar_old, sh_bar_old, ss_bar_old, ncol = 3)
 ggsave(plot = g4, "~/johnlray.github.io/2017/11/07/figure/unnamed-chunk-6-1.png", height = 5.2, width = 16)
+```
+
+Here is the data that goes into these graphs.
+
+```{r echo = FALSE, warning = FALSE}
+gov_print <- gov[,c('state','NAME','prev_margin','new_margin')]
+colnames(gov_print) <- c('State','County','Previous margin','Tonights margin')
+
+sh_print <- sh[,c('state','NAME','prev_margin','new_margin')]
+colnames(sh_print) <- c('State','County','Previous margin','Tonights margin')
+
+ss_print <- ss[,c('state','NAME','prev_margin','new_margin')]
+colnames(ss_print) <- c('State','County','Previous margin','Tonights margin')
+
+kable(gov_print, caption = "Governors race data")
+kable(ss_print, caption = "Upper chamber race data")
+kable(sh_print, caption = "Lower chamber race data")
 ```
