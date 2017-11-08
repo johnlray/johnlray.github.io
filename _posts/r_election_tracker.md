@@ -65,137 +65,137 @@ Here is the data that goes into these graphs.
 | NJ    | Warren           |       -0.4867667|               NA|
 | VA    | Accomack         |       -0.1235463|               NA|
 | VA    | Albemarle        |        0.2108627|        0.5596912|
-| VA    | Alexandria       |        0.5175562|               NA|
+| VA    | Alexandria       |        0.5175562|        0.8289557|
 | VA    | Alleghany        |       -0.1008009|               NA|
-| VA    | Amelia           |       -0.3227031|               NA|
+| VA    | Amelia           |       -0.3227031|        0.2778876|
 | VA    | Amherst          |       -0.2923513|               NA|
-| VA    | Appomattox       |       -0.4737065|               NA|
-| VA    | Arlington        |        0.5269408|               NA|
-| VA    | Augusta          |       -0.4608025|        0.2463766|
+| VA    | Appomattox       |       -0.4737065|        0.2616463|
+| VA    | Arlington        |        0.5269408|        0.8033615|
+| VA    | Augusta          |       -0.4608025|        0.2303851|
 | VA    | Bath             |       -0.2727273|               NA|
-| VA    | Bedford          |       -0.4983573|               NA|
+| VA    | Bedford          |       -0.4983573|        0.2479130|
 | VA    | Bland            |       -0.5402844|               NA|
 | VA    | Botetourt        |       -0.4316812|               NA|
 | VA    | Bristol          |       -0.3204895|               NA|
-| VA    | Brunswick        |        0.2512726|        0.4686771|
-| VA    | Buchanan         |       -0.3830236|        0.2583165|
-| VA    | Buckingham       |       -0.0645579|        0.5454532|
+| VA    | Brunswick        |        0.2512726|        0.5586490|
+| VA    | Buchanan         |       -0.3830236|        0.2837126|
+| VA    | Buckingham       |       -0.0645579|        0.3907765|
 | VA    | Buena Vista      |       -0.2615923|               NA|
 | VA    | Campbell         |       -0.4998990|               NA|
 | VA    | Caroline         |        0.0577084|        0.2676499|
-| VA    | Carroll          |       -0.3974872|               NA|
+| VA    | Carroll          |       -0.3974872|        0.2214428|
 | VA    | Charles City     |        0.3059514|               NA|
 | VA    | Charlotte        |       -0.2154824|               NA|
 | VA    | Charlottesville  |        0.6616793|               NA|
-| VA    | Chesapeake       |        0.0332200|               NA|
-| VA    | Chesterfield     |       -0.0877749|               NA|
+| VA    | Chesapeake       |        0.0332200|        0.2999997|
+| VA    | Chesterfield     |       -0.0877749|        0.4952213|
 | VA    | Clarke           |       -0.1291866|               NA|
 | VA    | Colonial Heights |       -0.4916854|               NA|
-| VA    | Covington        |        0.0698096|               NA|
+| VA    | Covington        |        0.0698096|        0.5292781|
 | VA    | Craig            |       -0.4571624|               NA|
 | VA    | Culpeper         |       -0.2991514|               NA|
-| VA    | Cumberland       |       -0.1005291|               NA|
+| VA    | Cumberland       |       -0.1005291|        0.3289684|
 | VA    | Danville         |        0.0553216|               NA|
 | VA    | Dickenson        |       -0.2843759|               NA|
-| VA    | Dinwiddie        |       -0.0184405|               NA|
-| VA    | Emporia          |        0.2686375|               NA|
-| VA    | Essex            |       -0.0369596|               NA|
-| VA    | Fairfax          |        0.2351716|               NA|
-| VA    | Fairfax          |        0.2351716|               NA|
+| VA    | Dinwiddie        |       -0.0184405|        0.2920352|
+| VA    | Emporia          |        0.2686375|        0.4425072|
+| VA    | Essex            |       -0.0369596|        0.3635402|
+| VA    | Fairfax          |        0.2351716|        0.6623006|
+| VA    | Fairfax          |        0.2351716|        0.6623006|
 | VA    | Falls Church     |        0.5103966|               NA|
-| VA    | Fauquier         |       -0.2602176|        0.4049892|
+| VA    | Fauquier         |       -0.2602176|        0.4176710|
 | VA    | Floyd            |       -0.2783705|               NA|
-| VA    | Fluvanna         |       -0.0598147|               NA|
-| VA    | Franklin         |       -0.3558610|        0.4041229|
-| VA    | Franklin         |       -0.3558610|        0.4041229|
+| VA    | Fluvanna         |       -0.0598147|        0.4874667|
+| VA    | Franklin         |       -0.3558610|        0.3801495|
+| VA    | Franklin         |       -0.3558610|        0.3801495|
 | VA    | Frederick        |       -0.3494124|               NA|
 | VA    | Fredericksburg   |        0.2364410|               NA|
-| VA    | Galax            |       -0.2307692|        0.3174939|
-| VA    | Giles            |       -0.3128205|               NA|
-| VA    | Gloucester       |       -0.2959984|               NA|
+| VA    | Galax            |       -0.2307692|        0.3054516|
+| VA    | Giles            |       -0.3128205|        0.4147884|
+| VA    | Gloucester       |       -0.2959984|        0.3150681|
 | VA    | Goochland        |       -0.2524295|               NA|
 | VA    | Grayson          |       -0.3769470|               NA|
-| VA    | Greene           |       -0.2819549|               NA|
-| VA    | Greensville      |        0.2602339|        0.4062491|
+| VA    | Greene           |       -0.2819549|        0.3525592|
+| VA    | Greensville      |        0.2602339|        0.5369272|
 | VA    | Halifax          |       -0.1630446|               NA|
-| VA    | Hampton          |        0.4068828|               NA|
-| VA    | Hanover          |       -0.3662222|        0.4449493|
+| VA    | Hampton          |        0.4068828|        0.7439677|
+| VA    | Hanover          |       -0.3662222|        0.4364991|
 | VA    | Harrisonburg     |        0.1284675|               NA|
-| VA    | Henrico          |        0.1484027|        0.5190729|
-| VA    | Henry            |       -0.2754729|        0.3343014|
-| VA    | Highland         |       -0.3325359|               NA|
+| VA    | Henrico          |        0.1484027|        0.6154801|
+| VA    | Henry            |       -0.2754729|        0.3668724|
+| VA    | Highland         |       -0.3325359|        0.3425395|
 | VA    | Hopewell         |        0.0107179|               NA|
-| VA    | Isle of Wight    |       -0.1496049|               NA|
-| VA    | James City       |       -0.0960956|        0.5461007|
+| VA    | Isle of Wight    |       -0.1496049|        0.4123499|
+| VA    | James City       |       -0.0960956|        0.4749932|
 | VA    | King and Queen   |       -0.0411095|               NA|
 | VA    | King George      |       -0.2703220|               NA|
 | VA    | King William     |       -0.2808263|               NA|
-| VA    | Lancaster        |       -0.1398989|               NA|
+| VA    | Lancaster        |       -0.1398989|        0.4487115|
 | VA    | Lee              |       -0.4964796|               NA|
 | VA    | Lexington        |        0.3045296|               NA|
-| VA    | Loudoun          |        0.0460316|               NA|
+| VA    | Loudoun          |        0.0460316|        0.5921671|
 | VA    | Louisa           |       -0.2055562|        0.3224976|
 | VA    | Lunenburg        |       -0.0992908|               NA|
 | VA    | Lynchburg        |       -0.1459984|               NA|
 | VA    | Madison          |       -0.2288862|               NA|
-| VA    | Manassas         |        0.0235939|        0.6090948|
-| VA    | Manassas Park    |        0.1251232|               NA|
+| VA    | Manassas         |        0.0235939|        0.5657587|
+| VA    | Manassas Park    |        0.1251232|        0.6310454|
 | VA    | Martinsville     |        0.0995533|               NA|
-| VA    | Mathews          |       -0.2625077|               NA|
+| VA    | Mathews          |       -0.2625077|        0.3513117|
 | VA    | Mecklenburg      |       -0.1635463|               NA|
 | VA    | Middlesex        |       -0.2156303|        0.4050385|
-| VA    | Montgomery       |        0.0267025|               NA|
+| VA    | Montgomery       |        0.0267025|        0.2893142|
 | VA    | Nelson           |        0.0432086|               NA|
 | VA    | New Kent         |       -0.3461835|               NA|
-| VA    | Newport News     |        0.2577718|               NA|
+| VA    | Newport News     |        0.2577718|        0.6911233|
 | VA    | Norfolk          |        0.4624787|               NA|
 | VA    | Northampton      |        0.1262029|               NA|
-| VA    | Northumberland   |       -0.1801839|               NA|
+| VA    | Northumberland   |       -0.1801839|        0.3607130|
 | VA    | Norton           |       -0.1642512|        0.3388426|
-| VA    | Nottoway         |       -0.0391245|               NA|
-| VA    | Orange           |       -0.2102285|        0.3308072|
+| VA    | Nottoway         |       -0.0391245|        0.3793754|
+| VA    | Orange           |       -0.2102285|        0.3845411|
 | VA    | Page             |       -0.3046047|               NA|
 | VA    | Patrick          |       -0.4425497|               NA|
 | VA    | Petersburg       |        0.8019360|               NA|
-| VA    | Pittsylvania     |       -0.3662359|        0.2945453|
+| VA    | Pittsylvania     |       -0.3662359|        0.3491367|
 | VA    | Poquoson         |       -0.4834865|               NA|
-| VA    | Portsmouth       |        0.4456580|               NA|
+| VA    | Portsmouth       |        0.4456580|        0.4677174|
 | VA    | Powhatan         |       -0.4871625|               NA|
-| VA    | Prince Edward    |        0.0856679|        0.4843633|
+| VA    | Prince Edward    |        0.0856679|        0.5233221|
 | VA    | Prince George    |       -0.1665697|               NA|
-| VA    | Prince William   |        0.0862477|        0.6109863|
-| VA    | Pulaski          |       -0.2929736|               NA|
-| VA    | Radford          |        0.0420168|               NA|
-| VA    | Rappahannock     |       -0.0749373|               NA|
-| VA    | Richmond         |       -0.2153918|        0.8112192|
-| VA    | Richmond         |       -0.2153918|        0.8112192|
-| VA    | Roanoke          |       -0.2939320|               NA|
-| VA    | Roanoke          |       -0.2939320|               NA|
-| VA    | Rockbridge       |       -0.1991435|               NA|
+| VA    | Prince William   |        0.0862477|        0.6169161|
+| VA    | Pulaski          |       -0.2929736|        0.2594748|
+| VA    | Radford          |        0.0420168|        0.6469680|
+| VA    | Rappahannock     |       -0.0749373|        0.4484102|
+| VA    | Richmond         |       -0.2153918|        0.8491506|
+| VA    | Richmond         |       -0.2153918|        0.8491506|
+| VA    | Roanoke          |       -0.2939320|        0.6135490|
+| VA    | Roanoke          |       -0.2939320|        0.6135490|
+| VA    | Rockbridge       |       -0.1991435|        0.3879637|
 | VA    | Rockingham       |       -0.4466728|               NA|
-| VA    | Russell          |       -0.3438464|        0.2377606|
+| VA    | Russell          |       -0.3438464|        0.2195914|
 | VA    | Salem            |       -0.2672237|               NA|
 | VA    | Scott            |       -0.5510758|               NA|
 | VA    | Shenandoah       |       -0.3464711|               NA|
-| VA    | Smyth            |       -0.3580075|        0.3307380|
+| VA    | Smyth            |       -0.3580075|        0.2910445|
 | VA    | Southampton      |       -0.0580751|               NA|
-| VA    | Spotsylvania     |       -0.1846539|               NA|
+| VA    | Spotsylvania     |       -0.1846539|        0.4018124|
 | VA    | Stafford         |       -0.1531068|               NA|
 | VA    | Staunton         |        0.0318880|               NA|
-| VA    | Suffolk          |        0.1400295|               NA|
+| VA    | Suffolk          |        0.1400295|        0.4336563|
 | VA    | Surry            |        0.2346259|               NA|
 | VA    | Sussex           |        0.1859037|               NA|
-| VA    | Tazewell         |       -0.5211210|        0.1646856|
-| VA    | Virginia Beach   |       -0.0211897|               NA|
-| VA    | Warren           |       -0.2677820|               NA|
+| VA    | Tazewell         |       -0.5211210|        0.1341494|
+| VA    | Virginia Beach   |       -0.0211897|        0.5044551|
+| VA    | Warren           |       -0.2677820|        0.3338209|
 | VA    | Washington       |       -0.4346858|               NA|
-| VA    | Waynesboro       |       -0.1505757|               NA|
+| VA    | Waynesboro       |       -0.1505757|        0.4830187|
 | VA    | Westmoreland     |       -0.0002364|               NA|
 | VA    | Williamsburg     |        0.3454100|        0.7364693|
 | VA    | Winchester       |       -0.0133133|               NA|
-| VA    | Wise             |       -0.4527785|               NA|
+| VA    | Wise             |       -0.4527785|        0.1954992|
 | VA    | Wythe            |       -0.4159065|               NA|
-| VA    | York             |       -0.2124263|        0.3380204|
+| VA    | York             |       -0.2124263|        0.3995469|
 
 | State |  County|  Previous margin|  Tonights margin|
 |:------|-------:|----------------:|----------------:|
