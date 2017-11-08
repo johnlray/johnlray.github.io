@@ -40,19 +40,19 @@ The first column of plots include the Governors' races. The second column of plo
 
 I will be tracking, but not plotting, the Utah 3rd Congressional district race as well. I could not devise an optimal visual display that included UT-3, but I will note the results.
 
-![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31-1.png)
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
 ### Results from these districts' previous elections
 
-![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32-1.png)
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
 
 ### Tonight's Dem - Rep margins
 
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33-1.png)
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
 ### These districts' previous Dem - Rep margins
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34-1.png)
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
 
 Here is the data that goes into these graphs.
 
@@ -222,11 +222,11 @@ Here is the data that goes into these graphs.
 |ga    |      6|         -0.0384|              NA|
 |mo    |      8|         -1.0000|              NA|
 |ny    |     26|          1.0000|       0.7580542|
-|wa    |     31|         -1.0000|              NA|
-|wa    |     45|         -0.0540|              NA|
-|wa    |      7|         -1.0000|              NA|
+|wa    |     31|         -1.0000|      -0.1412779|
+|wa    |     45|         -0.0540|       0.1083593|
+|wa    |      7|         -1.0000|      -0.3137868|
 |wa    |     48|          0.2980|       1.0000000|
-|wa    |     37|          1.0000|              NA|
+|wa    |     37|          1.0000|      -0.2912096|
 
 
 
@@ -394,6 +394,6 @@ Here is the data that goes into these graphs.
 |va    |98                         |      -1.0000000|      -0.3027484|
 |va    |99                         |      -1.0000000|      -0.2446371|
 |va    |100                        |      -0.1400000|      -0.0455621|
-|wa    |7                          |      -1.0000000|              NA|
-|wa    |31                         |      -1.0000000|              NA|
+|wa    |7                          |      -1.0000000|      -0.2912096|
+|wa    |31                         |      -1.0000000|      -0.1421501|
 |wa    |48                         |       1.0000000|       1.0000000|
