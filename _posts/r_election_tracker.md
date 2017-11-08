@@ -77,12 +77,12 @@ Here is the data that goes into these graphs.
 | VA    | Bland            |       -0.5402844|               NA|
 | VA    | Botetourt        |       -0.4316812|               NA|
 | VA    | Bristol          |       -0.3204895|               NA|
-| VA    | Brunswick        |        0.2512726|               NA|
+| VA    | Brunswick        |        0.2512726|        0.4764701|
 | VA    | Buchanan         |       -0.3830236|               NA|
 | VA    | Buckingham       |       -0.0645579|               NA|
 | VA    | Buena Vista      |       -0.2615923|               NA|
 | VA    | Campbell         |       -0.4998990|               NA|
-| VA    | Caroline         |        0.0577084|               NA|
+| VA    | Caroline         |        0.0577084|        0.2676499|
 | VA    | Carroll          |       -0.3974872|               NA|
 | VA    | Charles City     |        0.3059514|               NA|
 | VA    | Charlotte        |       -0.2154824|               NA|
@@ -103,7 +103,7 @@ Here is the data that goes into these graphs.
 | VA    | Fairfax          |        0.2351716|               NA|
 | VA    | Fairfax          |        0.2351716|               NA|
 | VA    | Falls Church     |        0.5103966|               NA|
-| VA    | Fauquier         |       -0.2602176|               NA|
+| VA    | Fauquier         |       -0.2602176|        0.2790318|
 | VA    | Floyd            |       -0.2783705|               NA|
 | VA    | Fluvanna         |       -0.0598147|               NA|
 | VA    | Franklin         |       -0.3558610|               NA|
@@ -126,7 +126,7 @@ Here is the data that goes into these graphs.
 | VA    | Highland         |       -0.3325359|               NA|
 | VA    | Hopewell         |        0.0107179|               NA|
 | VA    | Isle of Wight    |       -0.1496049|               NA|
-| VA    | James City       |       -0.0960956|               NA|
+| VA    | James City       |       -0.0960956|        0.5739740|
 | VA    | King and Queen   |       -0.0411095|               NA|
 | VA    | King George      |       -0.2703220|               NA|
 | VA    | King William     |       -0.2808263|               NA|
@@ -138,7 +138,7 @@ Here is the data that goes into these graphs.
 | VA    | Lunenburg        |       -0.0992908|               NA|
 | VA    | Lynchburg        |       -0.1459984|               NA|
 | VA    | Madison          |       -0.2288862|               NA|
-| VA    | Manassas         |        0.0235939|               NA|
+| VA    | Manassas         |        0.0235939|        0.5354181|
 | VA    | Manassas Park    |        0.1251232|               NA|
 | VA    | Martinsville     |        0.0995533|               NA|
 | VA    | Mathews          |       -0.2625077|               NA|
@@ -157,13 +157,13 @@ Here is the data that goes into these graphs.
 | VA    | Page             |       -0.3046047|               NA|
 | VA    | Patrick          |       -0.4425497|               NA|
 | VA    | Petersburg       |        0.8019360|               NA|
-| VA    | Pittsylvania     |       -0.3662359|               NA|
+| VA    | Pittsylvania     |       -0.3662359|        0.3045169|
 | VA    | Poquoson         |       -0.4834865|               NA|
 | VA    | Portsmouth       |        0.4456580|               NA|
 | VA    | Powhatan         |       -0.4871625|               NA|
-| VA    | Prince Edward    |        0.0856679|               NA|
+| VA    | Prince Edward    |        0.0856679|        0.3790307|
 | VA    | Prince George    |       -0.1665697|               NA|
-| VA    | Prince William   |        0.0862477|               NA|
+| VA    | Prince William   |        0.0862477|        0.4851637|
 | VA    | Pulaski          |       -0.2929736|               NA|
 | VA    | Radford          |        0.0420168|               NA|
 | VA    | Rappahannock     |       -0.0749373|               NA|
@@ -177,7 +177,7 @@ Here is the data that goes into these graphs.
 | VA    | Salem            |       -0.2672237|               NA|
 | VA    | Scott            |       -0.5510758|               NA|
 | VA    | Shenandoah       |       -0.3464711|               NA|
-| VA    | Smyth            |       -0.3580075|         0.330738|
+| VA    | Smyth            |       -0.3580075|        0.3307380|
 | VA    | Southampton      |       -0.0580751|               NA|
 | VA    | Spotsylvania     |       -0.1846539|               NA|
 | VA    | Stafford         |       -0.1531068|               NA|
@@ -185,7 +185,7 @@ Here is the data that goes into these graphs.
 | VA    | Suffolk          |        0.1400295|               NA|
 | VA    | Surry            |        0.2346259|               NA|
 | VA    | Sussex           |        0.1859037|               NA|
-| VA    | Tazewell         |       -0.5211210|               NA|
+| VA    | Tazewell         |       -0.5211210|        0.1696413|
 | VA    | Virginia Beach   |       -0.0211897|               NA|
 | VA    | Warren           |       -0.2677820|               NA|
 | VA    | Washington       |       -0.4346858|               NA|
