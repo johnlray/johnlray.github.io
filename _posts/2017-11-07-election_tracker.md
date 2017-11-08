@@ -59,27 +59,27 @@ Here is the data that goes into these graphs.
 
 |State |County           | Previous margin| Tonights margin|
 |:-----|:----------------|---------------:|---------------:|
-|NJ    |Atlantic         |      -0.2648852|              NA|
-|NJ    |Bergen           |      -0.2183007|              NA|
-|NJ    |Burlington       |      -0.2636683|              NA|
-|NJ    |Camden           |      -0.1119725|              NA|
-|NJ    |Cape May         |      -0.4557209|              NA|
-|NJ    |Cumberland       |      -0.1549305|              NA|
-|NJ    |Essex            |       0.2507773|              NA|
-|NJ    |Gloucester       |      -0.3034749|              NA|
-|NJ    |Hudson           |       0.1127531|              NA|
-|NJ    |Hunterdon        |      -0.5002038|              NA|
-|NJ    |Mercer           |      -0.0571603|              NA|
-|NJ    |Middlesex        |      -0.1826890|              NA|
-|NJ    |Monmouth         |      -0.4359664|              NA|
-|NJ    |Morris           |      -0.4258031|              NA|
-|NJ    |Ocean            |      -0.5366225|              NA|
-|NJ    |Passaic          |      -0.0698529|              NA|
-|NJ    |Salem            |      -0.3680313|              NA|
-|NJ    |Somerset         |      -0.3733439|              NA|
-|NJ    |Sussex           |      -0.4724105|       0.1319999|
-|NJ    |Union            |      -0.0380879|              NA|
-|NJ    |Warren           |      -0.4867667|              NA|
+|NJ    |Atlantic         |      -0.2648852|       0.5320826|
+|NJ    |Bergen           |      -0.2183007|       0.6116496|
+|NJ    |Burlington       |      -0.2636683|       0.5460674|
+|NJ    |Camden           |      -0.1119725|       0.6845115|
+|NJ    |Cape May         |      -0.4557209|       0.4568586|
+|NJ    |Cumberland       |      -0.1549305|       0.5319626|
+|NJ    |Essex            |       0.2507773|       0.8050270|
+|NJ    |Gloucester       |      -0.3034749|       0.5655615|
+|NJ    |Hudson           |       0.1127531|       0.8826369|
+|NJ    |Hunterdon        |      -0.5002038|       0.3982921|
+|NJ    |Mercer           |      -0.0571603|       0.6460747|
+|NJ    |Middlesex        |      -0.1826890|       0.5912997|
+|NJ    |Monmouth         |      -0.4359664|       0.4372328|
+|NJ    |Morris           |      -0.4258031|       0.4605722|
+|NJ    |Ocean            |      -0.5366225|       0.3647482|
+|NJ    |Passaic          |      -0.0698529|       0.6489964|
+|NJ    |Salem            |      -0.3680313|       0.0000000|
+|NJ    |Somerset         |      -0.3733439|       0.5143820|
+|NJ    |Sussex           |      -0.4724105|       0.3733953|
+|NJ    |Union            |      -0.0380879|       0.6677458|
+|NJ    |Warren           |      -0.4867667|       0.3277195|
 |VA    |Accomack         |      -0.1235463|       0.4307691|
 |VA    |Albemarle        |       0.2108627|       0.5596912|
 |VA    |Alexandria       |       0.5175562|       0.8024996|
