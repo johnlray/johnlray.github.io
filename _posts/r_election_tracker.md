@@ -177,7 +177,7 @@ Here is the data that goes into these graphs.
 | VA    | Salem            |       -0.2672237|               NA|
 | VA    | Scott            |       -0.5510758|               NA|
 | VA    | Shenandoah       |       -0.3464711|               NA|
-| VA    | Smyth            |       -0.3580075|               NA|
+| VA    | Smyth            |       -0.3580075|         0.330738|
 | VA    | Southampton      |       -0.0580751|               NA|
 | VA    | Spotsylvania     |       -0.1846539|               NA|
 | VA    | Stafford         |       -0.1531068|               NA|
