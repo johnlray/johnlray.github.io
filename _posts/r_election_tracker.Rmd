@@ -62,7 +62,7 @@ gov_bar_new <- ggplot(data = gov, aes(x = NAME)) +
   geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
   geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
   theme_classic() +
-  scale_color_continuous(low = 'red', high = 'darkblue', breaks = c(-.5, .5)) +
+  scale_color_continuous(low = 'red', high = 'darkblue') +
   labs(y = '', x = '', title = 'Margin by district/county, 11/7/17') +
   scale_y_continuous(labels = scales::percent, breaks = c(-1, 0, 1)) +
   theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 90, hjust = 1, size = 4)) +
