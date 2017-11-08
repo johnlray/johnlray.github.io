@@ -58,6 +58,8 @@ gov_bar_old <- ggplot(data = gov, aes(x = NAME)) +
   theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 90, hjust = 1, size = 4)) +
   facet_wrap(~state)
 
+ss$new_margin = (ss$Dem2017/(ss$Dem2017 + ss$Rep2017)) - (ss$Rep2017/(ss$Dem2017 + ss$Rep2017))
+
 gov_bar_new <- ggplot(data = gov, aes(x = NAME)) +
   geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
   geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
@@ -86,6 +88,8 @@ ss_bar_old <- ggplot(data = ss, aes(x = NAME)) +
   theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 90, hjust = 1, size = 4)) +
   facet_wrap(~state)
 
+gov$new_margin = (gov$dem2017/(gov$dem2017 + gov$rep2017)) - (gov$rep2017/(gov$dem2017 + gov$rep2017))
+
 ss_bar_new <- ggplot(data = ss, aes(x = NAME)) +
   geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
   geom_segment(aes(xend = NAME, y = 0, yend = new_margin, color = new_margin)) +
@@ -113,6 +117,8 @@ sh_bar_old <- ggplot(data = sh, aes(x = NAME)) +
   scale_y_continuous(labels = scales::percent, breaks = c(-1, 0, 1)) +
   theme(panel.background = element_rect(color = 'black', fill = NA, size = 1), legend.position = 'null', axis.text.x = element_text(angle = 90, hjust = 1, size = 4)) +
   facet_wrap(~state)
+
+sh$new_margin = (sh$dem2017/(sh$dem2017 + sh$rep2017)) - (sh$rep2017/(sh$dem2017 + sh$rep2017))
 
 sh_bar_new <- ggplot(data = sh, aes(x = NAME)) +
   geom_point(aes(y = new_margin, color = new_margin), position = 'identity') +
