@@ -21,7 +21,7 @@ I will be using an open-source alternative to Excel called LibreOffice, but the 
 
 An important feature of how Excel organizes data is that each cell in a spreadsheet or workbook can be found using a two-coordinate system similar to that of a chess board: Each cell has a position in a column (ranging from A through Z, then AA through ZZ, and so on) and a position in a row ranging from 1 through roughly one million. For example, in the figure below, the cell referenced at `A1` contains the character string, "Hello, world!"
 
-![A sample character strign in cell A1.](figure/s1.png)
+![A sample character string in cell A1.](figure/s1.png)
 
 If I want to replicate the contents of that cell in another cell, I tell Excel that I want the contents of cell `A1`.
 
