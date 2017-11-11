@@ -1,8 +1,19 @@
+---
+title: "Getting started with Excel"
+author: "John Ray"
+date: "November 9, 2017"
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
+---
+
 In this tutorial, we will walk through the following common uses of Microsoft Excel:
 
--   The relative reference system
--   The `$` operator, known as the 'lock' operator in Excel parlance
--   Using Excel to produce simple charts
+* The relative reference system
+* The `$` operator, known as the 'lock' operator in Excel parlance
+* Using Excel to produce simple charts
 
 I will be using an open-source alternative to Excel called LibreOffice, but the functionality and formulas are identical across both pieces of software. In this tutorial, I will present use cases of Excel's relative reference system, the lock operator, and its chart functionality. No prior knowledge of Excel is assumed, and no Visual Basic (the language for coding macros) is included. Readers are invited to follow along with their own data.
 
@@ -22,7 +33,7 @@ If I want to replicate the contents of that cell in another cell, I tell Excel t
 
 Note that I use the `=` operator to tell Excel that I want a reference to *cell* `A1` rather than, say, just writing the text string "A1" in a new cell somewhere. Writing `=A1` in a new cell would return the contents of cell `A1`, while simply writing `A1` in a new cell would create a cell that contains the phrase "A1" as a text string.
 
-The `=` operator is a convenient feature of Excel because it allows us to work with our data without editing the data in place. For example, lets say I have two columns of numeric data and I want to create a new variable defined as the difference between each of these columns columns. Say I have the results of two theoretical elections for Democratic candidates and I want to compute the difference between the two. Here, note that the data is stored in column A, row 1 through column C, row 6. In Excel parlance we write this as \`A1:C6,' said out loud as "A1 through C6."
+The `=` operator is a convenient feature of Excel because it allows us to work with our data without editing the data in place. For example, lets say I have two columns of numeric data and I want to create a new variable defined as the difference between each of these columns columns. Say I have the results of two theoretical elections for Democratic candidates and I want to compute the difference between the two. Here, note that the data is stored in column A, row 1 through column C, row 6. In Excel parlance we write this as `A1:C6,' said out loud as "A1 through C6."
 
 ![](figure/s3.png)
 
@@ -120,7 +131,7 @@ And if I wanted to find what percent of *all* votes in that election went to eac
 
 ![](figure/s18c.png)
 
-Taking advantage of Excel's relative reference system is a great time saver. While migrating data from some resource to a spreadsheet where you can manipulate that data for your own purposes often requires some manual entry, relatively little manual coding is needed to use Excel for data management.
+Taking advantage of Excel's relative reference system is a great time saver. While migrating data from some resource to a spreadsheet where you can manipulate that data for your own purposes often requires some manual entry, relatively little manual coding is needed to use Excel for data management. 
 
 ### Making charts
 
