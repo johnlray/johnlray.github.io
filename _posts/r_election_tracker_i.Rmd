@@ -1,0 +1,29 @@
+---
+title: "'An R project to learn ggplot, GIS, web scraping, data management, web deployment, and data analysis"
+  Part 1: ggplot'
+author: "John Ray"
+date: "November 14, 2017"
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to
+
+* Update a large dataset gathered from open-source web resources,
+* Store them efficiently,
+* Use them to generate plots,
+* Post those plots to the web.
+
+For this project, we will be walking through how to create such a schema. I have chosen to broke it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:
+
+* The use of the grammar of graphics with the `ggplot2` library
+* Using R as a GIS
+* Acquiring unruly data from a public resource
+* Formatting unruly data
+* Deploying data visualizations and analysis to the web
+* Conducting statistical analysis
+
+Thus, this post is the first in a series that will have six discrete lessons, and then a seventh to put it all together. My goal with seven lessons is to have a more or less finished product that can take the user from being a novice to being very good with `R` in one week's time.
