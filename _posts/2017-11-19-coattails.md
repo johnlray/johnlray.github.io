@@ -296,11 +296,11 @@ Next, I forecast the 2017 election results using these models. I update the hist
 
 I color each district by whether it had a Dem candidate on the HoD ballot in both, neither, or one or the cycles.
 
-![](2017/11/19/figure/plots-1.png)
+![](figure/plots-1.png)
 
 The following plot shows actual minus predicted Northam vote share for each district, for the combined model.
 
-![](2017/11/19/figure/diff-1.png)
+![](figure/diff-1.png)
 
 The following tables present the top ten districts where Northam overperformed the various models, according to each model individually.
 
@@ -317,7 +317,7 @@ The following tables present the top ten districts where Northam overperformed t
 | 224 |        24|   0.2791547|  0.3627521|   0.0835974|
 | 298 |        98|   0.3070653|  0.3870815|   0.0800162|
 
-![](/2017/11/19/figure/unnamed-chunk-2-1.png)
+![](figure/unnamed-chunk-2-1.png)
 
 ![](figure/unnamed-chunk-3-1.png)
 
@@ -325,4 +325,4 @@ Presented in this fashion, I am led by the data to report some skepticism of the
 
 If one defines the coattails effect as a superstar HoD candidate elevating the Gubernatorial candidates, the results are mixed at best. In some districts, Northam appeared to overperform the prediction without any Democrat on the HoD ballot at all. In the HoD districts of Democratic superstars like Chris Hurst, Wendy Gooditis, and Danica Roem (10, 12, and 13), Northam slightly overperformed, slightly overperformed, and underperformed, respectively.
 
-And [here](https://johnlray.github.io/2017/11/19/figure/va_long.csv)s the data I used for this project.
+And [here](data/va_long.csv)s the data I used for this project.
