@@ -61,7 +61,7 @@ Intercept
 -0.01
 </td>
 <td style="padding-right: 12px; border: none;">
-0.10<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.10<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
 -0.07<sup style="vertical-align: 0px;">\*\*\*</sup>
