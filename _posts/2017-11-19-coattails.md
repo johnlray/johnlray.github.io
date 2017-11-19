@@ -64,7 +64,7 @@ Intercept
 0.10<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
--0.07<sup style="vertical-align: 0px;">\*\*\*</sup>
+-0.07<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -85,12 +85,12 @@ Intercept
 Dem Presidential
 </td>
 <td style="padding-right: 12px; border: none;">
-1.02<sup style="vertical-align: 0px;">\*\*\*</sup>
+1.02<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-0.86<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.86<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -137,10 +137,10 @@ Black %
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-0.83<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.83<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
-0.15<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.15<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -162,10 +162,10 @@ Latino %
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-0.91<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.91<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
-0.18<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.18<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
@@ -187,10 +187,10 @@ Household income
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
--0.00<sup style="vertical-align: 0px;">\*\*\*</sup>
+-0.00<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
--0.00<sup style="vertical-align: 0px;">\*</sup>
+-0.00<sup style="vertical-align: 0px;">*</sup>
 </td>
 </tr>
 <tr>
@@ -212,10 +212,10 @@ Bachelors %
 <td style="padding-right: 12px; border: none;">
 </td>
 <td style="padding-right: 12px; border: none;">
-0.95<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.95<sup style="vertical-align: 0px;">***</sup>
 </td>
 <td style="padding-right: 12px; border: none;">
-0.38<sup style="vertical-align: 0px;">\*\*\*</sup>
+0.38<sup style="vertical-align: 0px;">***</sup>
 </td>
 </tr>
 <tr>
