@@ -1,0 +1,170 @@
+---
+title: "On Reverse Coattails in the 2017 Virginia Election"
+author: "John Ray"
+date: "November 17, 2017"
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+Here, I present some data on the question of a possible coattail effect in the 2017 Virginia elections. I devise counterfactual predictions of Northam performance based on HoD district demographics, electoral history, and a combined model including both demographic and political fundamentals. I find reason to express some skepticism of reverse coattails: Northam slightly overperformed in districts that had a challenger in 2017 but not in 2013, but overperformed to a higher degree in districts with no Dem Delegate on the ballot. This is in general agreement with other work suggesting red suburbs turned against Gillespie, but did so without the aid of a stellar HoD candidate.
+
+These findings are strongly contrary to my own priors and to my normative hopes for the value of stellar local candidates. I include replication data and welcome scrutiny and feedback.
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(xtable)
+library(pander)
+library(texreg)
+
+dat = read.csv('~/Desktop/va_long.csv')
+```
+
+"Reverse coattails" refers to the possibility that a candidate at a lower level of the ballot influenced the performance of candidates higher on the ballot. A natural approach to modeling reverse coattails is to ask, "how would we expect Northam to perform at the HoD level if we didn't know anything about the HoD candidates - that is, if we assumed HoD candidate quality was uncorrelated with Northam performance?" Then, with an expectation for Northam's performance in mind based on some (hopefully) reasonable assumptions *besides* HoD candidate quality, we can look at Northam's over- or underperformance relative to our expectations at House district level and, from there, do some additional work to figure out if Northam's deviation from what we expect can be attributed to the House of Delegates candidate running in that district.
+
+To construct the counterfactual I first ignore HoD candidate factors and use other reasonable measures to set up our expectations for Northam's performance. Using historical data, I devised three counterfactual scenarios against which I modeled the real 2017 outcomes. Those three counterfactual scenarios are based on worlds where we predict 2017 Democratic Gubernatorial performance using
+
+1. *Political fundamentals matter most:* Presidential election data.
+2. *Demographic fundamentals matter most:* The race, ethnicity, education, and income composition of the House districts.
+3. *Both political and demographic fundamentals matter:* The whole kitchen sink.
+
+For the purposes of brevity, I present the results of the third approach, and leave data available for others to tinker with. I did not find major differences between the three approaches. Here, I construct the counterfactual scenarios using the prior gubernatorial election (2013), and forecast the results over the 2017 gubernatorial election.
+
+These three counterfactual scenarios are operationalized in the following three OLS models. In each model, the dependent variable of interest, $V_{Dem}^{Gov}$, is the Democratic two-party vote share in the Gubernatorial election, aggregated at the level of the Virginia House of Delegates.
+
+1. $V_{Dem}^{Gov} \sim \beta_0 + \beta_1 V_{Dem}^{Pres} + \epsilon$
+
+2. $V_{Dem}^{Gov} \sim \beta_0 + \beta_1 Black \% + \beta_2 Latino \% + \beta_3 HH income + \beta_4 Bachelors \% + \epsilon$
+
+3. $V_{Dem}^{Gov} \sim \beta_0 + \beta_1 V_{Dem}^{Pres} + \beta_3 Black \% + \beta_4 Latino \% + \beta_5 HH income + \beta_6 Bachelors \% + \epsilon$
+
+For each equation, the dependent variable is Northam two-party vote share at the House of Delegates district level. For the first equation, the independent variable is Presidential vote share in the nearst Presidential election to the state election, with Presidential election results aggregated at the House of Delegates district level. For the second equation, the independent variables are the House of Delegates districts' percent of the population that is black, the percent that is Latino, the district median household income in dollars, and the percent of the district aged twenty-five and over that has at least a bachelors' degree. Each of those variables are taken from the most recent American Community Survey to the gubernatorial election.
+
+The following table plots the results of the models built on 2013 American Community Survey data, 2013 gubernatorial election data, and 2012 Presidential election data. In the first model, a $1\%$ increase in Democratic Presidential vote share in 2012 is associated with a $1.11\%$ increase in 2013 Democratic gubernatorial vote share, while a $1\%$ increase in Dem Pres vote share in 2012 is associated with a $0.87\%$ Democratic gubernatorial vote share increase in the kitchen sink model. The demographic fundamentals behave in the direction one might expect: a higher black population percent and Latino population percent are both positively correlated with a higher Democratic gubernatorial vote share, while household income is negatively correlated with Democratic gubernatorial vote share and the percent of district $25+$ population holding at least a bachelors degree is positively correlated with Democratic gubernatorial vote share.
+
+```{r mods, echo = FALSE, results = "asis"}
+mod1 = lm(govD ~ presD + shD, data = dat[dat$year == 2013,])
+mod2 = lm(govD ~ black + latino + hhinc + bach, data = dat[dat$year == 2013,])
+mod3 = lm(govD ~ presD + shD + black + latino + hhinc + bach, data = dat[dat$year == 2013,])
+
+
+tab <- htmlreg(l = list(mod1, mod2, mod3), custom.model.names = c('Political fundamentals', 'Demographic fundamentals', 'Kitchen sink'), custom.coef.names = c('Intercept', 'Dem Presidential', 'Dem House of Delegates', 'Black %', 'Latino %', 'Household income', 'Bachelors %'), caption = '2013 models')
+
+tab
+```
+
+Next, I forecast the 2017 election results using these models. I update the historical data on the righthand side of equations one, two, and three with 2016 Presidential election and 2015 American Community Survey data at the level of Virginia House of Delegates districts. The following chart plots predicted 2017 Northam two-party vote share by district vs. actual 2017 Northam two-party vote share, using the combined model. Values above the dotted gray line indicate districts where Northam *over*-performed the prediction from the model, and values below the dotted gray line indicate districts where Northam *under*-performed the prediction from the model.
+
+I color each district by whether it had a Dem candidate on the HoD ballot in both, neither, or one or the cycles.
+
+```{r plots, echo = FALSE, fig.width= 7, fig.height = 7}
+library(reshape2)
+
+sub = dat[dat$year == 2017,]
+
+sub$pres_pred = predict(mod1, newdata = sub)
+sub$demo_pred = predict(mod2, newdata = sub)
+sub$ks_pred = predict(mod3, newdata = sub)
+
+sub_m <- melt(sub[,c('district','pres_pred','demo_pred','ks_pred')], id.vars = 'district')
+sub_m$variable = as.character(sub_m$variable)
+sub_m$variable[sub_m$variable == 'ks_pred'] <- 'Combined Presidential and demographic model'
+sub_m$variable[sub_m$variable == 'pres_pred'] <- 'Presidential model'
+sub_m$variable[sub_m$variable == 'demo_pred'] <- 'Demographic model'
+
+
+sub_m <- dplyr::left_join(sub_m, sub[,c('district','govD', 'gained_challenger', 'lost_challenger')], by = 'district')
+
+sub_m$diff = sub_m$govD - sub_m$value
+
+sub_m$color_label = rep("Dem in both cycles", nrow(sub_m))
+sub_m$color_label[sub_m$district %in% c(4, 5, 6, 14, 15, 16, 19, 22, 76, 78)] <- "No Dem in 2013, nor 2017"
+sub_m$color_label[sub_m$gained_challenger == 1] <- "Dem in 2017, not in 2013"
+sub_m$color_label[sub_m$lost_challenger == 1] <- "Dem in 2013, not in 2017"
+
+ggplot(sub_m[sub_m$variable == "Combined Presidential and demographic model",], aes(x = value, y = govD, label = district, color = color_label)) +
+  geom_abline(intercept = 0, slope = 1, linetype = 2, color = 'gray') +
+  geom_text() +
+  theme_classic() +
+  labs(y = '2017 Northam two-party %', x = 'Predicted 2017 Dem two-party %') +
+  scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
+  scale_color_manual(values = c('darkred','darkblue','skyblue1','gray50'), name = '')
+
+ggsave('~/johnlray.github.io/2017/11/19/figure/sub_m_l.png')
+```
+
+The following plot shows actual minus predicted Northam vote share for each district, for the combined model.
+
+```{r diff, echo = FALSE, fig.width= 7, fig.height = 7}
+ggplot(sub_m[sub_m$variable == "Combined Presidential and demographic model",], aes(x = district, y = diff, color = color_label, label = district)) +
+  geom_segment(aes(xend = district, y = 0, yend = diff)) +
+  geom_label() +
+  scale_color_manual(values = c('darkred','darkblue','skyblue1','gray50'), name = '') +
+  scale_y_continuous(labels = scales::percent) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position = 'bottom') +
+  labs(x = '', y = 'Actual Gov 2016 % - Predicted Gov 2016 %')
+
+ggsave('~/johnlray.github.io/2017/11/19/figure/sub_m_c.png')
+```
+
+The following tables present the top ten districts where Northam overperformed the various models, according to each model individually.
+
+```{r, echo = FALSE}
+sub_m_dp <- sub_m[sub_m$variable == 'Combined Presidential and demographic model',]
+sub_m_dp <- sub_m_dp[,c('district','value','govD','diff')]
+colnames(sub_m_dp) <- c('District','Prediction', 'Actual', 'Difference')
+sub_m_dp <- sub_m_dp[rev(order(sub_m_dp$Difference)),]
+
+kable(sub_m_dp[1:10,], caption = "Northam overperformance districts according to (Presidential + Demographic) model")
+```
+
+```{r, echo = FALSE, fig.width= 7, fig.height = 5}
+bpdat1 = aggregate(diff ~ color_label, FUN = mean, dat = sub_m[sub_m$variable == 'Combined Presidential and demographic model',c('color_label','diff')])
+
+bpdat1$sd = aggregate(diff ~ color_label, FUN = sd, dat = sub_m[sub_m$variable == 'Combined Presidential and demographic model',c('color_label','diff')])$diff
+
+ggplot(bpdat1, aes(x = color_label, y = diff)) +
+  geom_hline(yintercept = 0, linetype = 2, color = 'gray') +
+  geom_point() +
+  geom_segment(aes(x = color_label, xend = color_label, y = 0, yend = diff)) +
+  theme_classic() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = 'Actual Northam - Predicted Northam', title = "Actual - Predicted Northam performance, combined model", x = "")
+
+ggsave('~/johnlray.github.io/2017/11/19/figure/bpdat1.png')
+```
+
+```{r, echo = FALSE, fig.width= 7, fig.height = 5}
+bpdat = cbind(sub_m$color_label[sub_m$variable == 'Combined Presidential and demographic model'], dat$govD[dat$year == 2017] - dat$govD[dat$year == 2013]) %>% data.frame()
+bpdat$X1 = as.character(bpdat$X1)
+bpdat$X2 = as.numeric(as.character(bpdat$X2))
+
+bpdat2 = aggregate(X2 ~ X1, FUN = mean, data = bpdat)
+bpdat2$sd = aggregate(X2 ~ X1, FUN = sd, data = bpdat)$X2
+
+ggplot(bpdat2, aes(x = X1, y = X2)) +
+  geom_hline(yintercept = 0, linetype = 2, color = 'gray') +
+  geom_point() +
+  geom_segment(aes(y = 0, yend = X2, x = X1, xend = X1)) +
+  theme_classic() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Northam '17 two-party % - McAuliffe '13 two-party %", title = "Northam '17 - McAuliffe '13", x = "")
+
+ggsave('~/johnlray.github.io/2017/11/19/figure/bpdat2.png')
+```
+
+Presented in this fashion, I am led by the data to report some skepticism of the reverse coattails effect. Foroemost in my mind is the fact that Danica Roem's district (VA-13) is not prominent according to the model as a standout showing for Northam above what one might predict from just knowing the fundamentals. In fact, in some of the top districts according to each model (1, 3, 4, 6), Northam drastically overperformed despite either a decisive loss by the House of Delegates candidate or the complete absence of a House of Delegates Democrat. In VA-2, Northam overperformed in a district where the Republican primary winner dropped out amid accusations he falsified his ballot signatures.
+
+If one defines the coattails effect as a superstar HoD candidate elevating the Gubernatorial candidates, the results are mixed at best. In some districts, Northam appeared to overperform the prediction without any Democrat on the HoD ballot at all. In the HoD districts of Democratic superstars like Chris Hurst, Wendy Gooditis, and Danica Roem (10, 12, and 13), Northam slightly overperformed, slightly overperformed, and underperformed, respectively.
+
+Here's the data I used for this project.
+
+```{r rep}
+kable(dat, col.names = c('Cycle', 'District', 'Governor R %', 'Governor D %', 'President D %', 'President R %', 'House of Delegates D %', 'House of Delegates R %', 'Census Black %', 'Census Latino %', 'Census Household Income $', 'Census Bachelors %', 'Dem HoD cand on ballot', 'Gained Dem chal in 2017', 'No Dem chal in 2017'))
+```
