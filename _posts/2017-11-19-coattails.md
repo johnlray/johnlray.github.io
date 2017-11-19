@@ -296,11 +296,11 @@ Next, I forecast the 2017 election results using these models. I update the hist
 
 I color each district by whether it had a Dem candidate on the HoD ballot in both, neither, or one or the cycles.
 
-![](2017/11/19/figure/plots-1.png)
+![](/2017/11/19/figure/plots-1.png)
 
 The following plot shows actual minus predicted Northam vote share for each district, for the combined model.
 
-![](2017/11/19/figure/diff-1.png)
+![](/2017/11/19/figure/diff-1.png)
 
 The following tables present the top ten districts where Northam overperformed the various models, according to each model individually.
 
@@ -319,10 +319,10 @@ The following tables present the top ten districts where Northam overperformed t
 
 ![](/2017/11/19/figure/unnamed-chunk-2-1.png)
 
-![](figure/unnamed-chunk-3-1.png)
+![](/2017/11/19/figure/unnamed-chunk-3-1.png)
 
 Presented in this fashion, I am led by the data to report some skepticism of the reverse coattails effect. Foroemost in my mind is the fact that Danica Roem's district (VA-13) is not prominent according to the model as a standout showing for Northam above what one might predict from just knowing the fundamentals. In fact, in some of the top districts according to each model (1, 3, 4, 6), Northam drastically overperformed despite either a decisive loss by the House of Delegates candidate or the complete absence of a House of Delegates Democrat. In VA-2, Northam overperformed in a district where the Republican primary winner dropped out amid accusations he falsified his ballot signatures.
 
 If one defines the coattails effect as a superstar HoD candidate elevating the Gubernatorial candidates, the results are mixed at best. In some districts, Northam appeared to overperform the prediction without any Democrat on the HoD ballot at all. In the HoD districts of Democratic superstars like Chris Hurst, Wendy Gooditis, and Danica Roem (10, 12, and 13), Northam slightly overperformed, slightly overperformed, and underperformed, respectively.
 
-And [here](https://johnlray.github.io/2017/11/19/figure/va_long.csv)s the data I used for this project.
+And [here](/2017/11/19/data/va_long.csv)s the data I used for this project.
