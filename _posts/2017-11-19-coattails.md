@@ -25,11 +25,11 @@ For the purposes of brevity, I present the results of the third approach, and le
 
 These three counterfactual scenarios are operationalized in the following three OLS models. In each model, the dependent variable of interest, *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup>, is the Democratic two-party vote share in the Gubernatorial election, aggregated at the level of the Virginia House of Delegates.
 
-1.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*V*<sub>*D**e**m*</sub><sup>*P**r**e**s*</sup> + *ϵ*
+1.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*V*<sub>*D**e**m*</sub><sup>*P**r**es*</sup> + *ϵ*
 
-2.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*B**l**a**c**k*%+*β*<sub>2</sub>*L**a**t**i**n**o**+**β**<sub>3</sub>*H**H**i**n**c**o**m**e* + *β*<sub>4</sub>*B**a**c**h**e**l**o**r**s*+*ϵ*
+2.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*B**l**a**c**k*%+*β*<sub>2</sub>*L**a**t**i**n**o**+**β**<sub>3</sub>*H**H**i**n**c**o**m**e** + *β*<sub>4</sub>*B**a**c**h**e**l**o**r**s**+**ϵ*
 
-3.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*V*<sub>*D**e**m*</sub><sup>*P**r**e**s*</sup> + *β*<sub>3</sub>*B**l**a**c**k*%+*β*<sub>4</sub>*L**a**t**i**n**o*%+*β*<sub>5</sub>*H**H**i**n**c**o**m**e* + β<sub>6</sub>*B**a**c**h**e**l**o**r**s*+*ϵ*
+3.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*V*<sub>*D**e**m*</sub><sup>*P**r**e**s*</sup> + *β*<sub>3</sub>*B**l**a**c**k*%+*β*<sub>4</sub>*L**a**t**i**n**o*%+*β*<sub>5</sub>*H**H**i**n**c**o**m**e* + **β<sub>6</sub>*B**a**c**h**e**l**o**r**s*+*ϵ*
 
 For each equation, the dependent variable is Northam two-party vote share at the House of Delegates district level. For the first equation, the independent variable is Presidential vote share in the nearst Presidential election to the state election, with Presidential election results aggregated at the House of Delegates district level. For the second equation, the independent variables are the House of Delegates districts' percent of the population that is black, the percent that is Latino, the district median household income in dollars, and the percent of the district aged twenty-five and over that has at least a bachelors' degree. Each of those variables are taken from the most recent American Community Survey to the gubernatorial election.
 
