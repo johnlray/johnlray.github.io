@@ -317,9 +317,9 @@ The following tables present the top ten districts where Northam overperformed t
 | 224 |        24|   0.2791547|  0.3627521|   0.0835974|
 | 298 |        98|   0.3070653|  0.3870815|   0.0800162|
 
-![](2017/11/19/figure/unnamed-chunk-2-1.png)
+![](/2017/11/19/figure/unnamed-chunk-2-1.png)
 
-![](2017/11/19/figure/unnamed-chunk-3-1.png)
+![](johnlray.github.io/2017/11/19/figure/unnamed-chunk-3-1.png)
 
 Presented in this fashion, I am led by the data to report some skepticism of the reverse coattails effect. Foroemost in my mind is the fact that Danica Roem's district (VA-13) is not prominent according to the model as a standout showing for Northam above what one might predict from just knowing the fundamentals. In fact, in some of the top districts according to each model (1, 3, 4, 6), Northam drastically overperformed despite either a decisive loss by the House of Delegates candidate or the complete absence of a House of Delegates Democrat. In VA-2, Northam overperformed in a district where the Republican primary winner dropped out amid accusations he falsified his ballot signatures.
 
