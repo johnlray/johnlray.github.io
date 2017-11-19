@@ -9,7 +9,7 @@ output:
     variant: markdown_github
 ---
 
-Here, I present some data on the question of a possible coattail effect in the 2017 Virginia elections. I devise counterfactual predictions of Northam performance based on HoD district demographics, electoral history, and a combined model including both demographic and political fundamentals. I find reason to express some skepticism of reverse coattails: Northam slightly overperformed in districts that had a challenger in 2017 but not in 2013, but overperformed to a higher degree in districts with no Dem Delegate on the ballot. This is in general agreement with other work suggesting red suburbs turned against Gillespie, but did so without the aid of a stellar HoD candidate.
+Here, I present some data on the question of a possible reverse coattail effect in the 2017 Virginia elections. I devise counterfactual predictions of Northam performance based on HoD district demographics, electoral history, and a combined model including both demographic and political fundamentals. I find reason to express some skepticism of reverse coattails: Northam slightly overperformed in districts that had a challenger in 2017 but not in 2013, but overperformed to a higher degree in districts with no Dem Delegate on the ballot. This is in general agreement with other work suggesting red suburbs turned against Gillespie, but did so without the aid of a stellar HoD candidate.
 
 These findings are strongly contrary to my own priors and to my normative hopes for the value of stellar local candidates. I include replication data and welcome scrutiny and feedback.
 
@@ -29,7 +29,7 @@ These three counterfactual scenarios are operationalized in the following three 
 
 2.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*B**l**a**c**k*%+*β*<sub>2</sub>*L**a**t**i**n**o**+**β**<sub>3</sub>*H**H**i**n**c**o**m**e** + *β*<sub>4</sub>*B**a**c**h**e**l**o**r**s**+**ϵ*
 
-3.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*V*<sub>*D**e**m*</sub><sup>*P**r**es*</sup> + *β*<sub>1</sub>*B**l**a**c**k*%+*β*<sub>2</sub>*L**a**t**i**n**o**+**β**<sub>3</sub>*H**H**i**n**c**o**m**e** + *β*<sub>4</sub>*B**a**c**h**e**l**o**r**s**+** + *ϵ
+3.  *V*<sub>*D**e**m*</sub><sup>*G**o**v*</sup> ∼ *β*<sub>0</sub> + *β*<sub>1</sub>*V*<sub>*D**e**m*</sub><sup>*P**r**es*</sup> + *β*<sub>2</sub>*B**l**a**c**k*%+*β*<sub>3</sub>*L**a**t**i**n**o**+**β**<sub>4</sub>*H**H**i**n**c**o**m**e** + *β*<sub>5</sub>*B**a**c**h**e**l**o**r**s**+** + *ϵ
 
 For each equation, the dependent variable is Northam two-party vote share at the House of Delegates district level. For the first equation, the independent variable is Presidential vote share in the nearst Presidential election to the state election, with Presidential election results aggregated at the House of Delegates district level. For the second equation, the independent variables are the House of Delegates districts' percent of the population that is black, the percent that is Latino, the district median household income in dollars, and the percent of the district aged twenty-five and over that has at least a bachelors' degree. Each of those variables are taken from the most recent American Community Survey to the gubernatorial election.
 
