@@ -17,7 +17,7 @@ I've been thinking of ways to make a full data course out of one big R project, 
 * Use them to generate plots,
 * Post those plots to the web.
 
-For this project, we will be walking through how to create such a schema. I have chosen to broke it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:
+For this project, we will be walking through how to create such a schema. I have chosen to break it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:
 
 * The use of the grammar of graphics with the `ggplot2` library
 * Using R as a GIS
@@ -25,5 +25,9 @@ For this project, we will be walking through how to create such a schema. I have
 * Formatting unruly data
 * Deploying data visualizations and analysis to the web
 * Conducting statistical analysis
+* Putting together the final product
 
-Thus, this post is the first in a series that will have six discrete lessons, and then a seventh to put it all together. My goal with seven lessons is to have a more or less finished product that can take the user from being a novice to being very good with `R` in one week's time.
+Thus, this post is the first in a series that will have six discrete lessons, and then a seventh to put it all together. My goal with seven lessons is to have a more or less finished product that can take the user from being a novice to being very good with `R` in one week's time. Specifically, I attempt to focus on certain important `R` skills that are common in practice but not taught in many introductory data science courses.
+
+
+
