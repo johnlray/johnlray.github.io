@@ -46,4 +46,15 @@ That's about it. Let's get started!
 
 ### R as a GIS
 
-Geographic Information Systems (GIS) is a term that refers generically to any system or program that helps humans interpret and analyze geographic data. Unfortunately, `R` was not designed with GIS in mind. 
+For this project, we will be plotting legislative districts in the US state of Virginia. Here, we will retrieve spatial data representing these districts from a public resource, load that data into `R`, and plot that data within our RStudio session.
+
+Geographic Information Systems (GIS) is a term that refers generically to any system or program that helps humans interpret and analyze geographic data. Unfortunately, `R` was not designed with GIS in mind. As a result, there are many libraries and approaches to using `R` as a GIS. I present the easiest and most popular way, under the suspicion that the other ways probably won't be updated so much in the future.
+
+This is more than just idle quibbling on my part because the steps needed to make your machine's `R` session into a GIS. Depending on your machine's operating system, `R` will interact with geographic data in a slightly different way. By now, this mostly only manifests in the types of arguments common `R` libraries' functions will take when loading geographic data into your `R` session. Knowing this now diminishes the programming challenge to a mere triviality, but I did not know that loading spatial data into `R` could involve some very fiddly arguments when I was just getting started, and it frustrated me for a long time.
+
+While the quality of American Federalism is such that there is [some disagreement over who lives in what state legislative district](https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/), the US Census maintains the most up-to-date spatial data on legislative districts in the United States [here](https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html). For this project, we will be using the spatial data representing the lower house, the Virginia House of Delegates, which lives [here](http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip). While I typically prefer the fairly friendly point-and-click interface of the Census website to get my data, you can replicate this process by running the following code.
+
+```{r download, echo = FALSE}
+download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
+unzip('~/Downloads/cb_2016_51_sldl_500k.zip', exdir = '~/Downloads/cb_2016_51_sldl_500k')
+```

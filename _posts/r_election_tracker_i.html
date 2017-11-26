@@ -125,6 +125,8 @@ $(document).ready(function () {
 </div>
 
 
+<div id="introduction-to-the-project" class="section level3">
+<h3>Introduction to the project</h3>
 <p>I’ve been thinking of ways to make a full data course out of one big R project, and the recent <a href="https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017">special election in Virginia</a> provided just that way. On the day of the election I set up a <a href="https://johnlray.github.io/2017/11/07/election_tracker.html">dedicated page</a> to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one <code>R</code> script and committing the subsequent changes to git to update a large dataset gathered from open-source web resources, store and parse it efficiently, generate plots from that data, and then post those plots to the web.</p>
 <p>For this project, we will be walking through how to create such a schema. I have chosen to break it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:</p>
 <ul>
@@ -148,6 +150,20 @@ $(document).ready(function () {
 <li>Finally, we will discuss the full workflow to think about how to optimize our production pipeline</li>
 </ul>
 <p>I proceed on the following assumptions:</p>
+<ol style="list-style-type: decimal">
+<li>You have <code>R</code> and <code>RStudio</code> installed on your machine.</li>
+<li>You are conversant in basic <code>R</code> syntax, about what one would know by the end of the excellent <a href="https://www.statmethods.net/">Quick-R tutorials</a>.</li>
+<li>You are sufficiently conversant in the general political context such that I can say something like “state legislative district” and you know approximately what I’m talking about. Specific knowledge of the Virginia context is not assumed.</li>
+</ol>
+<p>That’s about it. Let’s get started!</p>
+</div>
+<div id="r-as-a-gis" class="section level3">
+<h3>R as a GIS</h3>
+<p>For this project, we will be plotting legislative districts in the US state of Virginia. Here, we will retrieve spatial data representing these districts from a public resource, load that data into <code>R</code>, and plot that data within our RStudio session.</p>
+<p>Geographic Information Systems (GIS) is a term that refers generically to any system or program that helps humans interpret and analyze geographic data. Unfortunately, <code>R</code> was not designed with GIS in mind. As a result, there are many libraries and approaches to using <code>R</code> as a GIS. I present the easiest and most popular way, under the suspicion that the other ways probably won’t be updated so much in the future.</p>
+<p>This is more than just idle quibbling on my part because the steps needed to make your machine’s <code>R</code> session into a GIS. Depending on your machine’s operating system, <code>R</code> will interact with geographic data in a slightly different way. By now, this mostly only manifests in the types of arguments common <code>R</code> libraries’ functions will take when loading geographic data into your <code>R</code> session. Knowing this now diminishes the programming challenge to a mere triviality, but I did not know that loading spatial data into <code>R</code> could involve some very fiddly arguments when I was just getting started, and it frustrated me for a long time.</p>
+<p>While the quality of American Federalism is such that there is <a href="https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/">some disagreement over who lives in what state legislative district</a>, the US Census maintains the most up-to-date spatial data on legislative districts in the United States <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html">here</a>.</p>
+</div>
 
 
 
