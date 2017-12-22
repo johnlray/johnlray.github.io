@@ -107,3 +107,7 @@ library(rgdal, quietly = T, warn.conflicts = F)
 
 shp = readOGR('/Users/johnray/Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k')
 ```
+
+Note that upon loading the shapefile, the output from `readOGR()` tells me that my operating system is running the ESRI Shpaefile driver to load the shapefile, which may be different from the driver installed on your machine. Some Google-fu will be necessary to check your own machine's shapefile driver.
+
+`R` represents the various pieces of a shapefile as slots of one object. Just as variables in a dataframe are accessed using the `$` operator, object slots are accessed using the `@` operator. If you chose to name your shapefile `shp` as I did, you can type `shp@` in your console and your RStudio's auto-complete functionality will show you that the slots in this object include `data`, `polygons`, `plotOrder`, `bbox`, and `proj4string`. It probably does not take much imagination to realize those correspond to some of the pieces of the shapefile I discussed previously. 
