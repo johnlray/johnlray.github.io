@@ -162,7 +162,41 @@ $(document).ready(function () {
 <p>For this project, we will be plotting legislative districts in the US state of Virginia. Here, we will retrieve spatial data representing these districts from a public resource, load that data into <code>R</code>, and plot that data within our RStudio session.</p>
 <p>Geographic Information Systems (GIS) is a term that refers generically to any system or program that helps humans interpret and analyze geographic data. Unfortunately, <code>R</code> was not designed with GIS in mind. As a result, there are many libraries and approaches to using <code>R</code> as a GIS. I present the easiest and most popular way, under the suspicion that the other ways probably won’t be updated so much in the future.</p>
 <p>This is more than just idle quibbling on my part because the steps needed to make your machine’s <code>R</code> session into a GIS. Depending on your machine’s operating system, <code>R</code> will interact with geographic data in a slightly different way. By now, this mostly only manifests in the types of arguments common <code>R</code> libraries’ functions will take when loading geographic data into your <code>R</code> session. Knowing this now diminishes the programming challenge to a mere triviality, but I did not know that loading spatial data into <code>R</code> could involve some very fiddly arguments when I was just getting started, and it frustrated me for a long time.</p>
-<p>While the quality of American Federalism is such that there is <a href="https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/">some disagreement over who lives in what state legislative district</a>, the US Census maintains the most up-to-date spatial data on legislative districts in the United States <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html">here</a>.</p>
+<p>While the quality of American Federalism is such that there is <a href="https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/">some disagreement over who lives in what state legislative district</a>, the US Census maintains the most up-to-date spatial data on legislative districts in the United States <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html">here</a>. For this project, we will be using the spatial data representing the lower house, the Virginia House of Delegates, which lives <a href="http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip">here</a>. While I typically prefer the fairly friendly point-and-click interface of the Census website to get my data, you can replicate this process by running the following code.</p>
+<pre class="r"><code>download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldl_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
+unzip('~/Downloads/cb_2016_51_sldl_500k.zip', exdir = '~/Downloads/cb_2016_51_sldl_500k')</code></pre>
+<p>The Census shapefile naming convention may look like gobbledygoop, but it tells us everything we need to know: We have downloaded a <strong>c</strong>artographic <strong>b</strong>oundary from <strong>2016</strong> covering Virginia’s (state FIPS code <strong>51</strong>) <strong>s</strong>tate <strong>l</strong>egislative <strong>d</strong>istricts (<strong>l</strong>ower) at a <strong>500k</strong> resolution, which is fairly coarse by Census standards (i.e., the file will be a manageably small size!). Voila <strong>cb_2016_51_sldl_500k</strong>.</p>
+<p>Note that there is some redundancy in my code because I do not use the <code>setwd()</code> convention. Also note that I download the spatial data to my machine’s “Downloads” folder. Ultimately, you’ll want to store this data in a dedicated project folder.</p>
+<p>If this is your first time working with a shapefile, you’ll notice you’ve downloaded a .zip file containing not just one but eight files, all with the same name but a different file extension. As with the <a href="https://upload.wikimedia.org/wikipedia/commons/1/1d/Bosch_-_Haywain_Triptych.jpg">Boschian Hellscape</a> that is LaTeX’s file structure, shapefiles are composed of many disparate pieces. Census data is of very high quality and so contains constituent parts many shapefile providers do not bother to include, only a few of which are essential. An in-depth knowledge of this system is not necessary, but while we’re here, I will hastily review what each file in the <code>cb_2016_51_sldl_500k</code> directory contains.</p>
+<ul>
+<li><strong>.cpg</strong> contains the character set to use when rendering data contained in the shapefile.</li>
+</ul>
+<pre class="r"><code>readLines('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.cpg')</code></pre>
+<pre><code>## [1] &quot;UTF-8&quot;</code></pre>
+<ul>
+<li><strong>.dbf</strong> contains the tabular data associated with the shapefile.</li>
+</ul>
+<pre class="r"><code>library(dplyr, quietly = T, warn.conflicts = F)
+library(foreign)
+
+read.dbf('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.dbf') %&gt;% head()</code></pre>
+<pre><code>##   STATEFP SLDLST       AFFGEOID GEOID NAME LSAD  LSY      ALAND    AWATER
+## 1      51    061 620L500US51061 51061   61   LL 2016 5004053111 159231775
+## 2      51    014 620L500US51014 51014   14   LL 2016 1030436974   6565673
+## 3      51    026 620L500US51026 51026   26   LL 2016 1186298583   2747407
+## 4      51    093 620L500US51093 51093   93   LL 2016  179263937  53284336
+## 5      51    007 620L500US51007 51007    7   LL 2016 2127798575  26726910
+## 6      51    051 620L500US51051 51051   51   LL 2016  239677590   5468652</code></pre>
+<ul>
+<li><strong>.prj</strong> contains the projection method used to generate the vectors comprising the map we will plot. The Census uses NAD83, while Google and other common providers of spatial data use WGS84 or a similar system.</li>
+</ul>
+<pre class="r"><code>readLines('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.prj')</code></pre>
+<pre><code>## [1] &quot;GEOGCS[\&quot;GCS_North_American_1983\&quot;,DATUM[\&quot;D_North_American_1983\&quot;,SPHEROID[\&quot;GRS_1980\&quot;,6378137,298.257222101]],PRIMEM[\&quot;Greenwich\&quot;,0],UNIT[\&quot;Degree\&quot;,0.017453292519943295]]&quot;</code></pre>
+<ul>
+<li><p><strong>.shp</strong> is generally regarded as “the shapefile” itself, as it contains all the vector data a GIS would need to draw the map.</p></li>
+<li><p><strong>.xml</strong> contains metadata on the shapefile itself, rather than on the political boundaries the shapefile describes. The .xml metadata is used to populate the Census site describing the shapefile’s contents to users, and describes the contents of each of the fields in the shapefile’s <code>.dbf</code>.</p></li>
+<li><p><strong>.shx</strong> is a compiled <strong>.shp</strong>, which kind of makes you wonder what <strong>.shp</strong> is still doing here. What a world!</p></li>
+</ul>
 </div>
 
 

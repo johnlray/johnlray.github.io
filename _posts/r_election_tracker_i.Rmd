@@ -54,7 +54,56 @@ This is more than just idle quibbling on my part because the steps needed to mak
 
 While the quality of American Federalism is such that there is [some disagreement over who lives in what state legislative district](https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/), the US Census maintains the most up-to-date spatial data on legislative districts in the United States [here](https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html). For this project, we will be using the spatial data representing the lower house, the Virginia House of Delegates, which lives [here](http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip). While I typically prefer the fairly friendly point-and-click interface of the Census website to get my data, you can replicate this process by running the following code.
 
-```{r download, echo = FALSE}
-download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
+```{r download, eval = F}
+download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldl_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
 unzip('~/Downloads/cb_2016_51_sldl_500k.zip', exdir = '~/Downloads/cb_2016_51_sldl_500k')
+```
+
+The Census shapefile naming convention may look like gobbledygoop, but it tells us everything we need to know: We have downloaded a **c**artographic **b**oundary from **2016** covering Virginia's (state FIPS code **51**) **s**tate **l**egislative **d**istricts (**l**ower) at a **500k** resolution, which is fairly coarse by Census standards (i.e., the file will be a manageably small size!). Voila **cb_2016_51_sldl_500k**.
+
+Note that there is some redundancy in my code because I do not use the `setwd()` convention. Also note that I download the spatial data to my machine's "Downloads" folder. Ultimately, you'll want to store this data in a dedicated project folder.
+
+If this is your first time working with a shapefile, you'll notice you've downloaded a .zip file containing not just one but several files, all with the same name but a different file extension. As with the [Boschian Hellscape](https://upload.wikimedia.org/wikipedia/commons/1/1d/Bosch_-_Haywain_Triptych.jpg) that is LaTeX's file structure, shapefiles are composed of many disparate pieces. Census data is of very high quality and so contains constituent parts many shapefile providers do not bother to include, only a few of which are essential. An in-depth knowledge of this system is not necessary, but while we're here, I will hastily review what each file in the `cb_2016_51_sldl_500k` directory contains.
+
+* **.cpg** contains the character set to use when rendering data contained in the shapefile.
+
+```{r, warning = FALSE}
+readLines('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.cpg')
+```
+
+* **.dbf** contains the tabular data associated with the shapefile.
+
+```{r, warning = FALSE}
+library(dplyr, quietly = T, warn.conflicts = F)
+library(foreign)
+
+read.dbf('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.dbf') %>% head()
+```
+
+* **.prj** contains the projection method used to generate the vectors comprising the map we will plot. The Census uses NAD83, while Google and other common providers of spatial data use WGS84 or a similar system.
+
+```{r, warning = FALSE}
+readLines('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.prj')
+```
+
+* **.shp** is generally regarded as "the shapefile" itself, as it contains all the vector data a GIS would need to draw the map.
+
+* **.xml** contains metadata on the shapefile itself, rather than on the political boundaries the shapefile describes. The .xml metadata is used to populate the Census site describing the shapefile's contents to users, and describes the contents of each of the fields in the shapefile's `.dbf`.
+
+* **.shx** is a compiled **.shp**, which kind of makes you wonder what **.shp** is still doing here. What a world!
+
+Note that most GISs need only a .shp (lines) and .dbf (data) to draw an informative spatial plot. The .prj is helpful for telling your GIS what shape you assume the globe to be before drawing on it, but it is not strictly necessary. Further note that each of the .xml files contained in this shapefile are for metadata not actually used by your GIS, but for convenient storage, retrieval, and identification of the shapefile itself.
+
+If you feel like it, open the .dbf file associated with this Shapefile using a spreadsheet programs of your choice (all the most common spreadsheet programs should be able to open a .dbf file, subject to a few import options to be set by the user upon opening). That file contains the data that will show up in the `@data` slot of the shapefile object once we load it into `R`. Shapefile .dbfs have the curious property that, once encoded as spatial data, the column names in the .dbf contain descriptive information on the contents of the column. For example, the column named containing a comma and then a 'C' contain character strings, and have a number following the 'C' setting the maximum number of characters an individual row may contain. Others have an 'N' or 'I' for numeric or integer information, followed by a number describing how many decimal places a row may contain.
+
+One may reflect on the fact this means we can easily break a shapefile by fiddling with it in a spreadsheet program. If I were to violate the maximum number of characters permitted in a row, the file would cease to save properly. Additionally, if I were to add a new row of data, that data would exist in the .dbf but would not have any vector data associated with it, and thus would not plot properly once loaded into a GIS.
+
+**Thus, it is generally unwise to fiddle with a shapefile in anything other than a GIS.** Editing data manually in a spreadsheet is a convenient (and, frankly, underrated) means of making quick changes, but is ill-advised given the peculiar nature of shapefiles. GIS programs usually constrain data edits to avoid creating problems. `R` does not, but code can be rewritten and undone seemlessly enough that we take on less risk by using `R` to edit data rather than a spreadsheet program. Lets close the spreadsheet and count on not opening it again for this unit.
+
+Instead, lets start plotting. We'll start by reading the shapefile into `R`. To do so we will use the `readOGR()` function from the `rgdal` library, which you should install by running `install.packages('rgdal')`. We will point the function to the location of the shapefile. Your machine uses its own particular set of drivers to interact with shapefiles, and so it is possible that the code I run (on a Mac running El Capitan 10.11.6) to load the file will have to be modified slightly for your machine. Specifically, you may have to fiddle with the filepaths: Some operating systems support tilde expansion while others do not, and Windows machines typically use a different file structure than Mac machines.
+
+```{r loadshp}
+library(rgdal, quietly = T, warn.conflicts = F)
+
+shp = readOGR('/Users/johnray/Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k')
 ```
