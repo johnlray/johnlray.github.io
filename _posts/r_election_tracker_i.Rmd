@@ -116,8 +116,20 @@ Note that upon loading the shapefile, the output from `readOGR()` tells me that 
 shp@proj4string
 ```
 
-Most importantly for our purposes, we can access the data associated with our shapefile by accessing the `@data` object. Unless you are using R for some creative worldbuilding exercise, you are almost never editing any part of a shapefile except for the `data` slot. You will occasionally have to convert the `proj4string` to plot multiple shapefiles that were drawn using different coordinate reference systems,
+Most importantly for our purposes, we can access the data associated with our shapefile by accessing the `@data` object. Unless you are using R for some creative worldbuilding exercise, you are almost never editing any part of a shapefile except for the `data` slot. You will occasionally have to convert the `proj4string` to plot multiple shapefiles that were drawn using different coordinate reference systems, but otherwise, you should basically never edit anything in a shapefile besides `data`.
 
 ```{r shpattribs}
 shp@data %>% head()
 ```
+
+In part two of this project we will work on merging in some new data to this dataframe, but you already have a general sense of how that will proceed, now that we know the data in this shapefile lives in an ordinary dataframe object. As we will see, while adding *rows* to a spatial dataframe is a major no-no as it changes the implied number of polygons in the object, adding *columns* is as trivial as conducting data joins in any other context.
+
+In the beginning of this post I said I'd use this time to explore R as a GIS. Technically, we have accomplished that, as a GIS is just any program that can interpret spatial data. I also find that, for many spatial analysis tasks, users find getting started to be the most difficult part. I, for one, recall being baffled why `readOGR()` was so unhappy with the type of file I was trying to load. It would be unsatisfying to stop here, of course, so lets conclude with the basics of plotting spatial data, and a quick note on the importance of coordinate reference systems.
+
+If your shapefile is in the format of a `SpatialPolygonsDataFrame` or `SpatialPointsDataFrame` then creating a simple plot is as easy as a call to `plot()`. You don't even have to tell the function which values represent the `x` and `y` coordinates!
+
+```{r}
+plot(shp)
+```
+
+You may have worked with the `plot()` function previously and as such it may make your brain a little itchy to use `plot()` without explicitly passing arguments to `x` and `y`. It is not necessary to do so because all objects of the `SpatialPolygons` and `SpatialPoints` classes include a plot *method*, meaning as long as the `plot()` function gets a `SpatialPolygons` or `SpatialPoints` object, the function knows which part of the object to use to draw the plot. (In fact, no values are explicitly passed to the `y` argument in this process, but I invite the reader to tumble down that rabbit hole on their own time)
