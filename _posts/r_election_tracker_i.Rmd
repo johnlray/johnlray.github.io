@@ -10,9 +10,9 @@ output: html_document
   #  variant: markdown_github
 ---
 
-### Introduction to the project
+### 1: Introduction to the project
 
-I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from open-source web resources, store and parse it efficiently, generate plots from that data, and then post those plots to the web.
+In this post, I introduce the reader to a seven-part `R` course designed to take users who are familiar with the very basics of `R` to the intermediate level on some subjects, and the advanced level on others. Specifically, I aim to help the user become an advanced organizer and visualizer of data, and an intermediate manipulater of spatial data and of accessing data from a remote resource (or web-scraping). I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from open-source web resources, store and parse it efficiently, generate plots from that data, and then post those plots to the web.
 
 For this project, we will be walking through how to create such a schema. I have chosen to break it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:
 
