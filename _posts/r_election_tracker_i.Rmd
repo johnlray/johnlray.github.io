@@ -136,7 +136,9 @@ You may have worked with the `plot()` function previously and as such it may mak
 
 It is not presently the vogue to use the base `plot` library for data visualization in `R`. I am apparently somewhat abnormal among data science practitioners in that I actually *like* `ggplot` syntax and find it perfectly reasonable and even sensible, but many people do not like it and first-time users tend not to enjoy themselves. To preface the next episode, we will write some minimal `ggplot` code to demonstrate plotting a shapefile using the go-to graphics library of `R`. If you have not done so already, run `install.packages('ggplot2')` to install the library.
 
-We will cover the design philosophy of the grammar of graphics in the next unit, but briefly, `ggplot()` plots *layers* containing *geometries* typically defined by variables within a dataframe. Precisely as you pass an `x` and a `y` value to their respective arguments for the `plot()` function, you will pass arguments for `x` and `y` to `ggplot()` within its `mapping` argument, which are by default passed off to yet *another* function, *aes()*.
+We will cover the design philosophy of the grammar of graphics in the next unit, but briefly, `ggplot()` plots *layers* containing *geometries* typically defined by variables within a *dataframe*. Precisely as you pass an `x` and a `y` value to their respective arguments for the `plot()` function, you will pass arguments for `x` and `y` to `ggplot()` within its `mapping` argument, which are by default passed off to yet *another* function, *aes()*. In other words, building a `ggplot()` object traditionally involves passing off a dataframe and then variables within that dataframe, to define the types of geometries you will use to create your visualization.
+
+The shapefile I have chosen for this introductory project is a `SpatialPolygonsDataFrame` meaning that the individual unit of the geometry I will be plotting is a polygon, a shape defined by x-y coordinate pairs connected, implicitly, by straight lines. In other words, I will be telling R to play connect-the-dots!
 
 ```{r}
 library(ggplot2)
