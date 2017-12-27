@@ -1,5 +1,5 @@
 ---
-title: "An R project to learn GIS, ggplot, web scraping, data management, web deployment, and data analysis"
+title: "An R project to learn special programming topics: GIS, ggplot, web scraping, data management, web deployment, and data analysis"
 subtitle: "Part 1: R as a GIS"
 author: "John Ray"
 date: "November 14, 2017"
@@ -12,7 +12,7 @@ output: html_document
 
 ### 1: Introduction to the project
 
-In this post, I introduce the reader to a seven-part `R` course designed to take users who are familiar with the very basics of `R` to the intermediate level on some subjects, and the advanced level on others. Specifically, I aim to help the user become an advanced organizer and visualizer of data, and an intermediate manipulater of spatial data and of accessing data from a remote resource (or web-scraping). I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from open-source web resources, store and parse it efficiently, generate plots from that data, and then post those plots to the web.
+In this post, I introduce the reader to a seven-part `R` course designed to take users who are familiar with the very basics of `R` to the intermediate level on some subjects, and the advanced level on others. Specifically, I aim to help the user become an advanced organizer and visualizer of data, and an intermediate manipulater of spatial data and of accessor data from a remote resource (or web-scraper). I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from open-source web resources, store and parse it efficiently, generate plots from that data, and then post those plots to the web.
 
 For this project, we will be walking through how to create such a schema. I have chosen to break it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:
 
@@ -133,3 +133,14 @@ plot(shp)
 ```
 
 You may have worked with the `plot()` function previously and as such it may make your brain a little itchy to use `plot()` without explicitly passing arguments to `x` and `y`. It is not necessary to do so because all objects of the `SpatialPolygons` and `SpatialPoints` classes include a plot *method*, meaning as long as the `plot()` function gets a `SpatialPolygons` or `SpatialPoints` object, the function knows which part of the object to use to draw the plot. (In fact, no values are explicitly passed to the `y` argument in this process, but I invite the reader to tumble down that rabbit hole on their own time)
+
+It is not presently the vogue to use the base `plot` library for data visualization in `R`. I am apparently somewhat abnormal among data science practitioners in that I actually *like* `ggplot` syntax and find it perfectly reasonable and even sensible, but many people do not like it and first-time users tend not to enjoy themselves. To preface the next episode, we will write some minimal `ggplot` code to demonstrate plotting a shapefile using the go-to graphics library of `R`. If you have not done so already, run `install.packages('ggplot2')` to install the library.
+
+We will cover the design philosophy of the grammar of graphics in the next unit, but briefly, `ggplot()` plots *layers* containing *geometries* typically defined by variables within a dataframe. Precisely as you pass an `x` and a `y` value to their respective arguments for the `plot()` function, you will pass arguments for `x` and `y` to `ggplot()` within its `mapping` argument, which are by default passed off to yet *another* function, *aes()*.
+
+```{r}
+library(ggplot2)
+
+ggplot(shp, aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+```
