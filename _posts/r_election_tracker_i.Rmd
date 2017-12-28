@@ -158,4 +158,8 @@ ggplot(shp, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 ```
 
-Hang on a second! A lot just happened! How did `ggplot` accept references to variables called `long` and `lat` even though our dataframe does not contain such variables? What is `group` doing there? Each of these are properties unique to plotting `SpatialDataFrames`, are not widely transferrable across visualization strategies, and are also relatively recent innovations that may change again in near `ggplot2` development. As such, I do not dwell on them here, and we'll only briefly touch on them again in the next lesson.
+Hang on a second! A lot just happened! How did `ggplot` accept references to variables called `long` and `lat` even though our dataframe does not contain such variables? What is `group` doing there? Each of these are properties unique to plotting `SpatialDataFrames`, are not widely transferrable across visualization strategies, and are also relatively recent innovations that may change again in near `ggplot2` iterations. Most importantly, these conventions don't really play back into any longstanding best practices for `ggplot()` and instead are conveniences specific to shapefiles. As such, I do not dwell on them here, and we'll only briefly touch on them again in the next lesson.
+
+In this lesson, I explained the conventional structure of a shapefile, which is a common structure for geospatial data. Most importantly, we learned that shapefiles contain dataframes akin to more traditional datasets, and in the next unit we will use that information to build more fluency with the `ggplot()` function. In the next section, we will merge some electoral data to our shapefile and then use that electoral data to build a better data visualization, one that is prepared for web deployment.
+
+Don't forget to subscribe to this page, follow me for updates, and share this tutorial with friends if you found it useful. On to part two!
