@@ -1,8 +1,8 @@
 ---
-title: "An R project to learn special programming topics: GIS, ggplot, web scraping, data management, web deployment, and data analysis"
-subtitle: "Part 1: R as a GIS"
+title: "A special topics R series"
+subtitle: "A political data project to learn R as a GIS, ggplot, web scraping, data management, web deployment, and data analysis"
 author: "John Ray"
-date: "November 14, 2017"
+date: "January 1, 2018"
 layout: post
 
 output: html_document
@@ -10,21 +10,23 @@ output: html_document
   #  variant: markdown_github
 ---
 
-### 1: Introduction to the project
+### Part 0: Introduction to the project
 
-In this post, I introduce the reader to a seven-part `R` course designed to take users who are familiar with the very basics of `R` to the intermediate level on some subjects, and the advanced level on others. Specifically, I aim to help the user become an advanced organizer and visualizer of data, and an intermediate manipulater of spatial data and of accessor data from a remote resource (or web-scraper). I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from open-source web resources, store and parse it efficiently, generate plots from that data, and then post those plots to the web.
+In this post, I introduce the reader to a seven-part `R` tutorial designed to take users who are familiar with the very basics of `R` to the intermediate level on some subjects, and the advanced level on others. Specifically, the user will become an advanced organizer and visualizer of data, and an intermediate manipulater of spatial data and accessor data from a remote resource (or web-scraper). I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided just that way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from the web, store and parse it efficiently, generate plots from that data, and then post those plots to a page. This allowed me to visualize election outcomes live.
 
-For this project, we will be walking through how to create such a schema. I have chosen to break it down into a few smaller parts so that each unit is a discrete learning lesson on one useful topic. Those topics are:
+This tutorial series will involve creating such a project from scratch. I have structured the project as a series of lessons in "special topics," loosely defined as the sort of topic any practiioner of data science should know but not necessarily one taught in introductory-level data science courses. This is not an exhaustive list of such subjects, but includes the most important special topics and the ones necessary to be conversant in political data. Those topics are:
 
-* Using R as a GIS
-* The use of the grammar of graphics with the `ggplot2` library
-* Acquiring unruly data from a public resource (webscraping)
-* Formatting unruly data
-* Deploying data visualizations and analysis to the web
-* Conducting statistical analysis
-* Putting together the final product
+1. Using R as a GIS
+2. The use of the grammar of graphics with the `ggplot2` library
+3. Acquiring unruly data from a public resource (webscraping)
+4. Advanced formatting of unruly data
+5. Deploying data visualizations and analysis to the web
+6. Conducting statistical analysis on-the-fly
+7. Putting together the final product with more efficient code
 
-Thus, this post is the first in a series that will have six discrete lessons, and then a seventh to put it all together. My goal with seven lessons is to have a more or less finished product that can take the user from being a novice to being very good with `R` in one week's time. Specifically, I attempt to focus on certain important `R` skills that are common in practice but not taught in many introductory data science courses. Finally, the order of events may seem somewhat strange - ggplot before data storage? - but this series revolves around a real-life project I worked on and, if I could do it over again, this is the order in which I would have assembled the project.
+Thus, this post is the first in a series that will have six discrete lessons, and then a seventh to put it all together. The seventh post will also retcon the previous posts to suggest useful ways to tidy up and comment on code for future use and reuse.
+
+My goal with seven lessons is to have a more or less finished product that can take the user from being a novice to being very good with `R`, with data principles not unique to `R`, and with political data in the United States. The order of events may seem somewhat strange - ggplot before data storage? - but this series revolves around a real-life project I worked on and, if I could do it over again, this is the order in which I would have assembled the project.
 
 To tie each lesson into the final product, here is how we are going to fit each of these lessons together:
 
@@ -40,30 +42,33 @@ I proceed on the following assumptions:
 
 1. You have `R` and `RStudio` installed on your machine.
 2. You are conversant in basic `R` syntax, about what one would know by the end of the excellent [Quick-R tutorials](https://www.statmethods.net/).
-3. You are sufficiently conversant in the general political context such that I can say something like "state legislative district" and you know approximately what I'm talking about. Specific knowledge of the Virginia context is not assumed.
 
 That's about it. Let's get started!
 
-### R as a GIS
+### Part 1: R as a GIS
 
-For this project, we will be plotting legislative districts in the US state of Virginia. Here, we will retrieve spatial data representing these districts from a public resource, load that data into `R`, and plot that data within our RStudio session.
+For this project, we will be plotting legislative districts in the US state of Virginia as a means of visualizing election outcomes as vote tallies roll in. In this lesson, we will retrieve spatial data representing these districts from a public resource, load that data into `R`, and plot that data within our RStudio session.
 
-Geographic Information Systems (GIS) is a term that refers generically to any system or program that helps humans interpret and analyze geographic data. Unfortunately, `R` was not designed with GIS in mind. As a result, there are many libraries and approaches to using `R` as a GIS. I present the easiest and most popular way, under the suspicion that the other ways probably won't be updated so much in the future.
+Geographic Information Systems (GIS) is a term that refers generically to any system or program that helps humans interpret and analyze geographic data. `R` was not designed with GIS in mind but by now there are many libraries and approaches to using `R` as a GIS. I present the easiest and most popular way, under the suspicion that the other ways probably won't be updated so much in the future now that there is a clear favorite among practitioners.
 
-This is more than just idle quibbling on my part because the steps needed to make your machine's `R` session into a GIS. Depending on your machine's operating system, `R` will interact with geographic data in a slightly different way. By now, this mostly only manifests in the types of arguments common `R` libraries' functions will take when loading geographic data into your `R` session. Knowing this now diminishes the programming challenge to a mere triviality, but I did not know that loading spatial data into `R` could involve some very fiddly arguments when I was just getting started, and it frustrated me for a long time.
+This is more than just idle quibbling on my part because the steps needed to make your machine's `R` session into a GIS vary depending on the libraries you use. Depending on your machine's operating system, `R` will interact with geographic data in a slightly different way. By now, these differences mostly manifest only in the types of arguments various GIS functions will take when loading geographic data into your `R` session. Depending on your operating system, a very slightly different version of the arguments used to load shapefiles into `R` may be necessary. Jeez, the tutorial hasn't even started and you're already being called on to exercise Google-fu when necessary. What a world!
 
-While the quality of American Federalism is such that there is [some disagreement over who lives in what state legislative district](https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/), the US Census maintains the most up-to-date spatial data on legislative districts in the United States [here](https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html). For this project, we will be using the spatial data representing the lower house, the Virginia House of Delegates, which lives [here](http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip). While I typically prefer the fairly friendly point-and-click interface of the Census website to get my data, you can replicate this process by running the following code.
+While the character and quality of American Federalism is such that there is [some disagreement over who lives in what state legislative district](https://wtop.com/virginia/2017/11/147-voted-wrong-house-delegates-race-va/), the US Census maintains the most up-to-date spatial data on legislative districts in the United States [here](https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html). For this project, we will be using the spatial data representing the lower house, the Virginia House of Delegates, which lives [here](http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldu_500k.zip). While I typically prefer the fairly friendly point-and-click interface of the Census website to get my data, you can replicate the process of downloading Census shapefiles by running the following code.
 
 ```{r download, eval = F}
 download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldl_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
 unzip('~/Downloads/cb_2016_51_sldl_500k.zip', exdir = '~/Downloads/cb_2016_51_sldl_500k')
 ```
 
-The Census shapefile naming convention may look like gobbledygoop, but it tells us everything we need to know: We have downloaded a **c**artographic **b**oundary from **2016** covering Virginia's (state FIPS code **51**) **s**tate **l**egislative **d**istricts (**l**ower) at a **500k** resolution, which is fairly coarse by Census standards (i.e., the file will be a manageably small size!). Voila **cb_2016_51_sldl_500k**.
+Note that there is some redundancy in my code because I do not use the `setwd()` convention. Also note that I download the spatial data to my machine's "Downloads" folder. Ultimately, you'll want to store this data in a dedicated project folder. For historical political and Census data in the United States, the user should be aware of the excelent [NHGIS](https://www.nhgis.org/) resource.
 
-Note that there is some redundancy in my code because I do not use the `setwd()` convention. Also note that I download the spatial data to my machine's "Downloads" folder. Ultimately, you'll want to store this data in a dedicated project folder.
+Once you have downloaded the .zip file in the above code snippet, I encourage you to go find the unzipped folder on your  machine.
 
-If this is your first time working with a shapefile, you'll notice you've downloaded a .zip file containing not just one but several files, all with the same name but a different file extension. As with the [Boschian Hellscape](https://upload.wikimedia.org/wikipedia/commons/1/1d/Bosch_-_Haywain_Triptych.jpg) that is LaTeX's file structure, shapefiles are composed of many disparate pieces. Census data is of very high quality and so contains constituent parts many shapefile providers do not bother to include, only a few of which are essential. An in-depth knowledge of this system is not necessary, but while we're here, I will hastily review what each file in the `cb_2016_51_sldl_500k` directory contains.
+figure 1
+
+Open the cb_2016_51_sldl_500k folder, and let's have a look at its contents. The Census shapefile naming convention may look like gobbledygoop, but the string "cb_2016_51_sldl_500k" tells us everything we need to know: We have downloaded a **c**artographic **b**oundary from **2016** covering Virginia's (state FIPS code **51**) **s**tate **l**egislative **d**istricts (**l**ower) at a **500k** resolution, which is fairly coarse by Census standards (i.e., the file will be a manageably small size!). Voila **cb_2016_51_sldl_500k**.
+
+If this is your first time working with a shapefile, you'll notice you've downloaded a .zip file containing not just one but several files, all with the same name but a different file extension. As with the [Boschian Hellscape](https://upload.wikimedia.org/wikipedia/commons/1/1d/Bosch_-_Haywain_Triptych.jpg) that is LaTeX's file structure, shapefiles are composed of many disparate pieces. Census data is of very high quality and so contains constituent parts many shapefile providers do not bother to include, as only a few of the files here are strictly essential to plotting spatial data. An in-depth knowledge of this system is not necessary, but while we're here, I will hastily review what each file in the `cb_2016_51_sldl_500k` directory contains.
 
 * **.cpg** contains the character set to use when rendering data contained in the shapefile.
 
@@ -80,27 +85,27 @@ library(foreign)
 read.dbf('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.dbf') %>% head()
 ```
 
-* **.prj** contains the projection method used to generate the vectors comprising the map we will plot. The Census uses NAD83, while Google and other common providers of spatial data use WGS84 or a similar system.
+* **.prj** contains the projection method used to generate the vectors comprising the map we will plot. The Census uses NAD83 (North American Declination), while Google and other common providers of spatial data use WGS84 (World Geodetic System) or a similar system.
 
 ```{r, warning = FALSE}
 readLines('~/Downloads/cb_2016_51_sldl_500k/cb_2016_51_sldl_500k.prj')
 ```
 
-* **.shp** is generally regarded as "the shapefile" itself, as it contains all the vector data a GIS would need to draw the map.
+* **.shp** is generally regarded as "the shapefile" itself, as it contains all the vector data a GIS would need to draw a plot.
 
 * **.xml** contains metadata on the shapefile itself, rather than on the political boundaries the shapefile describes. The .xml metadata is used to populate the Census site describing the shapefile's contents to users, and describes the contents of each of the fields in the shapefile's `.dbf`.
 
 * **.shx** is a compiled **.shp**, which kind of makes you wonder what **.shp** is still doing here. What a world!
 
-Note that most GISs need only a .shp (lines) and .dbf (data) to draw an informative spatial plot. The .prj is helpful for telling your GIS what shape you assume the globe to be before drawing on it, but it is not strictly necessary. Further note that each of the .xml files contained in this shapefile are for metadata not actually used by your GIS, but for convenient storage, retrieval, and identification of the shapefile itself.
+Note that most GISs need only a .shp (lines) and .dbf (data) to draw an informative spatial plot. The .prj is helpful for telling your GIS what shape you assume the globe to be before drawing on it, but it is not strictly necessary. Further note that each of the .xml files contained in this shapefile are for metadata not actually used by your GIS, but for convenient storage, retrieval, and identification of the shapefile by other systems.
 
-If you feel like it, open the .dbf file associated with this Shapefile using a spreadsheet programs of your choice (all the most common spreadsheet programs should be able to open a .dbf file, subject to a few import options to be set by the user upon opening). That file contains the data that will show up in the `@data` slot of the shapefile object once we load it into `R`. Shapefile .dbfs have the curious property that, once encoded as spatial data, the column names in the .dbf contain descriptive information on the contents of the column. For example, the column named containing a comma and then a 'C' contain character strings, and have a number following the 'C' setting the maximum number of characters an individual row may contain. Others have an 'N' or 'I' for numeric or integer information, followed by a number describing how many decimal places a row may contain.
+If you feel like it, open the .dbf file associated with this Shapefile using a spreadsheet programs of your choice (all the most common spreadsheet programs should be able to open a .dbf file, subject to a few import options to be set by the user upon opening). That file contains the tabular data that will show up in the `@data` slot of the shapefile object once we load it into `R`. Shapefile .dbfs have the curious property that, once encoded as spatial data, the column names in the .dbf contain descriptive information on the contents of the column. For example, the column named `SLDLST` contains a comma and then a 'C' contain character strings, and have a number following the 'C' setting the maximum number of characters an individual row may contain. Others have an 'N' or 'I' for numeric or integer information, followed by a number describing how many decimal places a row may contain.
 
 One may reflect on the fact this means we can easily break a shapefile by fiddling with it in a spreadsheet program. If I were to violate the maximum number of characters permitted in a row, the file would cease to save properly. Additionally, if I were to add a new row of data, that data would exist in the .dbf but would not have any vector data associated with it, and thus would not plot properly once loaded into a GIS.
 
 **Thus, it is generally unwise to fiddle with a shapefile in anything other than a GIS.** Editing data manually in a spreadsheet is a convenient (and, frankly, underrated) means of making quick changes, but is ill-advised given the peculiar nature of shapefiles. GIS programs usually constrain data edits to avoid creating problems. `R` does not, but code can be rewritten and undone seemlessly enough that we take on less risk by using `R` to edit data rather than a spreadsheet program. Lets close the spreadsheet and count on not opening it again for this unit.
 
-Instead, lets start plotting. We'll start by reading the shapefile into `R`. To do so we will use the `readOGR()` function from the `rgdal` library, which you should install by running `install.packages('rgdal')`. We will point the function to the location of the shapefile. Your machine uses its own particular set of drivers to interact with shapefiles, and so it is possible that the code I run (on a Mac running El Capitan 10.11.6) to load the file will have to be modified slightly for your machine. Specifically, you may have to fiddle with the filepaths: Some operating systems support tilde expansion while others do not, and Windows machines typically use a different file structure than Mac machines.
+Instead, lets read the shapefile into `R`. To do so we will use the `readOGR()` function from the `rgdal` library, which you should install by running `install.packages('rgdal')`. We will point the function to the location of the shapefile. Your machine uses its own particular set of drivers to interact with shapefiles, and so it is possible that the code I run (on a Mac running El Capitan 10.11.6) to load the file will have to be modified slightly for your machine. Specifically, you may have to fiddle with the filepaths: Some operating systems support tilde expansion while others do not, and Windows machines typically use a different file structure than Mac machines.
 
 ```{r loadshp}
 library(rgdal, quietly = T, warn.conflicts = F)
@@ -108,9 +113,9 @@ library(rgdal, quietly = T, warn.conflicts = F)
 shp = readOGR('/Users/johnray/Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k')
 ```
 
-Note that upon loading the shapefile, the output from `readOGR()` tells me that my operating system is running the ESRI Shpaefile driver to load the shapefile, which may be different from the driver installed on your machine. Some Google-fu will be necessary to check your own machine's shapefile driver.
+Note that upon loading the shapefile, the output from `readOGR()` tells me that my operating system is running the ESRI Shpaefile driver to load the shapefile, which may be different from the driver installed on your machine. Some Google-fu may be necessary to check your own machine's shapefile driver.
 
-`R` represents the various pieces of a shapefile as slots of one object. Just as variables in a dataframe are accessed using the `$` operator, object slots are accessed using the `@` operator. If you chose to name your shapefile `shp` as I did, you can type `shp@` in your console and your RStudio's auto-complete functionality will show you that the slots in this object include `data`, `polygons`, `plotOrder`, `bbox`, and `proj4string`. It probably does not take much imagination to realize those correspond to some of the pieces of the shapefile I discussed previously. Note, for example, that we can find the coordinate projection system by accessing the `@proj4string` object.
+`R` represents the various pieces of a shapefile as slots of one object, here one that I have named `shp`. Just as variables in a dataframe are accessed using the `$` operator, object slots are accessed using the `@` operator. If you chose to name your shapefile `shp` as I did, you can type `shp@` in your console and your RStudio's auto-complete functionality will show you that the slots in this object include `data`, `polygons`, `plotOrder`, `bbox`, and `proj4string`. It probably does not take much imagination to realize those correspond to some of the pieces of the shapefile I discussed previously. Note, for example, that we can find the coordinate projection system by accessing the `@proj4string` object.
 
 ```{r proj4string}
 shp@proj4string
@@ -124,9 +129,9 @@ shp@data %>% head()
 
 In part two of this project we will work on merging in some new data to this dataframe, but you already have a general sense of how that will proceed, now that we know the data in this shapefile lives in an ordinary dataframe object. As we will see, while adding *rows* to a spatial dataframe is a major no-no as it changes the implied number of polygons in the object, adding *columns* is as trivial as conducting data joins in any other context.
 
-In the beginning of this post I said I'd use this time to explore R as a GIS. Technically, we have accomplished that, as a GIS is just any program that can interpret spatial data. I also find that, for many spatial analysis tasks, users find getting started to be the most difficult part. I, for one, recall being baffled why `readOGR()` was so unhappy with the type of file I was trying to load. It would be unsatisfying to stop here, of course, so lets conclude with the basics of plotting spatial data, and a quick note on the importance of coordinate reference systems.
+In the beginning of this post I said I'd use this time to explore R as a GIS. Technically, we have accomplished that, as a GIS is just any program that can interpret spatial data. I also find that, for many spatial analysis tasks, users find getting started to be the most difficult part. I, for one, recall being baffled why `readOGR()` was so unhappy with the type of file I was trying to load. It would be unsatisfying to stop here, of course, so lets conclude with the basics of plotting spatial data.
 
-If your shapefile is in the format of a `SpatialPolygonsDataFrame` or `SpatialPointsDataFrame` then creating a simple plot is as easy as a call to `plot()`. You don't even have to tell the function which values represent the `x` and `y` coordinates!
+If your shapefile is in the format of a `SpatialPolygonsDataFrame` or `SpatialPointsDataFrame` then creating a simple plot is as easy as a call to `plot()` with the name of the object passed to the first argument. You don't even have to tell the function which values represent the `x` and `y` coordinates!
 
 ```{r}
 plot(shp)
@@ -134,11 +139,17 @@ plot(shp)
 
 You may have worked with the `plot()` function previously and as such it may make your brain a little itchy to use `plot()` without explicitly passing arguments to `x` and `y`. It is not necessary to do so because all objects of the `SpatialPolygons` and `SpatialPoints` classes include a plot *method*, meaning as long as the `plot()` function gets a `SpatialPolygons` or `SpatialPoints` object, the function knows which part of the object to use to draw the plot. (In fact, no values are explicitly passed to the `y` argument in this process, but I invite the reader to tumble down that rabbit hole on their own time)
 
-It is not presently the vogue to use the base `plot` library for data visualization in `R`. I am apparently somewhat abnormal among data science practitioners in that I actually *like* `ggplot` syntax and find it perfectly reasonable and even sensible, but many people do not like it and first-time users tend not to enjoy themselves. To preface the next episode, we will write some minimal `ggplot` code to demonstrate plotting a shapefile using the go-to graphics library of `R`. If you have not done so already, run `install.packages('ggplot2')` to install the library.
+It is not presently the vogue to use the base `plot` library for data visualization in `R`. I am of the far-from-unanimous view among data science practitioners that `ggplot` syntax is both enjoyable and sensible. Many people do not like it at first. To preface the next episode, we will write some minimal `ggplot` code to demonstrate plotting a shapefile using the go-to graphics library of `R`. If you have not done so already, run `install.packages('ggplot2')` to install the library.
 
-We will cover the design philosophy of the grammar of graphics in the next unit, but briefly, `ggplot()` plots *layers* containing *geometries* typically defined by variables within a *dataframe*. Precisely as you pass an `x` and a `y` value to their respective arguments for the `plot()` function, you will pass arguments for `x` and `y` to `ggplot()` within its `mapping` argument, which are by default passed off to yet *another* function, *aes()*. In other words, building a `ggplot()` object traditionally involves passing off a dataframe and then variables within that dataframe, to define the types of geometries you will use to create your visualization.
+We will cover the design philosophy of the grammar of graphics in the next unit, but briefly, `ggplot()` plots *layers* containing *geometries* typically defined by variables within a *dataframe*. Precisely as you pass an `x` and a `y` value to their respective arguments for the `plot()` function, you will pass arguments for `x` and `y` to `ggplot()` within its `mapping` argument. Those arguments are by default passed off to yet *another* function, *aes()*. In other words, building a `ggplot()` object traditionally involves passing off a dataframe and then variables within that dataframe, to define the types of geometries you will use to create your visualization.
 
-The shapefile I have chosen for this introductory project is a `SpatialPolygonsDataFrame` meaning that the individual unit of the geometry I will be plotting is a polygon, a shape defined by x-y coordinate pairs connected, implicitly, by straight lines. In other words, I will be telling R to play connect-the-dots!
+The shapefile I have chosen for this introductory project is a `SpatialPolygonsDataFrame` meaning that the individual unit of the geometry I will be plotting is a polygon, which for our puroses is a shape defined by x-y coordinate pairs connected by straight lines. In other words, I will be telling R to play connect-the-dots! If the data you have chosen for your project is of the other most common shapefile type, `SpatialPointsDataFrame`, you will be able to tell `ggplot()` to create either a polygon geometry or a point geometry. Either should work. A `SpatialPointsDataFrame` is for data traditionally represented as points, and a `SpatialPolygonsDataFrame` is for data traditionally represented as shapes.
+
+In brief, all the information we need to create a plot is thus:
+
+* Our **data**, the shapefile which I have loaded as `shp`
+* Our **aesthetics**, which will include `x`, `y` and, if you are plotting a `SpatialPolygonsDataFrame`, a `group` aesthetic which will ensure `ggplot()` knows which sets of coordinates form the closed loops of a polygon, i.e., will know which dots to connect to which other dots
+* Our **geometry**, the visual representation of our data, which in this case will be 'geom_polygon`, the polygon geometry
 
 ```{r}
 library(ggplot2)
@@ -146,3 +157,5 @@ library(ggplot2)
 ggplot(shp, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 ```
+
+Hang on a second! A lot just happened! How did `ggplot` accept references to variables called `long` and `lat` even though our dataframe does not contain such variables? What is `group` doing there? Each of these are properties unique to plotting `SpatialDataFrames`, are not widely transferrable across visualization strategies, and are also relatively recent innovations that may change again in near `ggplot2` development. As such, I do not dwell on them here, and we'll only briefly touch on them again in the next lesson.
