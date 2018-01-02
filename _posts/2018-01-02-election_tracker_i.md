@@ -1,3 +1,16 @@
+---
+title: "Special Topics in R, Parts 0 and 1"
+subtitle: "Using political data to learn R as a GIS, ggplot, web scraping, data management, web deployment, and data analysis"
+author: "John Ray"
+date: "January 2, 2018"
+
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
+---
+
 ### Part 0: Introduction to the project
 
 In this post, I introduce the reader to a seven-part `R` tutorial designed to take users who are familiar with the very basics of `R` to the intermediate level on some subjects, and the advanced level on others. Specifically, the user will become an advanced organizer and visualizer of data, and an intermediate manipulater of spatial data and accessor of data from a remote resource (or webscraper). I've been thinking of ways to make a full data course out of one big R project, and the recent [special election in Virginia](https://ballotpedia.org/Virginia_state_legislative_special_elections,_2017) provided such a way. On the day of the election I set up a [dedicated page](https://johnlray.github.io/2017/11/07/election_tracker.html) to gather, format, and plot the results of the election as vote tallies rolled in from the various voting sites across the state. The final version of this project required running one `R` script and committing the subsequent changes to git to update a large dataset gathered from the web, store and parse it efficiently, generate plots from that data, and then post those plots to a page. This allowed me to visualize election outcomes live. In this series of posts, I will approximately recreate that project step by step, with the intention of teaching users special topics in `R`.
