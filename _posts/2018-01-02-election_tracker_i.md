@@ -183,7 +183,7 @@ If your shapefile is in the format of a `SpatialPolygonsDataFrame` or `SpatialPo
 plot(shp)
 ```
 
-![](r_election_tracker_i_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](02.png)
 
 You may have worked with the `plot()` function previously and as such it may make your brain a little itchy to use `plot()` without explicitly passing arguments to `x` and `y`. It is not necessary to do so because all objects of the `SpatialPolygons` and `SpatialPoints` classes include a plot *method*, meaning as long as the `plot()` function gets a `SpatialPolygons` or `SpatialPoints` object, the function knows which part of the object to use to draw the plot. (In fact, no values are explicitly passed to the `y` argument in this process, but I invite the reader to tumble down that rabbit hole on their own time)
 
@@ -208,7 +208,7 @@ ggplot(shp, aes(x = long, y = lat, group = group)) +
 
     ## Regions defined for each Polygons
 
-![](r_election_tracker_i_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](03.png)
 
 Hang on a second! A lot just happened! How did `ggplot` accept references to variables called `long` and `lat` even though our dataframe does not contain such variables? What is `group` doing there? Each of these are properties unique to plotting `SpatialDataFrames`, are not widely transferrable across visualization strategies, and are also relatively recent innovations that may change again in near `rgdal` or `ggplot2` iterations. Most importantly, these conventions don't really play back into any longstanding best practices for `ggplot()` and instead are conveniences specific to shapefiles. As such, I do not dwell on them here, and we'll only briefly touch on them again in the next lesson.
 
