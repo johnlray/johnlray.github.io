@@ -67,7 +67,7 @@ Note that there is some redundancy in my code because I do not use the `setwd()`
 
 Once you have downloaded the .zip file in the above code snippet, I encourage you to go find the unzipped folder on your machine.
 
-[](johnlray.github.io/2018/01/02/figure/01.png)
+![](01.png)
 
 Open the cb\_2016\_51\_sldl\_500k folder, and let's have a look at its contents. The Census shapefile naming convention may look like gobbledygoop, but the string "cb\_2016\_51\_sldl\_500k" tells us everything we need to know about the spatial data in the .zip file: We have downloaded a **c**artographic **b**oundary from **2016** covering Virginia's (state FIPS code **51**) **s**tate **l**egislative **d**istricts (**l**ower) at a **500k** resolution, which is fairly coarse by Census standards (i.e., the file will be a manageably small size!). Voici **cb\_2016\_51\_sldl\_500k**.
 
