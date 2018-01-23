@@ -5,3 +5,4 @@ date: "January 22, 2018"
 output: html_document
 ---
 
+In the previous post, we learned how to acquire spatial data and manipulate it in a few basic but important ways in `R`. We did not run much code in the previous post. Indeed, to get up to speed, the only code you need to run is:
