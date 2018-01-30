@@ -6,3 +6,18 @@ output: html_document
 ---
 
 In the previous post, we learned how to acquire spatial data and manipulate it in a few basic but important ways in `R`. We did not run much code in the previous post. Indeed, to get up to speed, the only code you need to run is:
+
+```{r last_time, eval = F}
+download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldl_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
+unzip('~/Downloads/cb_2016_51_sldl_500k.zip', exdir = '~/Downloads/cb_2016_51_sldl_500k')
+
+library(rgdal, quietly = T, warn.conflicts = F)
+
+shp = readOGR('Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k')
+
+library(ggplot2)
+
+ggplot(shp, aes(x = long, y = lat, group = group)) +
+  geom_polygon()
+```
+
