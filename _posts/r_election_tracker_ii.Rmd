@@ -8,16 +8,18 @@ output: html_document
 In the previous post, we learned how to acquire spatial data and manipulate it in a few basic but important ways in `R`. We did not run much code in the previous post. Indeed, to get up to speed, the only code you need to run is:
 
 ```{r last_time, eval = F}
+library(rgdal, quietly = T, warn.conflicts = F)
+library(ggplot2)
+
 download.file('http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_51_sldl_500k.zip', '~/Downloads/cb_2016_51_sldl_500k.zip')
 unzip('~/Downloads/cb_2016_51_sldl_500k.zip', exdir = '~/Downloads/cb_2016_51_sldl_500k')
 
-library(rgdal, quietly = T, warn.conflicts = F)
-
-shp = readOGR('Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k')
-
-library(ggplot2)
+shp = readOGR('~/Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k')
 
 ggplot(shp, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 ```
 
+It may seem odd to have written so little code for what is supposed to be a tutorial! Code tutorials and `R` tutorials are not the same thing, in my view. In this tutorial I will focus on best practices without presenting the false notion there is only one way to things in this language. The best way to do things in `R` is the way you understand, can do quickly, can replicate, and can share with your teammates. There is consensus on a few general practices, and those are what we will focus on.
+
+The domain of data visualization is one with strong general consensus on practice among `R` users. The library `ggplot2` is the modal means of vata visualization. Indeed, you will find many other libraries that contain their own built-in functions for data viz, that will almost always be simply a custom call to `ggplot2`! On reason for this is that `ggplot2` is based on a theory of data visualization that is quite coherent and logical, and even sensible once you get the hang of it.
