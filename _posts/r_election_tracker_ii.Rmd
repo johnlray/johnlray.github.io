@@ -35,4 +35,27 @@ Any object that contains information of all six types is a data visualization.
 
 Most likely, some of these components of our grammar seem too obvious to state out loud. I often find that when I remind students they need to be explicit that their data visualization is going to contain ``a picture,'' i.e., a facet, the silent look I get in response can be translated as saying, ``no shit, Sherlock.'' Fortunately, `ggplot2` concurs with the apparent deficit of Victorian offal. By default, `ggplot2` will make (pretty good) guesses for the coloration and placement of our layers (the **scales** argument), how far x and y should go (the **coordinate system**), and how many plots to draw (the **facet specification**).
 
-We will start with a simple example and then move on to the data I introduced in the previous episode. A simple example is worth our time because, while the code for a nice ggplot can get fairly complex, the underlying concepts being put into code will always be the same. Lets say we have some data on the air temperatures of two cities, over the course of a year. That data is available [here](https:/johnlray.github.io/weather_data.csv). The data comes from the weather archive [U.S. climate data](www.usclimatedata.com) and contains data on daily weather in Los Angeles, California and Boston, Massachusetts -- two of my favorite cities.
+We will start with a simpler example and then move on to the data I introduced in the previous episode. A simple example is worth our time because, while the code for a nice ggplot can get fairly complex, the underlying concepts being put into code will always be the same. Lets say we have some data on the air temperatures of two cities, over the course of a year. That data is available [here](https:/johnlray.github.io/weather_data.csv). The data comes from the weather archive [U.S. climate data](www.usclimatedata.com) and contains data on daily weather in Los Angeles, California and Boston, Massachusetts -- two of my favorite cities.
+
+I say this is a simpler example, but the truth is I definitely did not find `ggplot` to be simple at first. Looking back, much of thise is attributable to the way I think about datasets versus the way I think about graphs. I think of spreadsheets as rows of observations and columns of observation attributes. A plot, however, is primarily concerned with *mappings,* which often involves concatenating columns. As we will see, data that is optimized for data analysis is often not optimized for data visualization.
+
+You should be able to read the data for this exercise directly from my website, or you can simply download it and read it locally.
+
+```{r weather_load}
+library(dplyr)
+library(ggplot2)
+
+dat = read.csv('~/Downloads/weather_data.csv')
+dat %>% glimpse()
+
+```
+
+Note that here I use the `glimpse()` function, which accomplishes a similar task to the parts of base functions `str()` and `head()` that we want. We have 365 observations realized across elevent different variabes. Also note that many of our variables are stored as a factor rather than as, say, a `Date` for `day`, a numeric for the temperature highs and lows, etc. Before we get started, lets think about what we might do with this data. We have 365 observations, one for each day of 2017, including variables realized for the temperature highs and lows, rainfall, snowfall, and whatever `snow_depth` is. Perhaps that's how much snow actually sticks? That is an important quantity for many a student, after all. But I don't know how much we'd learn from `snow_depth` using the data we have. Perhaps we could show that Boston has more snowfall in the winter than in other seasons, or perhaps we could show that Boston has more snow than Los Angeles? Something tells me there would not be much variation in snowfall in Los Angeles. Don't believe me? Lets have a look.
+
+```{r snowfall_table}
+table(dat$LA_snow)
+```
+
+Well, investigating snowfall in Los Angeles was not an entirely fruitless exercise. Creating a table of Los Angeles' snowfall data not only showed that there is some missingness in the data, but that this missingness is not encoded in the data as `NA`s such as we might be used to in `R` data. Instead, it looks like the author of the data opted to use `-` to represent missing data. Even though I don't think much would be gained from making a plot of snowfall in Los Angeles, we should figure out if this choices for missingness occurs in other variables.
+
+As a longtime Los Angeles resident, and a former Boston resident, I know the plot I want to make. Lets compare daily temperature in Boston and Los Angeles. We already have a hunch about what that plot will look like: Los Angeles as a comfortable, fairly constant temperature, and Boston alternates between Westeros season one and Westeros season six. You already have an idea what this plot will look like, but let me recommend being explicit as a great time-saving strategy. We will save a lot of time in our coding if we pause and just sketch the plot we want to see when we're done.
