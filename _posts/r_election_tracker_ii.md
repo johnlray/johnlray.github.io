@@ -22,7 +22,6 @@ shp = readOGR('~Downloads/cb_2016_51_sldl_500k/', layer = 'cb_2016_51_sldl_500k'
 ```
 
     ## OGR data source with driver: ESRI Shapefile 
-    ## Source: "/users/johnray/Downloads/cb_2016_51_sldl_500k/", layer: "cb_2016_51_sldl_500k"
     ## with 100 features
     ## It has 9 fields
     ## Integer64 fields read as strings:  ALAND AWATER
