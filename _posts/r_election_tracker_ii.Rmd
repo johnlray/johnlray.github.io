@@ -75,8 +75,8 @@ This is the key difference between the traditional use of `plot()` and the use o
 There's just two problems: Our data is still a mess, and half of those variables don't exist yet! Let's start with the easy problem. We probably want the `day` variable to be interpreted as a `Date` type, and we probably want `LA_high` and `Boston_high` (wasn't that a TV show?) to be numeric, which will mean getting rid of those `-` characters where there is missing data. Let's start by telling `R` not to assume a variable is a factor just because it contains strings, which we will do by reloading the data and passing `FALSE` to the `stringsAsFactors` argument of `read.csv()`.
 
 ```{r weather_load_2}
-dat = read.csv('~/Downloads/weather_data.csv', stringsAsFactors = F)
-dat %>% glimpse()
+dat = read.csv('https://johnlray.github.io/2018/02/08/weather_data.csv', stringsAsFactors = F)
+gimpse(dat)
 ```
 
 Not a bad start! Then, we'll convert `day` from a `character` type to a `Date` type. Start by looking at a couple values of the `day variable.
@@ -85,7 +85,7 @@ Not a bad start! Then, we'll convert `day` from a `character` type to a `Date` t
 dat$day[1:5]
 ```
 
-Even though the data is not yet in `Date` format, we can already see the date in each string. We first have a "month" value, a "day" value, and then a "year" value separated by forward slashes. We will tell `R` to consider everything before the first forward slash as the month, the stuff before the second forward slash as the day, and everything after that forward slash as the year. We denote the month with `%m`, day with %d`, and year with, wouldn't you know it, `%y`. In the fairly common case where the year is four characters long (i.e., "2017" instead of "17"), we would simply capitalize the `y`.
+Even though the data is not yet in `Date` format, we can already see the date in each string. We first have a "month" value, a "day" value, and then a "year" value separated by forward slashes. We will tell `R` to consider everything before the first forward slash as the month, the stuff before the second forward slash as the day, and everything after the second forward slash as the year. We denote the month with `%m`, day with %d`, and year with, wouldn't you know it, `%y`. In the fairly common case where the year is four characters long (i.e., "2017" instead of "17"), we would simply capitalize the `y`.
 
 ```{r data_convert}
 dat$day <- as.Date(dat$day, "%m/%d/%y")
@@ -105,14 +105,14 @@ Alright, on the data side, we're ready. We have our dates, and our temperatures.
 library(reshape2)
 
 dat <- melt(dat[,c('day','LA_high','Boston_high')], id.vars = 'day')
-dat %>% glimpse()
+glimpse(dat)
 ```
 
-Now we have three variables and 730 observations. We have a our x-axis, `day`, our y-axis, `value`, and our color variable, `variable`. The two new variable names, `variable` and `value`, are created from default settings from the `melt()` function. You will often find yourself `melt`ing data for plotting purposes, so lets dwell on its use for a minute.
+Now we have three variables and 730 observations. We have our x-axis, `day`, our y-axis, `value`, and our color variable, `variable`. The two new variable names, `variable` and `value`, are created by default from the `melt()` function. You will often find yourself `melt`ing data for plotting purposes, so lets dwell on its use for a minute.
 
 Note that the first argument I passed to `melt()` was a subsetted data frame. It isn't strictly necessary to only include the columns you want to plot in your call to `melt()`, but I find it keeps the result uncluttered and easier to understand. I subsetted by the three variables I knew would go into our call to `ggplot()`. Then notice I passed a value to the `id.vars` argument. The `melt()` function, ultimately, stacks our data on top of itself. Here, I used the `id.vars` data to tell `melt()` I wanted to stack `day` on top of itself, leaving `LA_high` stacked on top of `Boston_high`. In the new data, every value of `day` is duplicated twice, once for each city-temperature pair. The city-temperature pairs are our original `LA_high` and `Boston_high` data. Hence, the phrase `LA_high` and `Boston_high` are the two unique values occupying the `variable` variable.
 
-Now we are ready. Notice that we now have a complete grammar of graphics to work with. Lets fill it in:
+Notice that we now have a complete grammar of graphics to work with. Lets fill it in:
 
 * **data**: The dataframe `dat`
 * **mapping**: `day` to x, `value` to y, `variable` to color
@@ -130,7 +130,7 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
 
 ![](https://johnlray.github.io/2018/02/08/02.png)
 
-Notice `ggplot()` already had guesses in mind for the facet, coordinate system, and scales. The facet is derived from `ggplot`() defaults, and the coordinate system and scales were derived from the fact that x was a date and y was a numeric. In fact, `ggplot()` will make do with no layers, and even with no default information...
+Notice `ggplot()` already had guesses in mind for the facet, coordinate system, and scales. There is no facetting (i.e., there is one plot) and the coordinate system and scales were derived from the fact that x was a date and y was a numeric. In fact, `ggplot()` will make do with no layers, and even with no default information...
 
 ```{r plot_2}
 ggplot(dat, aes(x = day, y = value))
@@ -140,7 +140,7 @@ ggplot()
 
 Its just, you know, silly.
 
-We can stare at our first plot and come up with a number of fixes we might implement to make it look nicer. A few come to mind. The y-axis title of "value" is not helpful, as our planet, despite three-point-something billion years of existence, is not yet settled on which scale to use for "hot and cold." (Way to go, planet) The x-axis label "day" maybe be redundant given our spiffy x-axis tick-mark labels of "Jan 2017", "Apr 2017", etc. (all made possible by the guesses `ggplot2` makes about spacing for a `Date` mapping). The plot might benefit from a title. The legend title "variable" is useless, the labels `LA_high` and `Boston_high` are unappetizing, and we might stand to have a plot title while we're here. The pastel colors may not be our preferred. Each of these we can fix.
+We can stare at our first plot and come up with a number of fixes we might implement to make it look nicer. A few come to mind. The y-axis title "value" is literal but not helpful, as our planet, despite three-point-something billion years of existence, is not yet settled on which scale to use for "hot and cold." (Way to go, planet) The x-axis label "day" may be redundant given our spiffy x-axis tick-mark labels of "Jan 2017", "Apr 2017", etc. (all made possible by the guesses `ggplot2` makes about spacing for a `Date` mapping). The plot might benefit from a title. The legend title "variable" is useless, the labels `LA_high` and `Boston_high` are unappetizing, and we might stand to have a plot title while we're here. The pastel colors may not be our preferred. Each of these we can fix.
 
 We'll add a `labs()` argument to take care of the x-axis label, y-axis label, and title. We'll change the legend title, color selection and color labels by using `scale_color_manual()`.
 
@@ -154,7 +154,7 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
 
 Notice that something like a "label" argument occurs twice. First, we use the top-level argument `labs()` to set the major axis labels and titles. Then, because the legend elements are based on the "color" mapping, we set "labels" within `scale_color_manual()` where we also set our color choices.
 
-There are too many options in `ggplot()` to enumerate in full, but it also occurs to me we could clean this graph up a bit by using a smoother instead of the line geometry (which we would do if smoothness were an important criterion for us instead of, say, precision). `ggplot()` includes a variety of smooth lines and non-linear functions, but for most purposes, if you're going to smooth I think you will find using the basic `stat_smooth()` argument is pretty good.
+There are too many options in `ggplot()` to enumerate in full, but it also occurs to me we could clean this graph up a bit by using a smoother instead of the line geometry (which we would prefer to use if smoothness were an important criterion for us instead of, say, precision). `ggplot()` includes a variety of smooth lines and non-linear functions, but for most purposes, if you're going to smooth I think you will find using the basic `stat_smooth()` argument is pretty good.
 
 ```{r plot_1_smooth}
 ggplot(data = dat, aes(x = day, y = value, color = variable)) +
@@ -166,9 +166,9 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
 
 The [Loess smoother](https://en.wikipedia.org/wiki/Local_regression) was specifically devised with x-y plots in mind, and is the canonical smoother for data of this type. `ggplot()` chooses the Loess smoother by default, and so my decision to include an explicit value to the `method` argument is redundant.
 
-Notice that when we create the plot, we get a warning saying that some elements of the data were removed. Recall that we have some `NA`s in the data, which `ggplot()` knows to ignore.
+Notice that when we create the plot, we get a warning saying that some elements of the data were removed. Recall that we have some `NA`s in the data, which `ggplot()` ignores.
 
-Finally, let's add one more type of geometry to the plot based on the same data. By default, new geometries passed to `ggplot()` will assume the aesthetic properties defined in the top level of the `ggplot()` call. Sometimes this is an unwanted assumption, namely when you want to draw a plot involving multiple dataframes. But for most cases, it is a nice time time saver.
+Finally, let's add one more type of geometry to the plot based on the same data. By default, new geometries passed to `ggplot()` will assume the aesthetic properties defined in the top level of the `ggplot()` call. Sometimes this is an unwanted assumption, namely when you want to draw a plot involving multiple dataframes. But for most cases, it is a nice time saver.
 
 ```{r plot_2_smooth}
 ggplot(data = dat, aes(x = day, y = value, color = variable)) +
@@ -194,11 +194,9 @@ ggplot() +
 
 Here, the only difference is that we've set initial arguments for x and y within the geometry calls themselves, rather than at the top level of `ggplot()`. This involves some redundant code that is possibly clarifying but ultimately unnecessary.
 
-Now that we have an example under our belts, let's do... uh... another example. Let's return to our Virginia data. The only thing that really differentiates the code from our previous episode and the code from today is the fact that shapefiles typically require that `group = group` argument, which defines discrete series which here are polygons so that `ggplot()` knows what to fill in, etc. 
+Now that we have an example under our belts, let's do... uh... another example. Let's return to our Virginia data. Now that we have a handle for customizing things in `ggplot2`, we can look at this plot again and recognize there are a lot of problems. We don't need the axis labels at all. We don't really need the axis tick marks, either. As such, we don't really need the lines behind the map and possibly not even that gray background. Virginia looks a little bit stretched.
 
-But now that we have a handle for customizing things in `ggplot2`, we can look at this plot again and recognize there are a lot of problems. We don't need the axis labels at all. Heck, we don't really need the axis tick marks, either. As such, we don't really need the lead lines behind the map and possibly not even that gray background. Virginia looks a little bit stretched.
-
-Additionally, we are stuck with this sort of Mordor Gray fill by default. Even the pastel-errific defaults for color are a little prettier than that. Let's add in some data. Because this is ultimately an election project, I have made available the most recent election data for the Virginia State House [here](https://johnlray.github.io/2018/02/08/va_house.csv). We'll join that data to our shapefile data and use it to create the fill. You can either download it to your local machine or read it from the website url.
+Additionally, we are stuck with this sort of Mordor Gray fill by default. Even the pastel-errific defaults for color are a little prettier than that. Let's add in some data. Because this is ultimately an election project, I have made available the most recent election data for the Virginia State House [here](https://johnlray.github.io/2018/02/08/va_house.csv). We'll join that data to our shapefile data and use it to create the fill. You can either download the Virginia election data to your local machine or read it from the website url.
 
 ```{r read_csv}
 votes <- read.csv('https://johnlray.github.io/2018/02/08/va_house.csv')
@@ -219,24 +217,24 @@ shp@data$NAME <- shp@data$NAME %>% as.character() %>% as.numeric()
 
 Note that I convert `NAME` to character *before* converting it to numeric, to ensure that the new numeric is the district numbers that I see, rather than the levels of the factor which may be (but are not necessarily) ordered differently. If a factor variable contains strings that could be read as numeric, you will typically want to convert to character *then* convert to numeric.
 
-Next, to join them together, we will use the `left_join()` function from `dplyr` which we will learn more about in an episode or two. All of the `join()` functions out there exist to, wouldn't you guess, join two dataframes together, and here, we're going to consider the shapefile data to be the "left" side. We're "joining the vote data *to* the shapefile data," which puts the shapefile data on the left side. Its location in this sense is partly conceptual. We started with the shapefile data then added in the vote data, so imagine the shapefile data at the start of the sentence, on its *left* side, with the vote data at the end of the sentence, on its *right* side. This metaphor is not applicable to readers of Proust who, as you know, does not write sentences that end.
+Next, to join them together, we will use the `left_join()` function from `dplyr` which we will learn more about in an episode or two. All of the `join()` functions out there exist to, wouldn't you guess, join two dataframes together, and here, we're going to consider the shapefile data to be the "left" side. We're "joining the vote data *to* the shapefile data," which puts the shapefile data on the left side. Its location in this sense is partly conceptual. We started with the shapefile data then added in the vote data, so imagine the shapefile data at the start of the sentence, on its *left* side, with the vote data at the end of the sentence, on its *right* side. This metaphor is not applicable to readers of Proust who, as you know, did not write sentences that end.
 
-By name, the two dataframes do not have any variables in common. But know they have *data* in common: `NAME` in `shp@data` contains district numbers, and `District` in `votes` contains district numbers. We will tell `left_join()` that `NAME` and `district` are the variables that should glue `shp@data` and `votes` together.
+By name, the two dataframes do not have any variable names in common. But we know they have *data* in common: `NAME` in `shp@data` contains district numbers, and `District` in `votes` contains district numbers. We will tell `left_join()` that `NAME` and `district` are the variables that should glue `shp@data` and `votes` together.
 
 ```{r leftjoin}
 shp@data = dplyr::left_join(shp@data, votes, by = c('NAME' = 'District'))
 glimpse(shp@data)
 ```
 
-Alright, it looks like the join worked. And with that in mind, let's plot. Here, instead of "color" we are going to fiddle with "fill" because we want to fill in our polygons rather than, say, color their borders. Which we could do as well, I suppose. Actually, yeah. Let's do that, too. We will fiddle with the `color` and `fill` arguments, and will use our new vote data, `Dem_percent`, to color in the data. In the US context, "Dem" refers to the Democratic party, and "percent" refers to that party's two-party vote share in the most recent election.
+Alright, it looks like the join worked. And with that in mind, let's plot. Here, instead of "color" we are going to fiddle with "fill" and "color" because we want to fill in our polygons rather than, say, color their borders. We will use the `Dem_percent` data to fill in our polygons and an arbitrary color to outline them. In the US context, "Dem" refers to the Democratic party, and "percent" refers to that party's two-party vote share in the most recent election.
 
-One additional wrinkle is added along with our data. `ggplot()` has some defaults ready for plotting shapefiles, but we have to convert the shapefile data to a dataframe if we're going to plot more than the lat/long data. This is because plot methods exist for shapefile data that extends to the minimal components needed for a shapefile but not to, say, numeric data thrown in at the last second named `Dem_percent`. No other data type involves a conversion process like this and the reasoning behind the process' necessity is somewhat odd, so we will not dwel on it too long. It is the same for any shapefile.
+One additional wrinkle is added along with our data. `ggplot()` has some defaults ready for plotting shapefiles, but we have to convert the shapefile data to a dataframe if we're going to plot more than the lat/long data. This is because plot methods exist for shapefile data that extends to the minimal components needed for a shapefile but not to, say, numeric data thrown in at the last second named `Dem_percent`. No other data type involves a conversion process like this and the reasoning behind the process' necessity is somewhat odd, so we will not dwel on it too long. The process is the same for any shapefile.
 
 * Create a new variable for the rownames of the shapefile, *not* for, say the "district ID" number as you might think of it
 * Use that new variable to `fortify()` the shapefile data into a dataframe
 * Join in the non-spatial data to the `fortify()`ed using the `id` field
 
-This process is basically analagous to converting a shapefile to a big game of connect-the-dots, and then using a `group` variable (created by default by `fortify()`) to fill in the connected shapes. By convention, the new variable we create is called `id`. It can be called whatever you want.
+This process is basically analagous to converting a shapefile to a big game of connect-the-dots, and then using a `group` variable (created by default by `fortify()`) to fill in the connected shapes. By convention, the new variable we create is called `id`. You can call the variable whatever you want.
 
 ```{r fortf}
 shp@data$id = rownames(shp@data)
@@ -248,7 +246,7 @@ So, once we're done, we will plot `shpf` rather than `shp`.
 
 ```{r themap}
 ggplot(shpf, aes(x = long, y = lat, group = group, fill = Dem_percent), color = 'white') +
-  geom_polygon() +
+  geom_polygon(color = 'black', size = 0.3) +
   scale_fill_gradient(low = 'red', high = 'blue', name = 'Dem %', labels = scales::percent) +
   theme_void() +
   coord_equal()
