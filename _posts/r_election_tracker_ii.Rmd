@@ -1,8 +1,12 @@
 ---
-title: "Ggplot2"
+title: "Special Topics in R, part 2: ggplot2"
 author: "John Ray"
-date: "January 22, 2018"
-output: html_document
+date: "February 8, 2018"
+layout: post
+
+output: 
+  md_document:
+    variant: markdown_github
 ---
 
 In the previous post, we learned how to acquire spatial data and manipulate it in a few basic but important ways in `R`. We did not run much code in the previous post. Indeed, to get up to speed, the only code you need to run is:
@@ -22,12 +26,12 @@ ggplot(shp, aes(x = long, y = lat, group = group)) +
 
 ![](https://johnlray.github.io/2018/02/08/01.png)
 
-It may seem odd to have written so little code for what is supposed to be a tutorial! Code tutorials and `R` tutorials are not the same thing, in my view. In this tutorial I will focus on best practices without presenting the false notion there is only one way to things in this language. The best way to do things in `R` is the way you understand, can do quickly, can replicate, and can share with your teammates. There is consensus on a few general practices, and those are what we will focus on.
+It may seem odd to have written so little code for what is supposed to be a tutorial! Code tutorials and `R` tutorials are not the same thing, in my view. In this tutorial I focus on best practices without presenting the false notion there is only one way to things in this language. The best way to do things in `R` is the way you understand, can do quickly, can replicate, and can share with your teammates. There is consensus on a few general practices, and those are what we will focus on.
 
-The domain of data visualization is one with strong general consensus on practice among `R` users. The library `ggplot2` is the modal means of vata visualization. Indeed, you will find many other libraries that contain their own built-in functions for data viz, that will almost always be simply a custom call to `ggplot2`! One reason for this is that `ggplot2` is based on a theory of data visualization that is quite coherent and logical, and even sensible once you get the hang of it. There are a few papers on the underlying concept, one of them being [here](http://www.jstor.org/stable/pdf/25651297.pdf?casa_token=5f5uQwd-ZZcAAAAA:qu40H1YSwBg7mwKx37vs9Rop8gzo5cY0EeWuTq5H6MFOngy-HoiOpYY-Nfy4lV2GvYG1PGRH9CPpv7gm0sWXXJ7aqtXKZhgp67q9ezdxsFcmYJnsxozE), but the general idea is that there is a, you guessed it, **g**rammer of **g**raphics. That grammar is composed of six distinct types. Those types are:
+The domain of data visualization is one with strong general consensus on practice among `R` users. The library `ggplot2` is the modal means of vata visualization. Indeed, you will find many other libraries that contain their own built-in functions for data viz that are almost always a custom call to `ggplot2`! One reason for this is that `ggplot2` is based on a theory of data visualization that is quite coherent and logical, and even sensible once you get the hang of it. There are a few papers on the underlying concept, one of them being [here](http://www.jstor.org/stable/pdf/25651297.pdf?casa_token=5f5uQwd-ZZcAAAAA:qu40H1YSwBg7mwKx37vs9Rop8gzo5cY0EeWuTq5H6MFOngy-HoiOpYY-Nfy4lV2GvYG1PGRH9CPpv7gm0sWXXJ7aqtXKZhgp67q9ezdxsFcmYJnsxozE). The general idea behing `ggplot` is a unified visualization system called the **g**rammer of **g**raphics. That grammar is composed of six distinct types. Those types are:
 
-* **data**: The data you want to plot
-* **mapping**: Directions that relate the underlying data to the visualization being displayed
+* **data**: The data we want to plot
+* **mapping**: Directions that relate the underlying data to the various components of the visualization, such as its x- and y-axes
 * **layers**: The geometric shapes (bars? Points?), statistical transformations (a regression line? A smoother?), and position adjustments (should the bars be next to each other? On top of each other?) that represent the data
 * **scales**: How our mappings relate to the plot's aesthetics (are we shading in points based on the party of the legislator? Are we highlighting estimates that are statistically different from one another?)
 * **a coordinate system**: What are x and y? How far does each go? What is their scale?
@@ -35,9 +39,9 @@ The domain of data visualization is one with strong general consensus on practic
 
 Any object that contains information of all six types is a data visualization. 
 
-Most likely, some of these components of our grammar seem too obvious to state out loud. I often find that when I remind students they need to be explicit that their data visualization is going to contain ``a picture,'' i.e., a facet, the silent look I get in response can be translated as saying, ``no shit, Sherlock.'' Fortunately, `ggplot2` concurs with the apparent deficit of Victorian offal. By default, `ggplot2` will make (pretty good) guesses for the coloration and placement of our layers (the **scales** argument), how far x and y should go (the **coordinate system**), and how many plots to draw (the **facet specification**).
+Most likely, some of these components of our grammar seem too obvious to state out loud. By default, `ggplot2` will make (pretty good) guesses for the coloration and placement of our layers (the **scales** argument), how far x and y should go (the **coordinate system**), and how many plots to draw (the **facet specification**).
 
-We will start with a simpler example and then move on to the data I introduced in the previous episode. A simple example is worth our time because, while the code for a nice ggplot can get fairly complex, the underlying concepts being put into code will always be the same. Lets say we have some data on the air temperatures of two cities, over the course of a year. That data is available [here](https://johnlray.github.io/2018/02/08/weather_data.csv). The data comes from the weather archive [U.S. climate data](www.usclimatedata.com) and contains data on daily weather in Los Angeles, California and Boston, Massachusetts -- two of my favorite cities.
+We will start with a simpler example than our Virginia map, and then move on to the data I introduced in the previous episode. A simple example is worth our time because, while the code for a nice ggplot can get fairly complex, the underlying concepts being put into code will always be the same. Lets say we have some data on the air temperatures of two cities, over the course of a year. That data is available [here](https://johnlray.github.io/2018/02/08/weather_data.csv). The data comes from the weather archive [U.S. climate data](www.usclimatedata.com) and contains data on daily weather in Los Angeles, California and Boston, Massachusetts -- two of my favorite cities.
 
 I say this is a simpler example, but the truth is I definitely did not find `ggplot` to be simple at first. Looking back, much of thise is attributable to the way I think about datasets versus the way I think about graphs. I think of spreadsheets as rows of observations and columns of observation attributes. A plot, however, is primarily concerned with *mappings,* which often involves concatenating columns. As we will see, data that is optimized for data analysis is often not optimized for data visualization.
 
@@ -47,28 +51,28 @@ You should be able to read the data for this exercise directly from my website, 
 library(dplyr)
 library(ggplot2)
 
-dat = read.csv('~/Downloads/weather_data.csv')
-dat %>% glimpse()
+dat = read.csv('https://johnlray.github.io/2018/02/08/weather_data.csv')
+glimpse(dat)
 
 ```
 
-Note that here I use the `glimpse()` function, which accomplishes a similar task to the parts of base functions `str()` and `head()` that we want. We have 365 observations realized across elevent different variabes. Also note that many of our variables are stored as a factor rather than as, say, a `Date` for `day`, a numeric for the temperature highs and lows, etc. Before we get started, lets think about what we might do with this data. We have 365 observations, one for each day of 2017, including variables realized for the temperature highs and lows, rainfall, snowfall, and whatever `snow_depth` is. Perhaps that's how much snow actually sticks? That is an important quantity for many a student, after all. But I don't know how much we'd learn from `snow_depth` using the data we have. Perhaps we could show that Boston has more snowfall in the winter than in other seasons, or perhaps we could show that Boston has more snow than Los Angeles? Something tells me there would not be much variation in snowfall in Los Angeles. Don't believe me? Lets have a look.
+Note that here I use the `glimpse()` function, which accomplishes a similar task to the parts of base functions `str()` and `head()` that we want. We have 365 observations realized across elevent different variabes. Also note that many of our variables are stored as a factor rather than as, say, a `Date` for `day`, a numeric for the temperature highs and lows, etc. Before we get started, lets think about what we might do with this data. We have 365 observations, one for each day of 2017, including variables realized for the temperature highs and lows, rainfall, snowfall, and whatever `snow_depth` is. Perhaps that's how much snow actually sticks? But I don't know how much we'd learn from `snow_depth` using the data we have. Perhaps we could show that Boston has more snowfall in the winter than in other seasons, or perhaps we could show that Boston has more snow than Los Angeles? Something tells me there would not be much variation in snowfall in Los Angeles. Lets have a look.
 
 ```{r snowfall_table}
 table(dat$LA_snow)
 ```
 
-Well, investigating snowfall in Los Angeles was not an entirely fruitless exercise. Creating a table of Los Angeles' snowfall data not only showed that there is some missingness in the data, but that this missingness is not encoded in the data as `NA`s such as we might be used to in `R` data. Instead, it looks like the author of the data opted to use `-` to represent missing data. Even though I don't think much would be gained from making a plot of snowfall in Los Angeles, we should figure out if this choices for missingness occurs in other variables.
+Well, investigating snowfall in Los Angeles was not an entirely fruitless exercise. Creating a table of Los Angeles' snowfall data not only showed that there is some missingness in the data, but that this missingness is not encoded in the data as `NA`s. Instead, it looks like the author of the data opted to use `-` to represent missing data. Even though I don't think much would be gained from making a plot of snowfall in Los Angeles, we should figure out if this missingness occurs in other variables.
 
 As a longtime Los Angeles resident, and a former Boston resident, I know the plot I want to make. Lets compare daily temperature in Boston and Los Angeles. We already have a hunch about what that plot will look like: Los Angeles as a comfortable, fairly constant temperature, and Boston alternates between Westeros season one and Westeros season six. You already have an idea what this plot will look like, but let me recommend being explicit as a great time-saving strategy. We will save a lot of time in our coding if we pause and just sketch the plot we want to see when we're done. Here, in a nutshell, is what I envision.
 
 ![](https://johnlray.github.io/2018/02/08/01.png)
 
-Oh Lord, I came here for an `R` tutorial and this guy's showing me some crap from MS Paint! While we're stuck here, let me explain what I mean about "variables" versus "mappings." Note that while we're plotting two series, we're only making one *mapping*: We are mapping our data by time and temperature to lines. We will *color* those lines by city, which provides grouping to our data. Maybe we'll also get fancy and include a points mapping. We'll see.
+Oh Lord, I came here for an `R` tutorial and this guy's showing me stick figures! While we're stuck here, let me explain what I mean about "variables" versus "mappings." Note that while we're plotting two series, we're only making one *mapping*: We are mapping our data by time and temperature to lines. We will *color* those lines by city, which provides grouping to our data. Maybe we'll also get fancy and include a points mapping. We'll see.
 
 This is the key difference between the traditional use of `plot()` and the use of `ggplot()`. With `plot()` you would probably pass `x = dat$day`, `y = dat$LA_high` and `x = dat$day`, `y = dat$Boston_high` to two separate arguments of `plot()` and `lines()` or something like that. With `gglot()` we are passing `day` as the x-axis, temperature as the y-axis, and we're coloring in those x-y pairings using city.
 
-There's just two problems: Our data is still a mess, and half of those variables don't exist yet! Let's start with the easy problem. We probably want the `day` variable to be interpreted as a `Date` type, and we probably want `LA_high` and `Boston_high` (wasn't that a TV show?) to be numeric, which will mean getting rid of those `-` characters. Let's start by telling `R` not to assume a variable is a factor just because it contains strings, which we will do by reloading the data and passing `FALSE` to the `stringsAsFactors` argument of `read.csv()`.
+There's just two problems: Our data is still a mess, and half of those variables don't exist yet! Let's start with the easy problem. We probably want the `day` variable to be interpreted as a `Date` type, and we probably want `LA_high` and `Boston_high` (wasn't that a TV show?) to be numeric, which will mean getting rid of those `-` characters where there is missing data. Let's start by telling `R` not to assume a variable is a factor just because it contains strings, which we will do by reloading the data and passing `FALSE` to the `stringsAsFactors` argument of `read.csv()`.
 
 ```{r weather_load_2}
 dat = read.csv('~/Downloads/weather_data.csv', stringsAsFactors = F)
