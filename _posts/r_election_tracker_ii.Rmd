@@ -132,6 +132,44 @@ ggplot()
 
 Its just, you know, silly.
 
-We can stare at our first plot and come up with a number of fixes we might implement to make it look nicer. A few come to mind. The y-axis title of "value" is not helpful, as our planet, despite three-point-something billion years of existence, is not yet settled on which scale to use for "hot and cold." (Way to go, planet) The x-axis label "day" maybe be redundant given our spiffy x-axis tick-mark labels of "Jan 2017", "Apr 2017", etc., all made possible by the guesses `ggplot2` makes about spacing for a `Date` mapping. The legend title "variable" is useless, the labels `LA_high` and `Boston_high` are unappetizing, and we might stand to have a plot title while we're here. The pastel colors may not be our preferred. Each of these we can fix.
+We can stare at our first plot and come up with a number of fixes we might implement to make it look nicer. A few come to mind. The y-axis title of "value" is not helpful, as our planet, despite three-point-something billion years of existence, is not yet settled on which scale to use for "hot and cold." (Way to go, planet) The x-axis label "day" maybe be redundant given our spiffy x-axis tick-mark labels of "Jan 2017", "Apr 2017", etc. (all made possible by the guesses `ggplot2` makes about spacing for a `Date` mapping). The plot might benefit from a title. The legend title "variable" is useless, the labels `LA_high` and `Boston_high` are unappetizing, and we might stand to have a plot title while we're here. The pastel colors may not be our preferred. Each of these we can fix.
 
-We'll add a `labs()` argument 
+We'll add a `labs()` argument to take care of the x-axis label, y-axis label, and title. We'll change the legend title, color selection and color labels by using `scale_color_manual()`.
+
+```{r plot_1f}
+ggplot(data = dat, aes(x = day, y = value, color = variable)) +
+  geom_line() +
+  labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
+  theme() + 
+  scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
+```
+
+Notice that something like a "label" argument occurs twice. First, we use the top-level argument `labs()` to set the major axis labels and titles. Then, because the legend elements are based on the "color" mapping, we set "labels" within `scale_color_manual()` where we also set our color choices.
+
+There are too many options in `ggplot()` to enumerate in full, but it also occurs to me we could clean this graph up a bit by using a smoother instead of the line geometry (which we would do if smoothness were an important criterion for us instead of, say, precision). `ggplot()` includes a variety of smooth lines and non-linear functions, but for most purposes, if you're going to smooth I think you will find using the basic `stat_smooth()` argument is pretty good.
+
+```{r plot_1_smooth}
+ggplot(data = dat, aes(x = day, y = value, color = variable)) +
+  stat_smooth(method = 'loess') +
+  labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
+  theme() + 
+  scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
+```
+
+The [Loess smoother](https://en.wikipedia.org/wiki/Local_regression) was specifically devised with x-y plots in mind, and is the canonical smoother for data of this type. `ggplot()` chooses the Loess smoother by default, and so my decision to include an explicit value to the `method` argument is redundant.
+
+Notice that when we create the plot, we get a warning saying that some elements of the data were removed. Recall that we have some `NA`s in the data, which `ggplot()` knows to ignore.
+
+Finally, let's add one more type of geometry to the plot based on the same data. By default, new geometries passed to `ggplot()` will assume the aesthetic properties defined in the top level of the `ggplot()` call. Sometimes this is an unwanted assumption, namely when you want to draw a plot involving multiple dataframes. But for most cases, it is a nice time time saver.
+
+```{r plot_2_smooth}
+ggplot(data = dat, aes(x = day, y = value, color = variable)) +
+  geom_point() +
+  stat_smooth(method = 'loess') +
+  labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
+  theme() + 
+  scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
+```
+
+While it is interesting to see there are some days of winter where Boston has a higher high than Los Angeles, I'm not sure this plot is much better. But the smattering of points is somewhat more eyegrabbing than just the lines, so maybe this is a better version of the plot. I'm not sure. It depends on what you want to show.
+
