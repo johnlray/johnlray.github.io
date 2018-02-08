@@ -35,7 +35,7 @@ Any object that contains information of all six types is a data visualization.
 
 Most likely, some of these components of our grammar seem too obvious to state out loud. I often find that when I remind students they need to be explicit that their data visualization is going to contain ``a picture,'' i.e., a facet, the silent look I get in response can be translated as saying, ``no shit, Sherlock.'' Fortunately, `ggplot2` concurs with the apparent deficit of Victorian offal. By default, `ggplot2` will make (pretty good) guesses for the coloration and placement of our layers (the **scales** argument), how far x and y should go (the **coordinate system**), and how many plots to draw (the **facet specification**).
 
-We will start with a simpler example and then move on to the data I introduced in the previous episode. A simple example is worth our time because, while the code for a nice ggplot can get fairly complex, the underlying concepts being put into code will always be the same. Lets say we have some data on the air temperatures of two cities, over the course of a year. That data is available [here](https:/johnlray.github.io/weather_data.csv). The data comes from the weather archive [U.S. climate data](www.usclimatedata.com) and contains data on daily weather in Los Angeles, California and Boston, Massachusetts -- two of my favorite cities.
+We will start with a simpler example and then move on to the data I introduced in the previous episode. A simple example is worth our time because, while the code for a nice ggplot can get fairly complex, the underlying concepts being put into code will always be the same. Lets say we have some data on the air temperatures of two cities, over the course of a year. That data is available [here](https://johnlray.github.io/2018/02/08/weather_data.csv). The data comes from the weather archive [U.S. climate data](www.usclimatedata.com) and contains data on daily weather in Los Angeles, California and Boston, Massachusetts -- two of my favorite cities.
 
 I say this is a simpler example, but the truth is I definitely did not find `ggplot` to be simple at first. Looking back, much of thise is attributable to the way I think about datasets versus the way I think about graphs. I think of spreadsheets as rows of observations and columns of observation attributes. A plot, however, is primarily concerned with *mappings,* which often involves concatenating columns. As we will see, data that is optimized for data analysis is often not optimized for data visualization.
 
@@ -183,4 +183,27 @@ ggplot() +
 Here, the only difference is that we've set initial arguments for x and y within the geometry calls themselves, rather than at the top level of `ggplot()`. This involves some redundant code that is possibly clarifying but ultimately unnecessary.
 
 Now that we have an example under our belts, let's do... uh... another example. Let's return to our Virginia data. The only thing that really differentiates the code from our previous episode and the code from today is the fact that shapefiles typically require that `group = group` argument, which defines discrete series which here are polygons so that `ggplot()` knows what to fill in, etc. 
+
+But now that we have a handle for customizing things in `ggplot2`, we can look at this plot again and recognize there are a lot of problems. We don't need the axis labels at all. Heck, we don't really need the axis tick marks, either. As such, we don't really need the lead lines behind the map and possibly not even that gray background. Virginia looks a little bit stretched.
+
+Additionally, we are stuck with this sort of Mordor Gray fill by default. Even the pastel-errific defaults for color are a little prettier than that. Let's add in some data. Because this is ultimately an election project, I have made available the most recent election data for the Virginia State House [here](https://johnlray.github.io/2018/02/08/va_house.csv). We'll join that data to our shapefile data and use it to create the fill. You can either download it to your local machine or read it from the website url.
+
+```{r read_csv}
+votes <- read.csv('https://johnlray.github.io/2018/02/08/va_house.csv')
+glimpse(votes)
+```
+
+And recall from the previous episode that within our shapefile is an ordinary dataframe.
+
+```{r shp_dat}
+glimpse(shp@data)
+```
+
+We can join our election data to the shapefile just as we might join together any two dataframes. In the Virginia data our district names appear in a few fields: in `SLDLST`, in the last two characters of `AFFGEOID`, and in `NAME`. Right now `NAME` is a factor, which I will convert to a numeric.
+
+```{r convert_name}
+shp@data$NAME <- shp@data$NAME %>% as.character() %>% as.numeric()
+```
+
+Note that I convert `NAME` to character *before* converting it to numeric, to ensure that the new numeric is the district numbers that I see, rather than the levels of the factor which may be (but are not necessarily) ordered differently. If a factor variable contains strings that could be read as numeric, you will typically want to convert to character *then* convert to numeric.
 
