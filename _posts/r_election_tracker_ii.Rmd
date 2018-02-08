@@ -232,13 +232,17 @@ One additional wrinkle is added along with our data. `ggplot()` has some default
 * Use that new variable to `fortify()` the shapefile data into a dataframe
 * Join in the non-spatial data to the `fortify()`ed using the `id` field
 
-This process is basically analagous to converting a shapefile to a big game of connect-the-dots, and then using a `group` variable (created by default by `fortify()`) to fill in the connected shapes.
+This process is basically analagous to converting a shapefile to a big game of connect-the-dots, and then using a `group` variable (created by default by `fortify()`) to fill in the connected shapes. By convention, the new variable we create is called `id`. It can be called whatever you want.
 
-```{r themap}
+```{r fortf}
 shp@data$id = rownames(shp@data)
 shpf = fortify(shp, by = 'id')
 shpf = dplyr::left_join(shpf, shp@data, by = 'id')
+```
 
+So, once we're done, we will plot `shpf` rather than `shp`.
+
+```{r themap}
 ggplot(shpf, aes(x = long, y = lat, group = group, fill = Dem_percent), color = 'white') +
   geom_polygon() +
   scale_fill_gradient(low = 'red', high = 'blue', name = 'Dem %', labels = scales::percent) +
@@ -247,4 +251,4 @@ ggplot(shpf, aes(x = long, y = lat, group = group, fill = Dem_percent), color = 
 ```
 
 ![](https://johnlray.github.io/2018/02/08/07.png)
-
+Note, finally, that I threw in the `percent` argument to the "fill" piece of the plot code, so that the labels are rendered as percents rather than as decimals.
