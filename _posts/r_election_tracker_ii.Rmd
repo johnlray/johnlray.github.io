@@ -140,7 +140,6 @@ We'll add a `labs()` argument to take care of the x-axis label, y-axis label, an
 ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   geom_line() +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
-  theme() + 
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
 
@@ -152,7 +151,6 @@ There are too many options in `ggplot()` to enumerate in full, but it also occur
 ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   stat_smooth(method = 'loess') +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
-  theme() + 
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
 
@@ -167,9 +165,22 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   geom_point() +
   stat_smooth(method = 'loess') +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
-  theme() + 
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
 
 While it is interesting to see there are some days of winter where Boston has a higher high than Los Angeles, I'm not sure this plot is much better. But the smattering of points is somewhat more eyegrabbing than just the lines, so maybe this is a better version of the plot. I'm not sure. It depends on what you want to show.
+
+The purpose of this exercise was mainly to show that `ggplot()` takes as its primary arguments *mappings*, which often call for formatting our data such that all of our data for x is in one column and all of our data for y is in another column, etc., whether or not that data is part of the same *series.* That is a tricky process. Then there is making sure your arguments to `ggplot()` go in the right place. Set the value of color and fill in your `scale_color_` and `scale_fill_` arguments. Recall that the geometries you use will respond to the arguments you set either at the initial call to `ggplot()` or to those you set within the geometry themselves. For example, note that we could replicate the above plot by running
+
+```{r plot_2_smooths}
+ggplot() +
+  geom_point(data = dat, aes(x = day, y = value, color = variable)) +
+  stat_smooth(data = dat, aes(x = day, y = value, color = variable), method = 'loess') +
+  labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
+  scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
+```
+
+Here, the only difference is that we've set initial arguments for x and y within the geometry calls themselves, rather than at the top level of `ggplot()`. This involves some redundant code that is possibly clarifying but ultimately unnecessary.
+
+Now that we have an example under our belts, let's do... uh... another example. Let's return to our Virginia data. The only thing that really differentiates the code from our previous episode and the code from today is the fact that shapefiles typically require that `group = group` argument, which defines discrete series which here are polygons so that `ggplot()` knows what to fill in, etc. 
 
