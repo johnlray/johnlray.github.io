@@ -64,4 +64,74 @@ As a longtime Los Angeles resident, and a former Boston resident, I know the plo
 
 Oh Lord, I came here for an `R` tutorial and this guy's showing me some crap from MS Paint! While we're stuck here, let me explain what I mean about "variables" versus "mappings." Note that while we're plotting two series, we're only making one *mapping*: We are mapping our data by time and temperature to lines. We will *color* those lines by city, which provides grouping to our data. Maybe we'll also get fancy and include a points mapping. We'll see.
 
-This is the key difference between the traditional use of `plot()` and the use of `ggplot()`. 
+This is the key difference between the traditional use of `plot()` and the use of `ggplot()`. With `plot()` you would probably pass `x = dat$day`, `y = dat$LA_high` and `x = dat$day`, `y = dat$Boston_high` to two separate arguments of `plot()` and `lines()` or something like that. With `gglot()` we are passing `day` as the x-axis, temperature as the y-axis, and we're coloring in those x-y pairings using city.
+
+There's just two problems: Our data is still a mess, and half of those variables don't exist yet! Let's start with the easy problem. We probably want the `day` variable to be interpreted as a `Date` type, and we probably want `LA_high` and `Boston_high` (wasn't that a TV show?) to be numeric, which will mean getting rid of those `-` characters. Let's start by telling `R` not to assume a variable is a factor just because it contains strings, which we will do by reloading the data and passing `FALSE` to the `stringsAsFactors` argument of `read.csv()`.
+
+```{r weather_load_2}
+dat = read.csv('~/Downloads/weather_data.csv', stringsAsFactors = F)
+dat %>% glimpse()
+```
+
+Not a bad start! Then, we'll convert `day` from a `character` type to a `Date` type. Start by looking at a couple values of the `day variable.
+
+```{r date_sample}
+dat$day[1:5]
+```
+
+Even though the data is not yet in `Date` format, we can already see the date in each string. We first have a "month" value, a "day" value, and then a "year" value separated by forward slashes. We will tell `R` to consider everything before the first forward slash as the month, the stuff before the second forward slash as the day, and everything after that forward slash as the year. We denote the month with `%m`, day with %d`, and year with, wouldn't you know it, `%y`. In the fairly common case where the year is four characters long (i.e., "2017" instead of "17"), we would simply capitalize the `y`.
+
+```{r data_convert}
+dat$day <- as.Date(dat$day, "%m/%d/%y")
+str(dat$day)
+```
+
+Next, we'll convert the temperature data to numeric. This is straightforward because we're just replacing the "missing data" character with one more convenient to `R`. `R` will automatically convert our garbage data, the `-`s, to `NA`.
+
+```{r num_convert}
+dat$LA_high <- dat$LA_high %>% as.numeric()
+dat$Boston_high <- dat$Boston_high %>% as.numeric()
+```
+
+Alright, on the data side, we're ready. We have our dates, and our temperatures. But we don't have our mappings yet! Lets convert our data so that we can map a theoretical `temperature` to the y-axis and a theoretical `city` to the coloration.
+
+```{r aggregate}
+library(reshape2)
+
+dat <- melt(dat[,c('day','LA_high','Boston_high')], id.vars = 'day')
+dat %>% glimpse()
+```
+
+Now we have three variables and 730 observations. We have a our x-axis, `day`, our y-axis, `value`, and our color variable, `variable`. The two new variable names, `variable` and `value`, are created from default settings from the `melt()` function. You will often find yourself `melt`ing data for plotting purposes, so lets dwell on its use for a minute.
+
+Note that the first argument I passed to `melt()` was a subsetted data frame. It isn't strictly necessary to only include the columns you want to plot in your call to `melt()`, but I find it keeps the result uncluttered and easier to understand. I subsetted by the three variables I knew would go into our call to `ggplot()`. Then notice I passed a value to the `id.vars` argument. The `melt()` function, ultimately, stacks our data on top of itself. Here, I used the `id.vars` data to tell `melt()` I wanted to stack `day` on top of itself, leaving `LA_high` stacked on top of `Boston_high`. In the new data, every value of `day` is duplicated twice, once for each city-temperature pair. The city-temperature pairs are our original `LA_high` and `Boston_high` data. Hence, the phrase `LA_high` and `Boston_high` are the two unique values occupying the `variable` variable.
+
+Now we are ready. Notice that we now have a complete grammar of graphics to work with. Lets fill it in:
+
+* **data**: The dataframe `dat`
+* **mapping**: `day` to x, `value` to y, `variable` to color
+* **layers**: A line and maybe some points
+* **scales**: x is continuous from January 1 and end at December 31, y is continuous from whatever the lowest temperatures are to the highest
+* **a coordinate system**: x will be days, y will be degrees. Neither of these need to be passed explicitly to `ggplot()`, but we know what they are
+* **a facet speficitation**: We will make one plot.
+
+And with that in mind, we can fill in our ggplot syntax.
+
+```{r plot_1}
+ggplot(data = dat, aes(x = day, y = value, color = variable)) +
+  geom_line()
+```
+
+Notice `ggplot()` already had guesses in mind for the facet, coordinate system, and scales. The facet is derived from `ggplot`() defaults, and the coordinate system and scales were derived from the fact that x was a date and y was a numeric. In fact, `ggplot()` will make do with no layers, and even with no default information...
+
+```{r plot_2}
+ggplot(dat, aes(x = day, y = value))
+
+ggplot()
+```
+
+Its just, you know, silly.
+
+We can stare at our first plot and come up with a number of fixes we might implement to make it look nicer. A few come to mind. The y-axis title of "value" is not helpful, as our planet, despite three-point-something billion years of existence, is not yet settled on which scale to use for "hot and cold." (Way to go, planet) The x-axis label "day" maybe be redundant given our spiffy x-axis tick-mark labels of "Jan 2017", "Apr 2017", etc., all made possible by the guesses `ggplot2` makes about spacing for a `Date` mapping. The legend title "variable" is useless, the labels `LA_high` and `Boston_high` are unappetizing, and we might stand to have a plot title while we're here. The pastel colors may not be our preferred. Each of these we can fix.
+
+We'll add a `labs()` argument 
