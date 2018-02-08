@@ -20,6 +20,8 @@ ggplot(shp, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 ```
 
+![](https://johnlray.github.io/2018/02/08/01.png)
+
 It may seem odd to have written so little code for what is supposed to be a tutorial! Code tutorials and `R` tutorials are not the same thing, in my view. In this tutorial I will focus on best practices without presenting the false notion there is only one way to things in this language. The best way to do things in `R` is the way you understand, can do quickly, can replicate, and can share with your teammates. There is consensus on a few general practices, and those are what we will focus on.
 
 The domain of data visualization is one with strong general consensus on practice among `R` users. The library `ggplot2` is the modal means of vata visualization. Indeed, you will find many other libraries that contain their own built-in functions for data viz, that will almost always be simply a custom call to `ggplot2`! One reason for this is that `ggplot2` is based on a theory of data visualization that is quite coherent and logical, and even sensible once you get the hang of it. There are a few papers on the underlying concept, one of them being [here](http://www.jstor.org/stable/pdf/25651297.pdf?casa_token=5f5uQwd-ZZcAAAAA:qu40H1YSwBg7mwKx37vs9Rop8gzo5cY0EeWuTq5H6MFOngy-HoiOpYY-Nfy4lV2GvYG1PGRH9CPpv7gm0sWXXJ7aqtXKZhgp67q9ezdxsFcmYJnsxozE), but the general idea is that there is a, you guessed it, **g**rammer of **g**raphics. That grammar is composed of six distinct types. Those types are:
@@ -60,7 +62,7 @@ Well, investigating snowfall in Los Angeles was not an entirely fruitless exerci
 
 As a longtime Los Angeles resident, and a former Boston resident, I know the plot I want to make. Lets compare daily temperature in Boston and Los Angeles. We already have a hunch about what that plot will look like: Los Angeles as a comfortable, fairly constant temperature, and Boston alternates between Westeros season one and Westeros season six. You already have an idea what this plot will look like, but let me recommend being explicit as a great time-saving strategy. We will save a lot of time in our coding if we pause and just sketch the plot we want to see when we're done. Here, in a nutshell, is what I envision.
 
-![](01.png)
+![](https://johnlray.github.io/2018/02/08/01.png)
 
 Oh Lord, I came here for an `R` tutorial and this guy's showing me some crap from MS Paint! While we're stuck here, let me explain what I mean about "variables" versus "mappings." Note that while we're plotting two series, we're only making one *mapping*: We are mapping our data by time and temperature to lines. We will *color* those lines by city, which provides grouping to our data. Maybe we'll also get fancy and include a points mapping. We'll see.
 
@@ -122,6 +124,8 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   geom_line()
 ```
 
+![](https://johnlray.github.io/2018/02/08/02.png)
+
 Notice `ggplot()` already had guesses in mind for the facet, coordinate system, and scales. The facet is derived from `ggplot`() defaults, and the coordinate system and scales were derived from the fact that x was a date and y was a numeric. In fact, `ggplot()` will make do with no layers, and even with no default information...
 
 ```{r plot_2}
@@ -142,6 +146,7 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
+![](https://johnlray.github.io/2018/02/08/03.png)
 
 Notice that something like a "label" argument occurs twice. First, we use the top-level argument `labs()` to set the major axis labels and titles. Then, because the legend elements are based on the "color" mapping, we set "labels" within `scale_color_manual()` where we also set our color choices.
 
@@ -153,6 +158,7 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
+![](https://johnlray.github.io/2018/02/08/04.png)
 
 The [Loess smoother](https://en.wikipedia.org/wiki/Local_regression) was specifically devised with x-y plots in mind, and is the canonical smoother for data of this type. `ggplot()` chooses the Loess smoother by default, and so my decision to include an explicit value to the `method` argument is redundant.
 
@@ -167,6 +173,7 @@ ggplot(data = dat, aes(x = day, y = value, color = variable)) +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
+![](https://johnlray.github.io/2018/02/08/05.png)
 
 While it is interesting to see there are some days of winter where Boston has a higher high than Los Angeles, I'm not sure this plot is much better. But the smattering of points is somewhat more eyegrabbing than just the lines, so maybe this is a better version of the plot. I'm not sure. It depends on what you want to show.
 
@@ -179,6 +186,7 @@ ggplot() +
   labs(x = '', y = 'Degrees Fahrenheit', title = 'Daily temperatures in Boston and Los Angeles') +
   scale_color_manual(values = c('orange','blue'), labels = c('Los Angeles', 'Boston'), name = 'City')
 ```
+![](https://johnlray.github.io/2018/02/08/06.png)
 
 Here, the only difference is that we've set initial arguments for x and y within the geometry calls themselves, rather than at the top level of `ggplot()`. This involves some redundant code that is possibly clarifying but ultimately unnecessary.
 
@@ -206,4 +214,37 @@ shp@data$NAME <- shp@data$NAME %>% as.character() %>% as.numeric()
 ```
 
 Note that I convert `NAME` to character *before* converting it to numeric, to ensure that the new numeric is the district numbers that I see, rather than the levels of the factor which may be (but are not necessarily) ordered differently. If a factor variable contains strings that could be read as numeric, you will typically want to convert to character *then* convert to numeric.
+
+Next, to join them together, we will use the `left_join()` function from `dplyr` which we will learn more about in an episode or two. All of the `join()` functions out there exist to, wouldn't you guess, join two dataframes together, and here, we're going to consider the shapefile data to be the "left" side. We're "joining the vote data *to* the shapefile data," which puts the shapefile data on the left side. Its location in this sense is partly conceptual. We started with the shapefile data then added in the vote data, so imagine the shapefile data at the start of the sentence, on its *left* side, with the vote data at the end of the sentence, on its *right* side. This metaphor is not applicable to readers of Proust who, as you know, does not write sentences that end.
+
+By name, the two dataframes do not have any variables in common. But know they have *data* in common: `NAME` in `shp@data` contains district numbers, and `District` in `votes` contains district numbers. We will tell `left_join()` that `NAME` and `district` are the variables that should glue `shp@data` and `votes` together.
+
+```{r leftjoin}
+shp@data = dplyr::left_join(shp@data, votes, by = c('NAME' = 'District'))
+glimpse(shp@data)
+```
+
+Alright, it looks like the join worked. And with that in mind, let's plot. Here, instead of "color" we are going to fiddle with "fill" because we want to fill in our polygons rather than, say, color their borders. Which we could do as well, I suppose. Actually, yeah. Let's do that, too. We will fiddle with the `color` and `fill` arguments, and will use our new vote data, `Dem_percent`, to color in the data. In the US context, "Dem" refers to the Democratic party, and "percent" refers to that party's two-party vote share in the most recent election.
+
+One additional wrinkle is added along with our data. `ggplot()` has some defaults ready for plotting shapefiles, but we have to convert the shapefile data to a dataframe if we're going to plot more than the lat/long data. This is because plot methods exist for shapefile data that extends to the minimal components needed for a shapefile but not to, say, numeric data thrown in at the last second named `Dem_percent`. No other data type involves a conversion process like this and the reasoning behind the process' necessity is somewhat odd, so we will not dwel on it too long. It is the same for any shapefile.
+
+* Create a new variable for the rownames of the shapefile, *not* for, say the "district ID" number as you might think of it
+* Use that new variable to `fortify()` the shapefile data into a dataframe
+* Join in the non-spatial data to the `fortify()`ed using the `id` field
+
+This process is basically analagous to converting a shapefile to a big game of connect-the-dots, and then using a `group` variable (created by default by `fortify()`) to fill in the connected shapes.
+
+```{r themap}
+shp@data$id = rownames(shp@data)
+shpf = fortify(shp, by = 'id')
+shpf = dplyr::left_join(shpf, shp@data, by = 'id')
+
+ggplot(shpf, aes(x = long, y = lat, group = group, fill = Dem_percent), color = 'white') +
+  geom_polygon() +
+  scale_fill_gradient(low = 'red', high = 'blue', name = 'Dem %', labels = scales::percent) +
+  theme_void() +
+  coord_equal()
+```
+
+![](https://johnlray.github.io/2018/02/08/07.png)
 
