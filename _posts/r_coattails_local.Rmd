@@ -20,6 +20,7 @@ library(knitr)
 library(xtable)
 library(pander)
 library(texreg)
+library(reshape2)
 
 dat = read.csv('~/Desktop/va_long.csv')
 ```
@@ -62,7 +63,6 @@ Next, I forecast the 2017 election results using these models. I update the hist
 I color each district by whether it had a Dem candidate on the HoD ballot in both, neither, or one or the cycles.
 
 ```{r plots, echo = FALSE, fig.width= 7, fig.height = 7}
-library(reshape2)
 
 sub = dat[dat$year == 2017,]
 
@@ -94,8 +94,6 @@ ggplot(sub_m[sub_m$variable == "Combined Presidential and demographic model",], 
   scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
   scale_y_continuous(limits = c(0, 1), labels = scales::percent) +
   scale_color_manual(values = c('darkred','darkblue','skyblue1','gray50'), name = '')
-
-ggsave('~/johnlray.github.io/2017/11/19/figure/sub_m_l.png')
 ```
 
 The following plot shows actual minus predicted Northam vote share for each district, for the combined model.
@@ -109,8 +107,6 @@ ggplot(sub_m[sub_m$variable == "Combined Presidential and demographic model",], 
   theme_classic() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position = 'bottom') +
   labs(x = '', y = 'Actual Gov 2016 % - Predicted Gov 2016 %')
-
-ggsave('~/johnlray.github.io/2017/11/19/figure/sub_m_c.png')
 ```
 
 The following tables present the top ten districts where Northam overperformed the various models, according to each model individually.
@@ -136,8 +132,6 @@ ggplot(bpdat1, aes(x = color_label, y = diff)) +
   theme_classic() +
   scale_y_continuous(labels = scales::percent) +
   labs(y = 'Actual Northam - Predicted Northam', title = "Actual - Predicted Northam performance, combined model", x = "")
-
-ggsave('~/johnlray.github.io/2017/11/19/figure/bpdat1.png')
 ```
 
 ```{r, echo = FALSE, fig.width= 7, fig.height = 5}
@@ -155,16 +149,8 @@ ggplot(bpdat2, aes(x = X1, y = X2)) +
   theme_classic() +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Northam '17 two-party % - McAuliffe '13 two-party %", title = "Northam '17 - McAuliffe '13", x = "")
-
-ggsave('~/johnlray.github.io/2017/11/19/figure/bpdat2.png')
 ```
 
 Presented in this fashion, I am led by the data to report some skepticism of the reverse coattails effect. Foroemost in my mind is the fact that Danica Roem's district (VA-13) is not prominent according to the model as a standout showing for Northam above what one might predict from just knowing the fundamentals. In fact, in some of the top districts according to each model (1, 3, 4, 6), Northam drastically overperformed despite either a decisive loss by the House of Delegates candidate or the complete absence of a House of Delegates Democrat. In VA-2, Northam overperformed in a district where the Republican primary winner dropped out amid accusations he falsified his ballot signatures.
 
 If one defines the coattails effect as a superstar HoD candidate elevating the Gubernatorial candidates, the results are mixed at best. In some districts, Northam appeared to overperform the prediction without any Democrat on the HoD ballot at all. In the HoD districts of Democratic superstars like Chris Hurst, Wendy Gooditis, and Danica Roem (10, 12, and 13), Northam slightly overperformed, slightly overperformed, and underperformed, respectively.
-
-Here's the data I used for this project.
-
-```{r rep}
-kable(dat, col.names = c('Cycle', 'District', 'Governor R %', 'Governor D %', 'President D %', 'President R %', 'House of Delegates D %', 'House of Delegates R %', 'Census Black %', 'Census Latino %', 'Census Household Income $', 'Census Bachelors %', 'Dem HoD cand on ballot', 'Gained Dem chal in 2017', 'No Dem chal in 2017'))
-```
